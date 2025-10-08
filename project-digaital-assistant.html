@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digital Assistant — Caregiver Companion</title>
+  <meta name="description" content="Digital Assistant project overview: caregiver companion with mood detection, song and movie recommendations, loved ones tracking, and analytics." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#071224;
+      --muted:#9aa4b2;
+      --accent:#6ee7b7;
+      --accent-2:#60a5fa;
+      --radius:12px;
+      --container:1100px;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#041021,#071323);color:#e6eef6;font-size:16px;line-height:1.5}
+    .wrap{width:92%;max-width:var(--container);margin:2.5rem auto;padding:1rem}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+    a.brand{font-weight:800;color:var(--accent);text-decoration:none;font-size:1.1rem}
+    .lead{color:var(--muted);margin-top:0.25rem}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:1rem;margin-top:1rem}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h1,h2,h3{margin:0 0 0.5rem 0}
+    h1{font-size:1.6rem}
+    .muted{color:var(--muted)}
+    ul{margin:0.4rem 0 0.8rem 1rem}
+    code{background:rgba(255,255,255,0.02);padding:0.15rem 0.3rem;border-radius:6px;color:var(--accent-2)}
+    .section{margin-bottom:1rem}
+    .pill{display:inline-block;padding:0.25rem 0.5rem;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--muted);font-size:13px;margin-right:0.4rem}
+    .stack{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem}
+    .screenshot{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;border:1px dashed rgba(255,255,255,0.03)}
+    footer{margin-top:1.25rem;color:var(--muted);font-size:14px;text-align:center}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} .screenshot{height:160px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <a class="brand" href="index.html">Digital Assistant</a>
+        <div class="lead muted">Caregiver companion with mood detection, recommendations, and loved ones tracking</div>
+      </div>
+      <nav>
+        <a class="pill" href="chatbpt-ml.html">Chat Interface</a>
+        <a class="pill" href="projects.html">Projects</a>
+        <a class="pill" href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <div class="grid">
+      <main>
+        <section class="card section" aria-labelledby="overview-title">
+          <h2 id="overview-title">Overview</h2>
+          <p class="muted">Digital Assistant is a companion application designed to help caregivers monitor, engage, and support loved ones. It combines lightweight on-device and server-side machine learning with conversational features, proactive alerts, and media recommendations tailored to detected mood and context.</p>
+        </section>
+
+        <section class="card section" aria-labelledby="features-title">
+          <h2 id="features-title">Features</h2>
+          <ul>
+            <li><strong>Mood Detection</strong> — infer emotional state from short audio clips, text, and facial expression metadata using a multimodal ML pipeline.</li>
+            <li><strong>Personalized Recommendations</strong> — suggest songs and movies matched to detected mood with adjustable diversity and safety filters.</li>
+            <li><strong>Loved Ones Registry</strong> — add and manage profiles for loved ones, store key contacts, medical notes, and check-in schedules.</li>
+            <li><strong>Real-time Tracking and Alerts</strong> — track check-ins, missed check-ins, location pings (opt-in), and trigger notifications to caregivers.</li>
+            <li><strong>Conversational Assistant</strong> — a chat interface for caregivers to ask the assistant for summaries, next steps, or to draft messages to family or providers.</li>
+            <li><strong>Integration Channels</strong> — send email, SMS, or push notifications; optionally integrate WhatsApp or voice calls for urgent alerts.</li>
+          </ul>
+        </section>
+
+        <section class="card section" aria-labelledby="architecture-title">
+          <h2 id="architecture-title">Architecture</h2>
+          <p class="muted">The system is divided into three main layers to keep responsibilities clear and enable safe deployment.</p>
+          <ul>
+            <li><strong>Device Layer</strong> — mobile/web client for capture (text, short audio, optional images), local caching, and immediate UI feedback.</li>
+            <li><strong>API Layer</strong> — Flask/FastAPI server that handles form submissions, authentication, notification routing, and orchestration of ML inference.</li>
+            <li><strong>ML Layer</strong> — models for mood detection and recommendation run either as containerized microservices or managed inference endpoints. Lightweight models run on-device for fast feedback; heavier models run server-side.</li>
+          </ul>
+
+          <h3>Flow Example</h3>
+          <ol>
+            <li>Client captures a 10–20s audio sample or typed text from the loved one.</li>
+            <li>Client sends encrypted payload to API; API queues inference job.</li>
+            <li>ML service returns mood label and confidence; recommender queries media database for matching items.</li>
+            <li>API stores event, updates loved one timeline, and notifies caregivers if thresholds are crossed.</li>
+          </ol>
+        </section>
+
+        <section class="card section" aria-labelledby="ml-title">
+          <h2 id="ml-title">Machine Learning Details</h2>
+          <p class="muted">Models designed for privacy, interpretability, and robustness.</p>
+          <div class="stack">
+            <span class="pill">Audio embeddings</span>
+            <span class="pill">Text sentiment</span>
+            <span class="pill">Vision features (optional)</span>
+            <span class="pill">Ensemble classifier</span>
+            <span class="pill">Content recommender</span>
+          </div>
+
+          <h3>Mood Detection Model</h3>
+          <p class="muted">A multimodal pipeline that combines:</p>
+          <ul>
+            <li><strong>Audio model</strong> — extracts short-term embeddings (e.g., mel-spectrogram → CNN or small transformer) then predicts mood probabilities.</li>
+            <li><strong>Text model</strong> — lightweight transformer or fine-tuned classifier for short messages.</li>
+            <li><strong>Ensemble</strong> — weighted average with calibration and confidence output to decide whether to trigger recommendations or alerts.</li>
+          </ul>
+
+          <h3>Recommendation Logic</h3>
+          <p class="muted">Given mood and context (time of day, preferences, medical filters), the recommender ranks songs and movies using a hybrid approach: collaborative filtering signals plus content-based scores and safety filters (explicit content removal, duration limits).</p>
+
+          <pre style="background:rgba(255,255,255,0.02);padding:0.6rem;border-radius:8px;color:var(--muted);overflow:auto">
+# simplified pseudo
+mood = model.predict(audio_embedding, text_embedding)
+if mood.confidence &lt; 0.6:
+  suggest_light_activity()
+else:
+  recs = recommender.top_k(mood.label, user_prefs, safety_rules)
+</pre>
+        </section>
+
+        <section class="card section" aria-labelledby="privacy-title">
+          <h2 id="privacy-title">Privacy and Safety</h2>
+          <ul>
+            <li>All sensitive captures are encrypted in transit using TLS and at rest using application-level encryption where required.</li>
+            <li>Explicit opt-in for audio, image, and location tracking with clear consent prompts and per-loved-one settings.</li>
+            <li>Data minimization by default: short retention windows for raw captures, longer retention for derived labels and aggregated analytics.</li>
+            <li>Human-in-the-loop escalation for low-confidence or critical alerts before broad notifications are sent.</li>
+          </ul>
+        </section>
+
+        <section class="card section" aria-labelledby="ui-title">
+          <h2 id="ui-title">User Interface and UX</h2>
+          <p class="muted">Design focuses on caregiver efficiency and clarity.</p>
+          <ul>
+            <li>Dashboard with timeline for each loved one, showing recent mood events, recommendations, and check-ins.</li>
+            <li>Quick actions to call, message, or schedule a check-in directly from a profile card.</li>
+            <li>Conversation view for the assistant with suggested replies and one-tap message sending (email/SMS/WhatsApp).</li>
+            <li>Mobile-first design with offline caching for unreliable connectivity.</li>
+          </ul>
+        </section>
+
+        <section class="card section" aria-labelledby="deploy-title">
+          <h2 id="deploy-title">Deployment and Integration</h2>
+          <p class="muted">Example deployment stack and integration points.</p>
+          <div class="stack" style="margin-bottom:0.6rem">
+            <span class="pill">Frontend</span>
+            <span class="pill">React Native / Web</span>
+            <span class="pill">Backend</span>
+            <span class="pill">FastAPI / Flask</span>
+            <span class="pill">ML</span>
+            <span class="pill">Docker, Kubernetes</span>
+            <span class="pill">Notifications</span>
+            <span class="pill">Twilio, SMTP, Firebase</span>
+          </div>
+
+          <h3>Monitoring and Ops</h3>
+          <ul>
+            <li>Application logs and ML inference metrics exported to Prometheus/Grafana.</li>
+            <li>Synthetic checks for latency of inference and notification pipelines.</li>
+            <li>Role-based access control for caregiver accounts and audit logging of notifications.</li>
+          </ul>
+        </section>
+
+        <section class="card section" aria-labelledby="next-title">
+          <h2 id="next-title">Next Steps and Roadmap</h2>
+          <ul>
+            <li>Expand on-device privacy-preserving inference with quantized models for offline mood detection.</li>
+            <li>Improve personalization by adding short-term preference learning and adaptive recommendations.</li>
+            <li>Integrate third-party health records and calendar services with user consent for richer context.</li>
+            <li>Conduct usability testing with caregivers and iterate on notification thresholds and UI flows.</li>
+          </ul>
+        </section>
+      </main>
+
+      <aside>
+        <div class="card section">
+          <h3>Quick Facts</h3>
+          <div class="muted">Project type</div>
+          <div class="pill">Caregiver companion</div>
+
+          <div class="muted" style="margin-top:0.6rem">Primary capabilities</div>
+          <div class="stack">
+            <span class="pill">Mood detection</span>
+            <span class="pill">Song/movie recs</span>
+            <span class="pill">Loved ones tracking</span>
+            <span class="pill">Alerts</span>
+          </div>
+
+          <div class="muted" style="margin-top:0.6rem">Primary models</div>
+          <ul>
+            <li>Lightweight audio classifier</li>
+            <li>Text sentiment transformer</li>
+            <li>Hybrid recommender engine</li>
+          </ul>
+
+          <div style="margin-top:0.6rem">
+            <h4 style="margin:0">Screenshots</h4>
+            <div class="screenshot" aria-hidden="true">Dashboard screenshot placeholder</div>
+            <div style="height:8px"></div>
+            <div class="screenshot" aria-hidden="true">Loved ones timeline placeholder</div>
+          </div>
+        </div>
+
+        <div class="card section">
+          <h3>API Examples</h3>
+          <p class="muted">Example payloads you can implement on your API.</p>
+
+          <h4 style="margin:0.4rem 0 0">Mood detection request</h4>
+          <pre style="background:rgba(255,255,255,0.02);padding:0.6rem;border-radius:8px;color:var(--muted);overflow:auto">
+POST /api/mood
+Content-Type: application/json
+
+{
+  "loved_one_id": "l_123",
+  "source": "audio",
+  "audio_base64": "..."
+}
+          </pre>
+
+          <h4 style="margin:0.4rem 0 0">Recommendation request</h4>
+          <pre style="background:rgba(255,255,255,0.02);padding:0.6rem;border-radius:8px;color:var(--muted);overflow:auto">
+POST /api/recommend
+Content-Type: application/json
+
+{
+  "loved_one_id": "l_123",
+  "mood": "calm",
+  "context": { "time_of_day": "evening", "preferences": ["classical"] }
+}
+          </pre>
+        </div>
+
+        <div class="card section">
+          <h3>Contact and Collaboration</h3>
+          <p class="muted">Interested in adapting this assistant for your care program? Contact for architecture review, model tuning, or pilot deployments.</p>
+          <p><a class="pill" href="contact.html">Get in touch</a> <a class="pill" href="projects.html">View projects</a></p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <p class="muted">© <span id="year"></span> Digital Assistant by Delstarford — built for caregiver support and responsible AI.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

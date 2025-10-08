@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agritech Field Trial Manager — Delstarford</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Detailed write-up for Agritech Field Trial Manager." />
+  <style>
+    :root{--card:#0b1220;--muted:#9aa4b2;--accent:#6ee7b7;--container:1100px;font-family:"Inter",system-ui}
+    body{margin:0;background:linear-gradient(180deg,#071224,#02111a);color:#e6eef6}
+    .container{width:90%;max-width:var(--container);margin:0 auto;padding:2rem 0}
+    .content{background:var(--card);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    a.btn{color:var(--accent);text-decoration:none;border:1px solid rgba(255,255,255,0.03);padding:.4rem .6rem;border-radius:8px}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <a class="btn" href="projects.html">← Projects</a>
+      <a class="btn" href="https://github.com/delstarford/agritech-field-trials" target="_blank" rel="noopener">GitHub Repo</a>
+    </nav>
+
+    <main class="content">
+      <h1>Agritech Field Trial Manager</h1>
+      <p class="muted">Tooling to manage field trials from lab designs to in-field data, enabling reproducible experiments and analytics.</p>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Experiment templates and protocol versioning</li>
+        <li>Field layout import, geo-tagged data capture, and mobile forms</li>
+        <li>Automated QC checks and downloadable reports for stakeholders</li>
+      </ul>
+
+      <h2>Data model (simplified)</h2>
+      <pre><code>Trial
+  ├─ plots[]
+  ├─ observations[]
+  ├─ protocols[]
+  └─ metadata</code></pre>
+
+      <p><a class="btn" href="projects.html">Back to Projects</a></p>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChatBPT-ML — Capabilities Overview</title>
+  <meta name="description" content="Overview and interactive demos: email, SMS, agricultural ML, and study chatbot." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#071428;--card:#0b2430;--muted:#9aa4b2;--accent:#6ee7b7;--accent-2:#60a5fa;
+      --radius:12px;--container:1100px;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      color-scheme:dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#041022,#061426);color:#eaf4fb;font-family:Inter,system-ui;font-size:15px}
+    .container{width:94%;max-width:var(--container);margin:2rem auto}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .brand{color:var(--accent);font-weight:800;text-decoration:none}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:1rem}
+    .panel{background:var(--card);border-radius:12px;padding:1rem;border:1px solid rgba(255,255,255,0.03)}
+    h1{margin:0 0 0.2rem 0}
+    p.muted{color:var(--muted);margin:0 0 1rem 0}
+    .section{margin-bottom:1rem}
+    .small{font-size:13px;color:var(--muted)}
+    label{display:block;margin:0.35rem 0 0.15rem 0;color:var(--muted)}
+    input,textarea,select{width:100%;padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(255,255,255,0.02);color:inherit}
+    textarea{min-height:90px;resize:vertical}
+    .row{display:flex;gap:0.6rem}
+    .row .col{flex:1}
+    .btn{display:inline-block;padding:0.5rem 0.8rem;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#021421}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--accent-2)}
+    .status{min-height:1.2rem;margin-top:0.6rem;color:var(--accent-2)}
+    .examples{display:flex;flex-direction:column;gap:0.6rem}
+    .example{background:rgba(255,255,255,0.01);padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
+    footer{margin-top:1rem;color:var(--muted);text-align:center}
+    @media (max-width:980px){ .grid{grid-template-columns:1fr} .row{flex-direction:column} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="brand" href="index.html">ChatBPT-ML</a>
+      <nav class="small">
+        <a href="chatbpt-ml.html" style="color:var(--muted);text-decoration:none;margin-right:0.6rem">Chat UI</a>
+        <a href="projects.html" style="color:var(--muted);text-decoration:none">Projects</a>
+      </nav>
+    </header>
+
+    <main class="grid" aria-labelledby="overview">
+      <section class="panel" id="overview">
+        <h1 id="overview-title">What this chatbot can do</h1>
+        <p class="muted">Interactive demos below show four primary capabilities: send email, send SMS, run agricultural ML actions, and a study chatbot. Each demo uses AJAX to call backend endpoints that you implement on your server.</p>
+
+        <div class="section">
+          <h3>1. Send Email</h3>
+          <p class="small">Use this form to send a formatted email to your inbox. Backend endpoint: POST /api/send-email</p>
+          <div class="examples">
+            <div class="example" id="email-example">
+              <label for="e-to">To</label>
+              <input id="e-to" type="email" placeholder="recipient@example.com" value="delstarford@example.com" />
+              <label for="e-subj">Subject</label>
+              <input id="e-subj" type="text" placeholder="Subject" value="Portfolio inquiry" />
+              <label for="e-body">Message</label>
+              <textarea id="e-body">Hello Delstarford, I'd like to discuss a collaboration on an agricultural ML project.</textarea>
+              <div style="margin-top:0.6rem">
+                <button id="send-email" class="btn primary">Send Email</button>
+                <button id="preview-email" class="btn ghost">Preview</button>
+                <div id="email-status" class="status" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>2. Send SMS</h3>
+          <p class="small">Quick SMS demo. Backend endpoint: POST /api/send-sms (integrate Twilio or other SMS provider).</p>
+          <div class="examples">
+            <div class="example" id="sms-example">
+              <label for="s-phone">Phone</label>
+              <input id="s-phone" type="text" placeholder="+254712345678" value="+254712345678" />
+              <label for="s-text">Message</label>
+              <textarea id="s-text">Hi, this is a quick test message from the ChatBPT-ML demo.</textarea>
+              <div style="margin-top:0.6rem">
+                <button id="send-sms" class="btn primary">Send SMS</button>
+                <div id="sms-status" class="status" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>3. Agricultural ML Actions</h3>
+          <p class="small">Run an agricultural ML operation: yield prediction or disease detection. Backend endpoint: POST /api/agri-ml</p>
+          <div class="examples">
+            <div class="example" id="agri-example">
+              <label for="agri-type">Task</label>
+              <select id="agri-type">
+                <option value="yield">Yield prediction</option>
+                <option value="disease">Disease detection (image)</option>
+                <option value="recommend">Fertilizer recommendation</option>
+              </select>
+              <label for="agri-input">Input (CSV rows, image URL, or brief description)</label>
+              <textarea id="agri-input" placeholder="e.g., CSV: date,plot,yield_or_features or image URL for detection">plot1,2025-09-01,soil_ph:6.5,precip:120</textarea>
+              <div style="margin-top:0.6rem">
+                <button id="run-agri" class="btn primary">Run ML</button>
+                <div id="agri-status" class="status" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>4. Study Chatbot</h3>
+          <p class="small">A study-focused chatbot for tutoring, summaries, or exam prep. Backend endpoint: POST /api/study-chat</p>
+          <div class="examples">
+            <div class="example" id="study-example">
+              <label for="study-topic">Topic</label>
+              <input id="study-topic" type="text" placeholder="e.g., Reinforcement Learning" value="Reinforcement Learning" />
+              <label for="study-prompt">Question / Prompt</label>
+              <textarea id="study-prompt">Explain policy gradients and give a simple code example in Python.</textarea>
+              <div style="margin-top:0.6rem" class="row">
+                <div class="col"><button id="ask-study" class="btn primary">Ask</button></div>
+                <div class="col"><button id="shorten-study" class="btn ghost">Summarize</button></div>
+              </div>
+              <div id="study-status" class="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Live responses">
+        <h3>Live responses</h3>
+        <p class="small muted">AJAX responses will appear here. For production, secure the endpoints, validate input server-side, and add rate limiting and authentication.</p>
+
+        <div id="live-output" class="small" style="margin-top:0.6rem;white-space:pre-wrap;max-height:60vh;overflow:auto;padding:0.5rem;background:rgba(255,255,255,0.01);border-radius:8px"></div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:0.8rem 0">
+
+        <h4>Implementation notes</h4>
+        <ul class="small muted">
+          <li>POST /api/send-email expects JSON: {to, subject, body} and sends via SMTP (Flask-Mail or similar).</li>
+          <li>POST /api/send-sms expects JSON: {phone, text} and uses Twilio or provider API server-side.</li>
+          <li>POST /api/agri-ml expects JSON: {task, input} and runs your ML pipeline (model inference or scheduled job), returns predictions.</li>
+          <li>POST /api/study-chat expects JSON: {topic, prompt, options?} and returns an assistant reply or summary.</li>
+        </ul>
+
+        <div style="margin-top:0.6rem">
+          <button id="clear-output" class="btn ghost">Clear output</button>
+          <button id="copy-output" class="btn ghost">Copy output</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <p class="small muted">© <span id="year"></span> Delstarford — Demo only. Implement server endpoints to enable functionality.</p>
+    </footer>
+  </div>
+
+  <script>
+    // --- small helper functions ---
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const live = document.getElementById('live-output');
+
+    function showLive(text, kind = 'info') {
+      const time = new Date().toLocaleTimeString();
+      live.textContent = `${time} — ${text}\n\n` + live.textContent;
+    }
+
+    function showStatus(elId, msg, isError = false) {
+      const el = document.getElementById(elId);
+      if(!el) return;
+      el.textContent = msg;
+      el.style.color = isError ? '#ffb4b4' : '';
+      setTimeout(()=> { if(el.textContent === msg) el.textContent = ''; }, 6000);
+    }
+
+    async function postJson(url, payload, opts = {}) {
+      const controller = new AbortController();
+      const id = setTimeout(()=> controller.abort(), opts.timeout || 30000);
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+          credentials: 'same-origin'
+        });
+        clearTimeout(id);
+        if(!res.ok) {
+          const text = await res.text().catch(()=>res.statusText);
+          throw new Error(text || `HTTP ${res.status}`);
+        }
+        const json = await res.json().catch(()=>({ ok: true, text: 'No JSON response' }));
+        return json;
+      } catch (err) {
+        clearTimeout(id);
+        throw err;
+      }
+    }
+
+    // --- Email demo ---
+    document.getElementById('send-email').addEventListener('click', async () => {
+      const to = document.getElementById('e-to').value.trim();
+      const subj = document.getElementById('e-subj').value.trim();
+      const body = document.getElementById('e-body').value.trim();
+      if(!to || !subj || !body) { showStatus('email-status','Complete all fields',true); return; }
+      showStatus('email-status', 'Sending...');
+      try {
+        const res = await postJson('/api/send-email', { to, subject: subj, body }, { timeout: 20000 });
+        showStatus('email-status', 'Sent');
+        showLive(`Email sent to ${to}: ${res.message || JSON.stringify(res)}`);
+      } catch (err) {
+        showStatus('email-status', 'Failed to send', true);
+        showLive(`Email error: ${err.message}`);
+      }
+    });
+
+    document.getElementById('preview-email').addEventListener('click', () => {
+      const to = document.getElementById('e-to').value.trim();
+      const subj = document.getElementById('e-subj').value.trim();
+      const body = document.getElementById('e-body').value.trim();
+      const preview = `To: ${to}\nSubject: ${subj}\n\n${body}`;
+      showLive('Email preview:\n' + preview);
+    });
+
+    // --- SMS demo ---
+    document.getElementById('send-sms').addEventListener('click', async () => {
+      const phone = document.getElementById('s-phone').value.trim();
+      const text = document.getElementById('s-text').value.trim();
+      if(!phone || !text) { showStatus('sms-status','Complete all fields',true); return; }
+      showStatus('sms-status','Sending...');
+      try {
+        const res = await postJson('/api/send-sms', { phone, text }, { timeout: 20000 });
+        showStatus('sms-status','Sent');
+        showLive(`SMS sent to ${phone}: ${res.message || JSON.stringify(res)}`);
+      } catch (err) {
+        showStatus('sms-status','Failed to send',true);
+        showLive(`SMS error: ${err.message}`);
+      }
+    });
+
+    // --- Agricultural ML demo ---
+    document.getElementById('run-agri').addEventListener('click', async () => {
+      const task = document.getElementById('agri-type').value;
+      const input = document.getElementById('agri-input').value.trim();
+      if(!input) { showStatus('agri-status','Provide input for the ML task',true); return; }
+      showStatus('agri-status','Running...');
+      try {
+        const res = await postJson('/api/agri-ml', { task, input }, { timeout: 45000 });
+        showStatus('agri-status','Completed');
+        // Expecting something like { ok:true, result: {...} }
+        showLive(`Agri-ML (${task}) result:\n${JSON.stringify(res, null, 2)}`);
+      } catch (err) {
+        showStatus('agri-status','Failed',true);
+        showLive(`Agri-ML error: ${err.message}`);
+      }
+    });
+
+    // --- Study chatbot demo ---
+    async function callStudy(action='ask') {
+      const topic = document.getElementById('study-topic').value.trim();
+      const prompt = document.getElementById('study-prompt').value.trim();
+      if(!topic || !prompt) { showStatus('study-status','Complete topic and prompt',true); return; }
+      showStatus('study-status', action === 'ask' ? 'Asking...' : 'Summarizing...');
+      try {
+        const res = await postJson('/api/study-chat', { topic, prompt, action }, { timeout: 30000 });
+        showStatus('study-status','Received');
+        // Expect { ok:true, answer: "..." }
+        showLive(`Study chatbot (${action}) on "${topic}":\n${res.answer || JSON.stringify(res)}`);
+      } catch (err) {
+        showStatus('study-status','Failed',true);
+        showLive(`Study chatbot error: ${err.message}`);
+      }
+    }
+
+    document.getElementById('ask-study').addEventListener('click', () => callStudy('ask'));
+    document.getElementById('shorten-study').addEventListener('click', () => callStudy('summarize'));
+
+    // --- Utilities for live panel ---
+    document.getElementById('clear-output').addEventListener('click', () => { live.textContent = ''; });
+    document.getElementById('copy-output').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(live.textContent || '');
+        alert('Copied output to clipboard');
+      } catch (e) { alert('Copy failed'); }
+    });
+
+    // --- Fallback guidance for missing endpoints ---
+    (function detectEndpoints() {
+      // quick probe (non-intrusive) to see if API root responds
+      fetch('/api/ping', { method: 'GET', credentials: 'same-origin' }).then(r => {
+        if(r.ok) showLive('Backend /api available');
+      }).catch(()=> {
+        showLive('No backend detected. Forms will fallback to instructions; implement server endpoints to enable live actions.');
+      });
+    })();
+  </script>
+</body>
+</html>

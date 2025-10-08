@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resume — Delstarford Isaiah</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Resume of Delstarford  Isaiah — Machine Learning, Full-Stack, Agri-Biotech." />
+  <style>
+    :root{--bg:#fff;--text:#071224;--accent:#0066cc;font-family:"Inter",system-ui;--container:900px}
+    body{margin:0;background:#f6f7fb;color:var(--text);font-size:15px}
+    .sheet{width:90%;max-width:var(--container);margin:2rem auto;background:#fff;padding:1.25rem;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,12,0.06)}
+    header{display:flex;justify-content:space-between;align-items:center}
+    h1{margin:.1rem 0}
+    .muted{color:#5b6b7a}
+    .two{display:flex;gap:1rem}
+    .col{flex:1}
+    .section{margin-top:1rem}
+    .print{margin-top:1rem}
+    @media print{body{background:#fff} .sheet{box-shadow:none;}}
+    a.btn{color:var(--accent);text-decoration:none}
+  </style>
+</head>
+<body>
+  <main class="sheet" role="main">
+    <header>
+      <div>
+        <h1>Delstarford</h1>
+        <div class="muted">Machine Learning Engineer · Full‑Stack Developer · Agricultural Biotechnology</div>
+      </div>
+      <div style="text-align:right">
+        <div><strong>Kakamega, Kenya</strong></div>
+        <div><a href="mailto:delstarford@example.com" class="btn">delstarfordisaiah@gmail.com</a></div>
+        <div><a href="https://github.com/delstarford" target="_blank" rel="noopener" class="btn">https://github.com/delstarford123</a></div>
+      </div>
+    </header>
+
+    <section class="section">
+      <h3>Profile</h3>
+      <p class="muted">Architect of reproducible biometric and ML pipelines; experienced in deploying user-friendly dashboards and agricultural data systems. Focused on maintainability, testing, and accessible interfaces.</p>
+    </section>
+
+    <div class="two">
+      <div class="col">
+        <section class="section">
+          <h3>Experience</h3>
+          <div>
+            <strong>Lead ML Engineer</strong> — Community Solutions (2023–Present)
+            <div class="muted">Designed biometric enrollment pipelines, deployment workflows, and audit logging.</div>
+          </div>
+          <div style="margin-top:.6rem">
+            <strong>Full-Stack Developer</strong> — Local Innovate (2023–2024)
+            <div class="muted">Built Flask dashboards, APIs with Flask, and scheduled reporting workflows.</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h3>Education</h3>
+          <div><strong>BSc Agriculture and Biotechnology</strong> --[Masinde Muliro University Of Science And Technology], 2023-2027</div>
+          <div class="muted">Relevant coursework: Bioinformatics, PCR, Crop Rotation</div>
+           <div>Maseno School<strong>--2019-2022</strong></div>
+              <div class="muted">Kenya Certificate of Secondary Education (KCSE): B- (56.6 points)</div>
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="section">
+          <h3>Skills</h3>
+          <p><strong>Languages</strong>: Python, JavaScript, HTML, CSS</p>
+          <p><strong>Frameworks</strong>: Flask</p>
+          <p><strong>ML</strong>: TensorFlow, PyTorch, ONNX, scikit-learn, Torch, reportLab</p>
+        </section>
+
+        <section class="section">
+          <h3>Selected Projects</h3>
+          <ul class="muted">
+            <li>USHERBOT- AI-Attendance recording</li>
+            <li>ASK SARAH -AI-AGRICULTURAL ADVICER</li>
+            <li>DIGITAL ASSIST-AI -Care givers support</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <section class="print">
+      <a class="btn" href="projects.html">View Projects</a> • <a class="btn" href="index.html">Home</a>
+      <div style="float:right">
+        <button onclick="window.print()">Print</button>
+        <a href="resume.pdf" download class="btn" style="margin-left:8px;">
+          Download Resume (PDF)
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

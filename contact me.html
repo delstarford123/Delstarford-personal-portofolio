@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Delstarford</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Contact Delstarford — choose WhatsApp, LinkedIn, X, phone, or send a direct message. Professional AJAX contact handling with validation." />
+  <style>
+    :root{
+      --bg:#071224;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#6ee7b7;
+      --accent-2:#60a5fa;
+      --radius:12px;
+      --container:900px;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071224,#02111a);color:#eef5fb;font-size:16px;line-height:1.45}
+    .wrap{width:92%;max-width:var(--container);margin:3.5rem auto;padding:1.25rem}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+    a.brand{font-weight:800;color:var(--accent);text-decoration:none;font-size:1.1rem}
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:1rem}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h1{margin:0 0 0.25rem 0}
+    p.muted{color:var(--muted);margin-top:0}
+    .channels{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.6rem}
+    .channel{display:flex;align-items:center;gap:0.75rem;padding:0.6rem;border-radius:10px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.02)}
+    .channel .meta{flex:1}
+    .channel h4{margin:0;font-size:0.98rem}
+    .channel p{margin:0;color:var(--muted);font-size:0.9rem}
+    .actions{display:flex;gap:0.5rem;flex-wrap:wrap}
+    .btn{display:inline-block;padding:0.45rem 0.75rem;border-radius:10px;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,0.03);cursor:pointer;background:transparent;color:var(--accent-2)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#031025;border:1px solid transparent}
+    .btn.ghost{background:transparent}
+    form.contact{display:flex;flex-direction:column;gap:0.6rem}
+    label{font-size:0.9rem;color:var(--muted)}
+    input[type="text"], input[type="email"], textarea, select{
+      background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:0.6rem;border-radius:8px;color:#eaf6ff;font-size:0.95rem
+    }
+    .row{display:flex;gap:0.6rem}
+    .row .col{flex:1}
+    .form-actions{display:flex;gap:0.6rem;align-items:center;margin-top:0.4rem}
+    .status{color:var(--accent-2);min-height:1.4rem}
+    footer{margin-top:1.5rem;color:var(--muted);font-size:0.95rem;text-align:center}
+    @media (max-width:920px){ .grid{grid-template-columns:1fr} .row{flex-direction:column} }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <a class="brand" href="index.html">Delstarford</a>
+      <nav aria-label="Secondary">
+        <a class="btn" href="index.html">Home</a>
+        <a class="btn" href="projects.html">Projects</a>
+        <a class="btn" href="resume.html">Resume</a>
+      </nav>
+    </header>
+
+    <section class="grid" aria-labelledby="contact-title">
+      <!-- Left column: channels -->
+      <aside class="card" aria-label="Contact channels">
+        <h1 id="contact-title">Contact me</h1>
+        <p class="muted">Choose your preferred platform. Click a channel to open it, or use the form to request a preferred contact time.</p>
+
+        <div class="channels" role="list">
+          <!-- WhatsApp -->
+          <div class="channel" role="listitem" aria-label="WhatsApp">
+            <div class="meta">
+              <h4>WhatsApp</h4>
+              <p>Quick messages and voice notes. Typical response time: a few hours.</p>
+            </div>
+            <div class="actions" aria-hidden="false">
+              <!-- replace phone number with your international number (no plus sign in wa link) -->
+              <a id="wa-btn" class="btn" href="https://wa.me/254707605751?text=Hi%20Delstarford%2C%20I%27d%20like%20to%20talk%20about..." target="_blank" rel="noopener">Open WhatsApp</a>
+              <button class="btn ghost" onclick="copyToClipboard('+254707605751')">Copy</button>
+            </div>
+          </div>
+
+          <!-- Phone call -->
+          <div class="channel" role="listitem" aria-label="Phone call">
+            <div class="meta">
+              <h4>Call</h4>
+              <p>Prefer a quick call? Tap to call from a phone, or request a callback using the form.</p>
+            </div>
+            <div class="actions">
+              <a id="call-btn" class="btn" href="tel:+254712345678">Call</a>
+              <button class="btn ghost" onclick="copyToClipboard('+254712345678')">Copy</button>
+            </div>
+          </div>
+
+          <!-- LinkedIn -->
+          <div class="channel" role="listitem" aria-label="LinkedIn">
+            <div class="meta">
+              <h4>LinkedIn</h4>
+              <p>Professional messages, endorsements, and networking.</p>
+            </div>
+            <div class="actions">
+              <a class="btn" href="https://www.linkedin.com/in/delstarford-isaiah-968400354" target="_blank" rel="noopener">linkedin.com/in/delstarford-isaiah-968400354</a>
+              <button class="btn ghost" onclick="copyToClipboard('https://www.linkedin.com/in/delstarford')">Copy</button>
+            </div>
+          </div>
+
+          <!-- X (Twitter) -->
+          <div class="channel" role="listitem" aria-label="X">
+            <div class="meta">
+              <h4>X (Twitter)</h4>
+              <p>Short updates and public conversation starter.</p>
+            </div>
+            <div class="actions">
+              <a class="btn" href="https://twitter.com/Delstarford/status/1689701805356195841" target="_blank" rel="noopener">Open</a>
+              <button class="btn ghost" onclick="copyToClipboard('https://twitter.com/Delstarford/status/1689701805356195841')">Copy</button>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="channel" role="listitem" aria-label="Email">
+            <div class="meta">
+              <h4>Email</h4>
+              <p>For detailed proposals, attachments, and formal requests.</p>
+            </div>
+            <div class="actions">
+              <a class="btn" href="mailto:delstarfordisaiah@gmail.com">Email</a>
+              <button class="btn ghost" onclick="copyToClipboard('delstarfordisaiah@gmail.com')">Copy</button>
+            </div>
+          </div>
+
+          <!-- Other platforms placeholder -->
+          <div class="channel" role="listitem" aria-label="Other platforms">
+            <div class="meta">
+              <h4>Other</h4>
+              <p>Open to connecting on additional platforms. Use the form to specify a preferred channel.</p>
+            </div>
+            <div class="actions">
+              <button class="btn" onclick="document.getElementById('pref-channel').focus()">Choose</button>
+            </div>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:0.9rem 0">
+
+        <p style="margin:0;font-size:0.9rem;color:var(--muted)">Pro tip: if you prefer synchronous conversation, include a few time slots in your message and your time zone.</p>
+      </aside>
+
+      <!-- Right column: contact form -->
+      <main class="card" aria-label="Contact form">
+        <h2 style="margin-top:0">Send a message</h2>
+        <p class="muted">I read every message. And always ready to work with you .Use the form to request a callback, attach a brief project summary, or ask for a quote.</p>
+
+        <form id="contact-form" class="contact" novalidate>
+          <label for="name">Your name</label>
+          <input id="name" name="name" type="text" placeholder="Full name" required minlength="2" />
+
+          <label for="email">Your email</label>
+          <input id="email" name="email" type="email" placeholder="youemail@gmail.com" required />
+
+          <div class="row">
+            <div class="col">
+              <label for="phone">Phone (optional)</label>
+              <input id="phone" name="phone" type="text" placeholder="+254712345678" />
+            </div>
+            <div class="col">
+              <label for="pref-channel">Preferred channel</label>
+              <select id="pref-channel" name="pref_channel" aria-label="Preferred contact channel">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="call">Call</option>
+                <option value="email" selected>Email</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="x">X</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" placeholder="Short subject" required minlength="3" />
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" placeholder="Briefly describe your project, timeline, and budget (if any)" required minlength="10"></textarea>
+
+          <div style="display:flex;gap:0.6rem;align-items:center;margin-top:0.25rem">
+            <input id="consent" type="checkbox" checked />
+            <label for="consent" style="margin:0;color:var(--muted);font-size:0.95rem">I agree to be contacted on my preferred channel</label>
+          </div>
+
+          <div class="form-actions">
+            <button id="submit-btn" class="btn primary" type="submit">Send message</button>
+            <button id="clear-btn" class="btn" type="button">Clear</button>
+            <button id="attach-btn" class="btn" type="button" title="Add attachments via email">Attach files</button>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.4rem">
+            <div id="form-status" class="status" aria-live="polite"></div>
+            <div style="color:var(--muted);font-size:0.9rem">Secure and private handling</div>
+          </div>
+        </form>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:1rem 0">
+
+        <p class="muted" style="margin:0">If you prefer email attachments, click <strong>Attach files</strong> — this will open your mail client with a prefilled message (you can then attach files)</p>
+      </main>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> Delstarford — Prefered contact: WhatsApp / Email / Call</p>
+    </footer>
+  </div>
+
+  <script>
+    // small helpers
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function copyToClipboard(text){
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(text).then(()=> showStatus('Copied to clipboard'));
+      } else {
+        const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); showStatus('Copied to clipboard'); } catch(e){ showStatus('Copy failed'); }
+        document.body.removeChild(ta);
+      }
+    }
+
+    function showStatus(msg, isError=false){
+      const el = document.getElementById('form-status');
+      el.textContent = msg;
+      el.style.color = isError ? '#ffb4b4' : '';
+      clearTimeout(window._statusTimer);
+      window._statusTimer = setTimeout(()=> el.textContent = '', 6000);
+    }
+
+    // Attach button opens mail client with prefilled subject/body for attachments
+    document.getElementById('attach-btn').addEventListener('click', () => {
+      const name = encodeURIComponent(document.getElementById('name').value || '');
+      const subject = encodeURIComponent(document.getElementById('subject').value || 'Files for discussion');
+      const body = encodeURIComponent((document.getElementById('message').value || '') + '\n\nPlease find attachments in this email.');
+      const mailto = `mailto:delstarford@example.com?subject=${subject}&body=${body}`;
+      // open mail client
+      window.location.href = mailto;
+    });
+
+    // Clear form
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      document.getElementById('contact-form').reset();
+      showStatus('Form cleared');
+    });
+
+    // Form validation helper
+    function validateForm(data){
+      const errors = [];
+      if(!data.name || data.name.length < 2) errors.push('Name is too short');
+      if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.push('Invalid email');
+      if(!data.subject || data.subject.length < 3) errors.push('Subject is too short');
+      if(!data.message || data.message.length < 10) errors.push('Message is too short');
+      return errors;
+    }
+
+    // AJAX submit to backend /api/contact with professional handling
+    document.getElementById('contact-form').addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        pref_channel: document.getElementById('pref-channel').value,
+        subject: document.getElementById('subject').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        consent: !!document.getElementById('consent').checked
+      };
+
+      const errors = validateForm(data);
+      if(errors.length){
+        showStatus(errors[0], true);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send message';
+        return;
+      }
+
+      // Primary: POST to /api/contact (expects JSON); fallback: open mail client
+      try {
+        const resp = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            message: `Preferred channel: ${data.pref_channel}\nPhone: ${data.phone}\n\n${data.message}`,
+            subject: data.subject
+          }),
+          credentials: 'same-origin' // include cookies if any
+        });
+
+        if(resp.ok){
+          const json = await resp.json();
+          if(json && json.ok){
+            showStatus('Message sent. I will contact you on your preferred channel shortly.');
+            document.getElementById('contact-form').reset();
+            submitBtn.textContent = 'Sent';
+            setTimeout(()=> { submitBtn.textContent = 'Send message'; submitBtn.disabled = false; }, 1800);
+            return;
+          }
+          // server returned structured error
+          const err = json && json.errors ? Object.values(json.errors)[0] : 'Server error';
+          showStatus(err, true);
+        } else if(resp.status === 400){
+          const json = await resp.json();
+          const err = json && json.errors ? Object.values(json.errors)[0] : 'Validation failed';
+          showStatus(err, true);
+        } else {
+          // non-JSON or unexpected status - fallback
+          showStatus('Server error, opening mail client as fallback', true);
+        }
+      } catch (err){
+        // network failure or no backend
+        showStatus('No server available. Opening mail client as fallback');
+      }
+
+      // Fallback mailto with prefilled message (will open user's mail client)
+      const subject = encodeURIComponent(data.subject || 'Contact from portfolio');
+      const body = encodeURIComponent(
+        `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nPreferred channel: ${data.pref_channel}\n\n${data.message}`
+      );
+      window.location.href = `mailto:delstarford@example.com?subject=${subject}&body=${body}`;
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+    });
+
+    // Optional: detect mobile and present "Call" more prominently
+    (function enhanceForMobile(){
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      if(isMobile){
+        document.getElementById('call-btn').classList.add('primary');
+      }
+    })();
+  </script>
+</body>
+</html>

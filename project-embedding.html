@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Embedding Biometric Pipeline — Delstarford</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Detailed write-up for Embedding Biometric Pipeline." />
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#6ee7b7;--radius:12px;--container:1100px;font-family:"Inter",system-ui,Roboto,Arial}
+    body{margin:0;background:linear-gradient(180deg,#071224,#02111a);color:#e6eef6;font-size:16px}
+    .container{width:90%;max-width:var(--container);margin:0 auto;padding:2rem 0}
+    a.btn{color:var(--accent);text-decoration:none;border:1px solid rgba(255,255,255,0.03);padding:.4rem .6rem;border-radius:8px}
+    .content{background:var(--card);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    h1{margin-top:0}
+    pre{background:#06101a;padding:12px;border-radius:8px;overflow:auto}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <a class="btn" href="projects.html">← Projects</a>
+      <a class="btn" href="https://github.com/delstarford/embedding-biometric-pipeline" target="_blank" rel="noopener">GitHub Repo</a>
+    </nav>
+
+    <main class="content">
+      <h1>Embedding Biometric Pipeline</h1>
+      <p class="muted">Complete pipeline for fingerprint enrollment, embedding extraction, storage, and matching with audit trails.</p>
+
+      <h2>Overview</h2>
+      <p>This project focuses on making biometric matching robust and reproducible by serializing embeddings and applying configurable thresholds and audit logging.</p>
+
+      <h2>Key components</h2>
+      <ul>
+        <li>Capture adapter for USB / mobile scanner</li>
+        <li>Embedding extraction with a lightweight ONNX model</li>
+        <li>Indexer and matcher (cosine similarity with calibrated threshold)</li>
+        <li>Enrollment and audit logs; CSV export and webhook alerts</li>
+      </ul>
+
+      <h2>Example snippet (matcher)</h2>
+      <pre><code>def cosine(a, b):
+    a = a / np.linalg.norm(a)
+    b = b / np.linalg.norm(b)
+    return float(np.dot(a, b))</code></pre>
+
+      <h2>Deployment notes</h2>
+      <ul>
+        <li>Containerize model server with a small Flask API for on-device inference</li>
+        <li>Use SQLite for local index on edge devices, Postgres for centralized deployments</li>
+        <li>Protect endpoints with API keys and rate limits</li>
+      </ul>
+
+      <p><a class="btn" href="projects.html">Back to Projects</a></p>
+    </main>
+  </div>
+</body>
+</html>

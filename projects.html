@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects — Delstarford</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <meta name="description" content="Selected projects by Delstarford — ML, Full-Stack, Agri-Biotech." />
+  <style>
+    /* Reuse the exact CSS from the main page (trimmed to essentials for space) */
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#6ee7b7;--accent-2:#60a5fa;--radius:12px;--container:1100px;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;color-scheme:dark}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#071224,#02111a);color:#e6eef6;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased} .container{width:90%;max-width:var(--container);margin:0 auto;padding:2rem 0}
+    .site-header{position:sticky;top:0;background:rgba(6,10,16,0.6);padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+    .brand{font-weight:800;color:var(--accent);text-decoration:none}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .card{background:var(--card);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    a.btn{display:inline-block;padding:.5rem .75rem;border-radius:8px;text-decoration:none;color:var(--accent-2);border:1px solid rgba(255,255,255,0.03);font-weight:600}
+    header .nav{display:flex;align-items:center;justify-content:space-between}
+    .back{margin-bottom:1rem}
+    footer{color:var(--muted);text-align:center;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.02)}
+    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">Delstarford</a>
+      <nav><a class="btn" href="index.html">Home</a> <a class="btn" href="resume.html">Resume</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="back"><a href="index.html" class="btn">← Back to Home</a></div>
+
+    <h1>Projects</h1>
+    <p class="muted">A selection of projects with links to detailed pages, repositories, and demos.</p>
+
+    <div class="grid" aria-live="polite">
+      <article class="card">
+        <h3>Usherbot Embedding Biometric Pipeline</h3>
+        <p>Fingerprint capture, embedding extraction, and robust matcher with audit logs and configurable thresholds.</p>
+        <p><strong>Tech</strong>: Python, Flask, ONNX, SQLite, Docker</p>
+        <p>
+          <a class="btn" href="project-embedding.html">Details</a>
+          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Attendance Dashboard</h3>
+        <p>Web dashboard with registration logs, attendance summaries, fallback messages, and scheduled PDF reports.</p>
+        <p><strong>Tech</strong>: React, Flask, WebSockets, Redis</p>
+        <p>
+          <a class="btn" href="project-attendance.html">Details</a>
+          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://usherbot.vercel.app/">Vercel</a>
+        </p>
+      </article>
+      
+      <article class="card">
+        <h3>Digital Assistant</h3>
+        <p>AI-powered assistant for scheduling, reminders, and task management.</p>
+        <p><strong>Tech</strong>: React, Flask, WebSockets, Redis</p>
+        <p>
+          <a class="btn" href="project-digaital-assistant.html">Details</a>
+          <a class="btn" href="https://github.com/delstarford123/Digitalassist" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://digitalassist.vercel.app/">Vercel</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Agritech Field Trial Manager</h3>
+        <p>Reproducible lab-to-field experiment tracking, data ingestion, and analytics for agronomists.</p>
+        <p><strong>Tech</strong>: Django/Flask, Postgres, Pandas, Plotly</p>
+        <p>
+          <a class="btn" href="project-agritech.html">Details</a>
+          <a class="btn" href="https://github.com/delstarford/agritech-field-trials" target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </article>
+      <article class="card">
+        <h3>Chatbot</h3>
+        <p>AI Powered Chatbot for E-Learning ,Agricuture,Bulk Email and SMS Sending.</p>
+        <p><strong>Tech</strong>: Flask, Postgres/Firebase Realtime Database, Pandas, Plotly,Numpy,Tensorflow,reportLab etc.</p>
+        <p>
+          <a class="btn" href="chatbot-ml.html">Details</a>
+          <a class="btn" href="https://github.com/delstarford123/chatbot" target="_blank" rel="noopener">GitHub</a>
+        </p>
+      </article>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>© <span id="year"></span> Delstarford</p>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
