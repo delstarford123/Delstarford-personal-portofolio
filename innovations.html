@@ -133,12 +133,12 @@
           <h2 id="proposal-title">Propose an innovations project</h2>
           <p class="muted">Use this form to describe the project you want me to do. I respond with a clear next step and a short proposal.</p>
 
-          <form id="proposal-form" novalidate>
+          <form id="proposal-form" action="https://formspree.io/f/xqkrqzqg" method="POST" novalidate>
             <label for="client-name">Your name</label>
             <input id="client-name" name="client_name" required placeholder="Full name or organization" />
 
             <label for="client-email">Email</label>
-            <input id="client-email" name="client_email" type="email" required placeholder="you@example.com" />
+            <input id="client-email" name="client_email" type="email" required placeholder="youremail@gmail.com" />
 
             <label for="project-title">Project title</label>
             <input id="project-title" name="project_title" required placeholder="Short title for the innovation" />
@@ -149,7 +149,7 @@
             <div class="row" style="margin-top:0.3rem">
               <div style="flex:1">
                 <label for="budget">Budget (optional)</label>
-                <input id="budget" name="budget" placeholder="e.g., $5k–$15k or N/A" />
+                <input id="budget" name="budget" placeholder="e.g., 10000ksh-20000ksh or N/A" />
               </div>
               <div style="width:180px">
                 <label for="timeline">Target timeline</label>
@@ -233,7 +233,6 @@
   </div>
 
   <script>
-    // simple client-side handling: local draft, validation, AJAX submission to /api/project-proposal
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const form = document.getElementById('proposal-form');
@@ -241,18 +240,20 @@
     const submitBtn = document.getElementById('submit-proposal');
     const saveBtn = document.getElementById('save-draft');
 
-    function showStatus(msg, isError=false) {
+    function showStatus(msg, isError = false) {
       statusEl.textContent = msg;
-      statusEl.style.color = isError ? '#ffb4b4' : '';
+      statusEl.style.color = isError ? '#ff4d4d' : '#0066cc';
       clearTimeout(window._proposalTimer);
-      window._proposalTimer = setTimeout(()=> { if(statusEl.textContent === msg) statusEl.textContent = ''; }, 6000);
+      window._proposalTimer = setTimeout(() => {
+        if (statusEl.textContent === msg) statusEl.textContent = '';
+      }, 6000);
     }
 
     function validate(payload) {
-      if(!payload.client_name || payload.client_name.length < 2) return 'Provide your name or organization';
-      if(!payload.client_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.client_email)) return 'Provide a valid email';
-      if(!payload.project_title || payload.project_title.length < 3) return 'Project title is too short';
-      if(!payload.project_summary || payload.project_summary.length < 20) return 'Project summary should be at least 20 characters';
+      if (!payload.client_name || payload.client_name.length < 2) return 'Provide your name or organization';
+      if (!payload.client_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.client_email)) return 'Provide a valid email';
+      if (!payload.project_title || payload.project_title.length < 3) return 'Project title is too short';
+      if (!payload.project_summary || payload.project_summary.length < 20) return 'Project summary should be at least 20 characters';
       return null;
     }
 
@@ -265,24 +266,24 @@
     });
 
     // Restore draft on load
-    (function restoreDraft(){
+    (function restoreDraft() {
       try {
         const raw = localStorage.getItem('innovation_draft_v1');
-        if(!raw) return;
+        if (!raw) return;
         const obj = JSON.parse(raw);
-        for(const k in obj) {
+        for (const k in obj) {
           const el = document.getElementById(k);
-          if(el) el.value = obj[k];
+          if (el) el.value = obj[k];
         }
         showStatus('Draft restored');
-      } catch(e){}
+      } catch (e) {}
     })();
 
-    // Submit via AJAX
-    form.addEventListener('submit', async (ev) => {
+    // Submit via mailto (no backend)
+    form.addEventListener('submit', (ev) => {
       ev.preventDefault();
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+      submitBtn.textContent = 'Preparing...';
 
       const payload = {
         client_name: document.getElementById('client-name').value.trim(),
@@ -295,57 +296,35 @@
       };
 
       const err = validate(payload);
-      if(err) {
+      if (err) {
         showStatus(err, true);
         submitBtn.disabled = false;
         submitBtn.textContent = 'Submit proposal';
         return;
       }
 
-      // Primary: POST to /api/project-proposal (expects JSON and returns { ok:true, id, message })
-      try {
-        const resp = await fetch('/api/project-proposal', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          credentials: 'same-origin'
-        });
+      const subject = encodeURIComponent(`Innovation Proposal: ${payload.project_title}`);
+      const body = encodeURIComponent(
+        `Name: ${payload.client_name}\nEmail: ${payload.client_email}\nTimeline: ${payload.timeline}\nBudget: ${payload.budget}\nAttachments: ${payload.attachments}\n\nProject Summary:\n${payload.project_summary}`
+      );
 
-        if(resp.ok) {
-          const json = await resp.json().catch(()=>({ ok: true }));
-          if(json && json.ok) {
-            showStatus('Proposal submitted. I will follow up shortly.');
-            form.reset();
-            // remove draft
-            localStorage.removeItem('innovation_draft_v1');
-            submitBtn.textContent = 'Submitted';
-            setTimeout(()=> { submitBtn.textContent = 'Submit proposal'; submitBtn.disabled = false; }, 1600);
-            return;
-          } else {
-            const msg = (json && (json.error || json.message)) || 'Server rejected the proposal';
-            showStatus(msg, true);
-          }
-        } else if(resp.status === 400) {
-          const json = await resp.json().catch(()=>null);
-          const msg = json && json.errors ? Object.values(json.errors)[0] : 'Validation failed';
-          showStatus(msg, true);
-        } else {
-          showStatus('Server error. Try again later or email me directly.', true);
-        }
-      } catch (e) {
-        showStatus('Network error. Try again or email me at delstarford@example.com', true);
-      }
+      const mailto = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailto;
 
-      submitBtn.disabled = false;
+      showStatus('Opening your email client...');
       submitBtn.textContent = 'Submit proposal';
+      submitBtn.disabled = false;
     });
 
-    // Smooth anchor navigation when clicking 'Propose a project'
-    document.getElementById('start-proposal').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('project-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      document.getElementById('project-title').focus();
-    });
+    // Smooth scroll to proposal form
+    const startBtn = document.getElementById('start-proposal');
+    if (startBtn) {
+      startBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('project-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        document.getElementById('project-title').focus();
+      });
+    }
   </script>
 </body>
 </html>
