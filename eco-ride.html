@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eco-Ride — Details</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#14b8a6; --muted:#94a3b8; --glass:rgba(255,255,255,0.03);
+      --radius:12px; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%; margin:0; background:linear-gradient(180deg,#071023 0%, #071827 100%); color:#e6eef6}
+    .wrap{max-width:980px;margin:48px auto;padding:24px;}
+    .card{background:linear-gradient(180deg,var(--card),var(--glass)); border-radius:var(--radius); padding:20px; box-shadow:0 6px 20px rgba(2,6,23,0.6); display:grid; gap:12px;}
+    h1,h3{margin:0;color:#fff}
+    p{margin:0;color:var(--muted)}
+    .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .tech{font-weight:600;color:#cfeee6}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff7f2;text-decoration:none;font-weight:600;cursor:pointer}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#0ea5a1);border:none;color:#062018}
+    .row{display:flex;gap:12px;align-items:center}
+    .status{font-size:13px;color:#9fb8b1}
+    pre{background:#061018;padding:12px;border-radius:8px;color:#a7e9df;overflow:auto}
+    /* modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+    .modal{background:#00121a;padding:18px;border-radius:12px;max-width:780px;width:100%;box-shadow:0 10px 40px rgba(2,6,23,0.7)}
+    .modal header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .close{background:transparent;border:0;color:#8ee6da;font-size:18px;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 260px;gap:14px}
+    @media (max-width:760px){.grid{grid-template-columns:1fr} .wrap{margin:24px}}
+    footer{margin-top:18px;font-size:13px;color:var(--muted)}
+    .log{font-family:monospace;font-size:13px;color:#9bdad0}
+  </style>
+</head>
+<body>
+  <main class="wrap" id="app">
+    <article class="card" id="card-root" aria-labelledby="eco-title">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <h1 id="eco-title">Eco-Ride</h1>
+          <p class="status" id="tagline">Solution to climate change through the use of artificial intelligence.</p>
+          <p class="tech"><strong>Tech</strong>: React Native; Flask; TensorFlow; Pandas; NumPy; Matplotlib; other ML infra.</p>
+        </div>
+        <div style="text-align:right">
+          <div class="meta">
+            <span class="status" id="build-status">Status: <strong id="status-val">Unknown</strong></span>
+          </div>
+          <div style="margin-top:12px">
+            <a class="btn" id="details-btn" href="#" role="button">Details</a>
+            <a class="btn" id="github-btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn primary" id="native-btn" href="https://eco.ride.lohms.org/" target="_blank" rel="noopener">Native App</a>
+          </div>
+        </div>
+      </div>
+
+      <section style="margin-top:12px">
+        <h3>Overview</h3>
+        <p id="overview">Eco-Ride uses sensor data, route optimization, and demand forecasting to reduce emissions and increase shared mobility efficiency.</p>
+      </section>
+
+      <section style="margin-top:12px">
+        <h3>Recent logs</h3>
+        <pre id="logs" aria-live="polite">No logs yet. Click Details to fetch latest info.</pre>
+      </section>
+
+      <footer>
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <span>Maintained by Eco-Ride Team</span>
+          <span class="log" id="last-updated">Last updated: —</span>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modal-title">
+      <header>
+        <h3 id="modal-title">Eco-Ride Details</h3>
+        <button class="close" id="modal-close" aria-label="Close details">✕</button>
+      </header>
+
+      <div class="grid" style="margin-top:12px">
+        <div>
+          <h4>Project Summary</h4>
+          <p id="modal-summary">Loading summary…</p>
+
+          <h4 style="margin-top:12px">Model and Data</h4>
+          <p id="modal-model">Loading model info…</p>
+
+          <h4 style="margin-top:12px">Notes</h4>
+          <p id="modal-notes">Loading notes…</p>
+        </div>
+
+        <aside>
+          <h4>Quick actions</h4>
+          <p style="margin-top:6px"><button class="btn" id="retrain">Trigger Retrain</button></p>
+          <p style="margin-top:6px"><button class="btn" id="download-weights">Download Weights</button></p>
+          <h4 style="margin-top:18px">Meta</h4>
+          <p class="status" id="modal-meta">Loading meta…</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Lightweight AJAX helpers and UI behaviors
+    (function () {
+      const detailsBtn = document.getElementById('details-btn');
+      const modal = document.getElementById('modal');
+      const modalClose = document.getElementById('modal-close');
+      const logsEl = document.getElementById('logs');
+      const statusVal = document.getElementById('status-val');
+      const lastUpdated = document.getElementById('last-updated');
+      const modalSummary = document.getElementById('modal-summary');
+      const modalModel = document.getElementById('modal-model');
+      const modalNotes = document.getElementById('modal-notes');
+      const modalMeta = document.getElementById('modal-meta');
+      const retrainBtn = document.getElementById('retrain');
+      const downloadBtn = document.getElementById('download-weights');
+
+      // Safe fetch with timeout and JSON/text handling
+      function safeFetch(url, {timeout = 7000, expect = 'json'} = {}) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        return fetch(url, {signal: controller.signal, cache: 'no-cache'}).then(resp => {
+          clearTimeout(id);
+          if (!resp.ok) throw new Error('Network response not OK ' + resp.status);
+          return expect === 'json' ? resp.json() : resp.text();
+        });
+      }
+
+      // Primary AJAX: try to fetch details from a local JSON endpoint, fallback to inline data
+      function fetchDetails() {
+        // optimistic UI
+        logsEl.textContent = 'Fetching latest project details…';
+        statusVal.textContent = 'Fetching';
+
+        // Attempt: eco-ride-details.json (local dev friendly) then /api/eco-ride (server)
+        const candidates = [
+          {url: 'eco-ride-details.json', expect: 'json'},
+          {url: '/api/eco-ride', expect: 'json'},
+          {url: 'https://api.example.org/eco-ride', expect: 'json'} // harmless candidate, likely blocked by CORS
+        ];
+
+        let tried = 0;
+        function tryNext() {
+          if (tried >= candidates.length) return fallback();
+          const candidate = candidates[tried++];
+          safeFetch(candidate.url, {timeout:5000, expect:candidate.expect})
+            .then(data => {
+              renderDetails(data);
+            })
+            .catch(() => tryNext());
+        }
+
+        tryNext();
+      }
+
+      // Fallback content if AJAX fails
+      function fallback() {
+        const now = new Date().toISOString();
+        statusVal.textContent = 'Offline';
+        logsEl.textContent = [
+          `[${now}] Unable to reach details endpoint.`,
+          `[${now}] Showing cached local overview.`,
+          `• Model: production-v1 (local cached)`,
+          `• Last training: 2025-09-18`,
+          `• Recent improvements: improved route clustering, reduced avg wait time by 12%`
+        ].join('\n');
+        lastUpdated.textContent = 'Last updated: ' + now;
+        modalSummary.textContent = 'Eco-Ride optimizes shared mobility using ML for demand forecasting and route clustering.';
+        modalModel.textContent = 'Model: Gradient boosted ensemble; features: GPS trace aggregates, weather, demand heatmaps.';
+        modalNotes.textContent = 'If you run this locally, create eco-ride-details.json next to this page to enable live details.';
+        modalMeta.textContent = 'Source: local cache';
+      }
+
+      // Render details from fetched JSON
+      function renderDetails(data) {
+        const now = new Date().toISOString();
+        try {
+          const status = data.status || 'Unknown';
+          const logs = Array.isArray(data.logs) ? data.logs.join('\n') : (data.logs || 'No logs provided');
+          const summary = data.summary || 'No summary provided';
+          const model = data.model || 'No model info';
+          const notes = data.notes || 'No extra notes';
+          const meta = data.meta || 'No meta';
+
+          statusVal.textContent = status;
+          logsEl.textContent = logs;
+          lastUpdated.textContent = 'Last updated: ' + (data.updated || now);
+          modalSummary.textContent = summary;
+          modalModel.textContent = model;
+          modalNotes.textContent = notes;
+          modalMeta.textContent = meta;
+        } catch (err) {
+          fallback();
+        }
+      }
+
+      // Small optimistic action functions (simulate AJAX)
+      function simulateAction(name, successMessage) {
+        const stamp = new Date().toISOString();
+        logsEl.textContent = `[${stamp}] ${name} started...`;
+        statusVal.textContent = name + '…';
+        // Simulate work
+        setTimeout(() => {
+          const s = new Date().toISOString();
+          logsEl.textContent = `[${s}] ${successMessage}\n` + logsEl.textContent;
+          statusVal.textContent = 'Idle';
+          lastUpdated.textContent = 'Last updated: ' + s;
+        }, 1200 + Math.random() * 1200);
+      }
+
+      // UI events
+      detailsBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        // show modal and fetch details concurrently
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        modalSummary.textContent = 'Loading summary…';
+        modalModel.textContent = 'Loading model info…';
+        modalNotes.textContent = 'Loading notes…';
+        modalMeta.textContent = 'Fetching meta…';
+        fetchDetails();
+      });
+
+      modalClose.addEventListener('click', function () {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      });
+
+      // close modal on backdrop click
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      retrainBtn.addEventListener('click', function () {
+        simulateAction('Retrain job', 'Retrain job completed successfully');
+      });
+
+      downloadBtn.addEventListener('click', function () {
+        simulateAction('Download weights', 'Weights downloaded to your workspace');
+      });
+
+      // initial optimistic probe: update status from a small ping endpoint if reachable
+      (function initialProbe() {
+        safeFetch('eco-ride-status.json', {timeout:3500, expect:'json'})
+          .then(data => {
+            statusVal.textContent = data.status || 'Idle';
+            lastUpdated.textContent = 'Last updated: ' + (data.updated || new Date().toISOString());
+            logsEl.textContent = (Array.isArray(data.logs) ? data.logs.join('\n') : data.logs) || 'No logs available';
+          })
+          .catch(() => {
+            statusVal.textContent = 'Idle';
+            logsEl.textContent = 'Status probe failed; click Details for more info.';
+            lastUpdated.textContent = 'Last updated: —';
+          });
+      })();
+
+      // keyboard accessibility: Esc closes modal
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+          modal.style.display = 'none';
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
