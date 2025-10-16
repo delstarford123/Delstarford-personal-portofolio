@@ -1,271 +1,410 @@
-<!doctype html>
+\<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Eco-Ride — Details</title>
+  <title>Eco-Ride — Carpooling and App Details</title>
   <style>
     :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#14b8a6; --muted:#94a3b8; --glass:rgba(255,255,255,0.03);
+      --bg:#f6fbfb; --card:#ffffff; --accent:#107a6b; --muted:#556b6a; --soft:#eef6f5;
       --radius:12px; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    html,body{height:100%; margin:0; background:linear-gradient(180deg,#071023 0%, #071827 100%); color:#e6eef6}
-    .wrap{max-width:980px;margin:48px auto;padding:24px;}
-    .card{background:linear-gradient(180deg,var(--card),var(--glass)); border-radius:var(--radius); padding:20px; box-shadow:0 6px 20px rgba(2,6,23,0.6); display:grid; gap:12px;}
-    h1,h3{margin:0;color:#fff}
-    p{margin:0;color:var(--muted)}
-    .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .tech{font-weight:600;color:#cfeee6}
-    .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff7f2;text-decoration:none;font-weight:600;cursor:pointer}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#0ea5a1);border:none;color:#062018}
+    html,body{height:100%; margin:0; background:linear-gradient(180deg,var(--soft),#ffffff); color:#09323a}
+    .wrap{max-width:1000px;margin:36px auto;padding:20px;}
+    .card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:0 6px 18px rgba(9,50,58,0.06); display:grid; gap:16px;}
+    h1,h2,h3,h4{margin:0;color:var(--accent)}
+    p{margin:0;color:var(--muted);line-height:1.5}
     .row{display:flex;gap:12px;align-items:center}
-    .status{font-size:13px;color:#9fb8b1}
-    pre{background:#061018;padding:12px;border-radius:8px;color:#a7e9df;overflow:auto}
-    /* modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
-    .modal{background:#00121a;padding:18px;border-radius:12px;max-width:780px;width:100%;box-shadow:0 10px 40px rgba(2,6,23,0.7)}
-    .modal header{display:flex;justify-content:space-between;align-items:center;gap:10px}
-    .close{background:transparent;border:0;color:#8ee6da;font-size:18px;cursor:pointer}
-    .grid{display:grid;grid-template-columns:1fr 260px;gap:14px}
-    @media (max-width:760px){.grid{grid-template-columns:1fr} .wrap{margin:24px}}
-    footer{margin-top:18px;font-size:13px;color:var(--muted)}
-    .log{font-family:monospace;font-size:13px;color:#9bdad0}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;cursor:pointer;border:none}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(16,122,107,0.12)}
+    .muted{color:var(--muted)}
+    label{display:block;font-weight:600;margin-bottom:6px;color:#08332f}
+    input,select,textarea{width:100%;padding:10px;border:1px solid #e6efee;border-radius:8px;background:#fff;color:#073237}
+    fieldset{border:1px dashed #e0efed;padding:12px;border-radius:8px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr} .wrap{margin:16px}}
+    .list{margin-top:10px;border-top:1px dashed #eef6f5;padding-top:10px}
+    .ride{padding:10px;border-radius:8px;background:linear-gradient(180deg,#fbfffe,#f7fffd);border:1px solid #e1f2ef;margin-bottom:10px}
+    .small{font-size:13px;color:#2f5a57}
+    .kbd{font-family:monospace;background:#f0fbfa;padding:6px;border-radius:6px;border:1px solid #e6f3f1}
+    .notice{background:#fff8f6;border:1px solid #fde6db;padding:10px;border-radius:8px;color:#6b3d1f}
+    footer{margin-top:12px;font-size:13px;color:var(--muted)}
+    .log{font-family:monospace;font-size:13px;color:#0b4b44;white-space:pre-wrap}
   </style>
 </head>
 <body>
   <main class="wrap" id="app">
-    <article class="card" id="card-root" aria-labelledby="eco-title">
-      <div class="row" style="justify-content:space-between;align-items:flex-start">
-        <div>
-          <h1 id="eco-title">Eco-Ride</h1>
-          <p class="status" id="tagline">Solution to climate change through the use of artificial intelligence.</p>
-          <p class="tech"><strong>Tech</strong>: React Native; Flask; TensorFlow; Pandas; NumPy; Matplotlib; other ML infra.</p>
-        </div>
-        <div style="text-align:right">
-          <div class="meta">
-            <span class="status" id="build-status">Status: <strong id="status-val">Unknown</strong></span>
-          </div>
-          <div style="margin-top:12px">
-            <a class="btn" id="details-btn" href="#" role="button">Details</a>
-            <a class="btn" id="github-btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn primary" id="native-btn" href="https://eco.ride.lohms.org/" target="_blank" rel="noopener">Native App</a>
-          </div>
-        </div>
-      </div>
+    <article class="card" aria-labelledby="eco-title">
+      <h1 id="eco-title">Eco-Ride</h1>
+      <p class="muted">A responsible carpooling and shared mobility platform that reduces emissions by matching riders and drivers using real-time app data, route optimization, and demand forecasting.</p>
 
       <section style="margin-top:12px">
-        <h3>Overview</h3>
-        <p id="overview">Eco-Ride uses sensor data, route optimization, and demand forecasting to reduce emissions and increase shared mobility efficiency.</p>
+        <h2>How Eco-Ride Works</h2>
+        <p>Eco-Ride connects people who need rides with drivers heading the same way. The system uses data from the mobile app to:</p>
+        <ul>
+          <li>Collect pick-up and drop-off requests, preferred times, and trip flexibility from users.</li>
+          <li>Compute efficient shared routes that minimize detours and emissions using AI-powered route clustering.</li>
+          <li>Score and match riders to drivers based on proximity, preferences, safety checks, and real-time traffic and weather.</li>
+          <li>Continuously re-optimize in-progress routes when new requests arrive or delays occur.</li>
+        </ul>
       </section>
 
       <section style="margin-top:12px">
-        <h3>Recent logs</h3>
-        <pre id="logs" aria-live="polite">No logs yet. Click Details to fetch latest info.</pre>
+        <h2>User Guide and Explanations</h2>
+        <h4>For Riders</h4>
+        <p>Enter your pick-up and drop-off locations, choose an earliest and latest acceptable departure time, and select whether you are willing to share the ride. Eco-Ride returns matches ranked by estimated arrival time, price, and emissions saved.</p>
+
+        <h4 style="margin-top:8px">For Drivers</h4>
+        <p>Set your planned route or availability window. The app proposes riders to pick up along your path and shows estimated detour and expected compensation. Accept or decline matches; accepted matches are added to your in-app route and navigation guidance.</p>
+
+        <h4 style="margin-top:8px">Privacy and Safety</h4>
+        <p>Only minimal necessary data is shared for matching and navigation. Drivers receive rider details after a match is confirmed. Ratings and verification badges help maintain trust. Use the in-app support if you notice problematic behavior.</p>
       </section>
-
-      <footer>
-        <div class="row" style="justify-content:space-between;align-items:center">
-          <span>Maintained by Eco-Ride Team</span>
-          <span class="log" id="last-updated">Last updated: —</span>
-        </div>
-      </footer>
-    </article>
-  </main>
-
-  <!-- Modal -->
-  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="modal-title">
-      <header>
-        <h3 id="modal-title">Eco-Ride Details</h3>
-        <button class="close" id="modal-close" aria-label="Close details">✕</button>
-      </header>
 
       <div class="grid" style="margin-top:12px">
         <div>
-          <h4>Project Summary</h4>
-          <p id="modal-summary">Loading summary…</p>
+          <h2>Live Interaction Panel</h2>
+          <p class="muted">This panel fetches information from the Eco-Ride app backend and lets you request a match, publish a driver availability, or query nearby rides. If you run this page on the same host as the app, the AJAX endpoints will respond. The page includes helpful fallback text for offline or local testing.</p>
 
-          <h4 style="margin-top:12px">Model and Data</h4>
-          <p id="modal-model">Loading model info…</p>
+          <fieldset style="margin-top:12px">
+            <legend><strong>Create a Rider Request</strong></legend>
+            <div style="margin-bottom:8px">
+              <label for="rider-name">Name</label>
+              <input id="rider-name" placeholder="Full name" />
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <div style="flex:1">
+                <label for="pick">Pick-up address</label>
+                <input id="pick" placeholder="e.g., 12 Main St, Kakamega" />
+              </div>
+              <div style="flex:1">
+                <label for="drop">Drop-off address</label>
+                <input id="drop" placeholder="e.g., County Hospital" />
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <div style="flex:1">
+                <label for="earliest">Earliest departure</label>
+                <input id="earliest" type="time" />
+              </div>
+              <div style="flex:1">
+                <label for="latest">Latest departure</label>
+                <input id="latest" type="time" />
+              </div>
+            </div>
+            <div style="margin-bottom:8px">
+              <label for="share">Willing to share</label>
+              <select id="share">
+                <option value="yes">Yes — share with other passengers</option>
+                <option value="no">No — private ride</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn" id="create-request">Submit Request</button>
+              <button class="btn secondary" id="probe-rides">Find Nearby Matches</button>
+            </div>
+            <p class="small" style="margin-top:8px">Submitting a request will send it to the app backend and attempt to return suggested matches in seconds.</p>
+          </fieldset>
 
-          <h4 style="margin-top:12px">Notes</h4>
-          <p id="modal-notes">Loading notes…</p>
+          <fieldset style="margin-top:12px">
+            <legend><strong>Driver Availability</strong></legend>
+            <div style="margin-bottom:8px">
+              <label for="driver-name">Driver name</label>
+              <input id="driver-name" placeholder="Full name" />
+            </div>
+            <div style="margin-bottom:8px">
+              <label for="route">Planned route description</label>
+              <input id="route" placeholder="e.g., Kakamega Town to Webuye via A104" />
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn" id="publish-driver">Publish Availability</button>
+              <button class="btn secondary" id="fetch-drivers">Get Active Drivers</button>
+            </div>
+            <p class="small" style="margin-top:8px">Drivers publish availability to be matched with riders. Matches show estimated detour and pick-up order.</p>
+          </fieldset>
+
+          <div class="list" id="results">
+            <h4>Results</h4>
+            <div id="results-list" class="muted">No results yet. Use the controls above to query the app backend or create test data locally.</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h4>Developer Notes</h4>
+            <p class="muted">This page communicates with the following endpoints if available on the same origin or reachable by CORS:</p>
+            <ul class="muted small">
+              <li>/api/rides GET returns current available rides and matches</li>
+              <li>/api/requests POST to submit a rider request (JSON payload shown below)</li>
+              <li>/api/drivers POST to publish driver availability</li>
+            </ul>
+            <pre class="log">
+Example POST payload for /api/requests
+{
+  "name": "Alice",
+  "pickup": "12 Main St",
+  "dropoff": "County Hospital",
+  "earliest": "08:00",
+  "latest": "08:30",
+  "share": "yes"
+}
+            </pre>
+          </div>
         </div>
 
         <aside>
-          <h4>Quick actions</h4>
-          <p style="margin-top:6px"><button class="btn" id="retrain">Trigger Retrain</button></p>
-          <p style="margin-top:6px"><button class="btn" id="download-weights">Download Weights</button></p>
-          <h4 style="margin-top:18px">Meta</h4>
-          <p class="status" id="modal-meta">Loading meta…</p>
+          <h3>Quick Status</h3>
+          <p class="muted">App probe and last activity</p>
+          <div style="margin-top:8px">
+            <div class="notice" id="probe-notice">No connection yet. Click any probe button to attempt a fetch.</div>
+            <p class="small" style="margin-top:8px"><strong>Last probe:</strong> <span id="last-probe">—</span></p>
+            <p class="small"><strong>Backend status:</strong> <span id="backend-status">unknown</span></p>
+          </div>
+
+          <h3 style="margin-top:12px">Latest Logs</h3>
+          <pre id="live-logs" class="log">No logs yet.</pre>
+
+          <h3 style="margin-top:12px">Tips for Riders and Drivers</h3>
+          <ul class="small muted">
+            <li>Be ready 3 to 5 minutes before scheduled pick-up for reliable matches.</li>
+            <li>Open communication reduces cancellations; confirm location details when matched.</li>
+            <li>Share preferences (quiet ride, luggage) in the app profile to improve matching quality.</li>
+            <li>Drivers should check route detour estimates before accepting to protect ETA guarantees.</li>
+          </ul>
+
+          <footer style="margin-top:12px">
+            <p class="small muted">Built with React Native clients, Flask backend, TensorFlow models for demand forecasting, and pandas for feature engineering.</p>
+          </footer>
         </aside>
       </div>
-    </div>
-  </div>
+    </article>
+  </main>
 
   <script>
-    // Lightweight AJAX helpers and UI behaviors
+    // eco-ride.html interactive script
+    // Endpoints assumptions: /api/rides, /api/requests, /api/drivers, /api/status
     (function () {
-      const detailsBtn = document.getElementById('details-btn');
-      const modal = document.getElementById('modal');
-      const modalClose = document.getElementById('modal-close');
-      const logsEl = document.getElementById('logs');
-      const statusVal = document.getElementById('status-val');
-      const lastUpdated = document.getElementById('last-updated');
-      const modalSummary = document.getElementById('modal-summary');
-      const modalModel = document.getElementById('modal-model');
-      const modalNotes = document.getElementById('modal-notes');
-      const modalMeta = document.getElementById('modal-meta');
-      const retrainBtn = document.getElementById('retrain');
-      const downloadBtn = document.getElementById('download-weights');
+      const resultsList = document.getElementById('results-list');
+      const liveLogs = document.getElementById('live-logs');
+      const probeNotice = document.getElementById('probe-notice');
+      const lastProbe = document.getElementById('last-probe');
+      const backendStatus = document.getElementById('backend-status');
 
-      // Safe fetch with timeout and JSON/text handling
-      function safeFetch(url, {timeout = 7000, expect = 'json'} = {}) {
+      // inputs and buttons
+      const createRequestBtn = document.getElementById('create-request');
+      const probeRidesBtn = document.getElementById('probe-rides');
+      const publishDriverBtn = document.getElementById('publish-driver');
+      const fetchDriversBtn = document.getElementById('fetch-drivers');
+
+      // basic fetch wrapper with timeout
+      function fetchWithTimeout(url, opts = {}, timeout = 7000) {
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), timeout);
-        return fetch(url, {signal: controller.signal, cache: 'no-cache'}).then(resp => {
-          clearTimeout(id);
-          if (!resp.ok) throw new Error('Network response not OK ' + resp.status);
-          return expect === 'json' ? resp.json() : resp.text();
+        const finalOpts = Object.assign({}, opts, {signal: controller.signal, credentials: 'same-origin'});
+        return fetch(url, finalOpts).then(r => { clearTimeout(id); if (!r.ok) throw new Error('Bad response ' + r.status); return r.json(); });
+      }
+
+      function log(msg) {
+        const t = new Date().toISOString();
+        liveLogs.textContent = `[${t}] ${msg}\n` + liveLogs.textContent;
+      }
+
+      function setProbeStatus(ok, text) {
+        const t = new Date().toLocaleString();
+        probeNotice.textContent = ok ? 'Connected to backend' : 'No backend connection';
+        probeNotice.style.borderLeft = ok ? '4px solid #0b7a61' : '4px solid #d08b46';
+        lastProbe.textContent = t;
+        backendStatus.textContent = text;
+      }
+
+      // Render rides array or object into results area
+      function renderRides(data) {
+        if (!data) {
+          resultsList.textContent = 'No rides found';
+          return;
+        }
+        if (Array.isArray(data) && data.length === 0) {
+          resultsList.textContent = 'No rides currently available';
+          return;
+        }
+        // Build list
+        const container = document.createElement('div');
+        (Array.isArray(data) ? data : [data]).slice(0, 25).forEach(item => {
+          const el = document.createElement('div');
+          el.className = 'ride';
+          const title = document.createElement('div');
+          title.innerHTML = `<strong>${item.driverName || item.name || 'Ride'}</strong> — ${item.pickup || item.from || 'unknown'} → ${item.dropoff || item.to || 'unknown'}`;
+          const details = document.createElement('div');
+          details.className = 'small';
+          details.style.marginTop = '6px';
+          const eta = item.eta ? `ETA: ${item.eta}` : `ETA: ${item.estimatedArrival || '—'}`;
+          const share = item.share ? `Share: ${item.share}` : '';
+          const detour = item.detour ? `Detour: ${item.detour} min` : '';
+          details.textContent = [eta, share, detour].filter(Boolean).join(' · ');
+          el.appendChild(title);
+          el.appendChild(details);
+          container.appendChild(el);
         });
+        resultsList.innerHTML = '';
+        resultsList.appendChild(container);
       }
 
-      // Primary AJAX: try to fetch details from a local JSON endpoint, fallback to inline data
-      function fetchDetails() {
-        // optimistic UI
-        logsEl.textContent = 'Fetching latest project details…';
-        statusVal.textContent = 'Fetching';
-
-        // Attempt: eco-ride-details.json (local dev friendly) then /api/eco-ride (server)
-        const candidates = [
-          {url: 'eco-ride-details.json', expect: 'json'},
-          {url: '/api/eco-ride', expect: 'json'},
-          {url: 'https://api.example.org/eco-ride', expect: 'json'} // harmless candidate, likely blocked by CORS
-        ];
-
-        let tried = 0;
-        function tryNext() {
-          if (tried >= candidates.length) return fallback();
-          const candidate = candidates[tried++];
-          safeFetch(candidate.url, {timeout:5000, expect:candidate.expect})
-            .then(data => {
-              renderDetails(data);
-            })
-            .catch(() => tryNext());
-        }
-
-        tryNext();
-      }
-
-      // Fallback content if AJAX fails
-      function fallback() {
-        const now = new Date().toISOString();
-        statusVal.textContent = 'Offline';
-        logsEl.textContent = [
-          `[${now}] Unable to reach details endpoint.`,
-          `[${now}] Showing cached local overview.`,
-          `• Model: production-v1 (local cached)`,
-          `• Last training: 2025-09-18`,
-          `• Recent improvements: improved route clustering, reduced avg wait time by 12%`
-        ].join('\n');
-        lastUpdated.textContent = 'Last updated: ' + now;
-        modalSummary.textContent = 'Eco-Ride optimizes shared mobility using ML for demand forecasting and route clustering.';
-        modalModel.textContent = 'Model: Gradient boosted ensemble; features: GPS trace aggregates, weather, demand heatmaps.';
-        modalNotes.textContent = 'If you run this locally, create eco-ride-details.json next to this page to enable live details.';
-        modalMeta.textContent = 'Source: local cache';
-      }
-
-      // Render details from fetched JSON
-      function renderDetails(data) {
-        const now = new Date().toISOString();
-        try {
-          const status = data.status || 'Unknown';
-          const logs = Array.isArray(data.logs) ? data.logs.join('\n') : (data.logs || 'No logs provided');
-          const summary = data.summary || 'No summary provided';
-          const model = data.model || 'No model info';
-          const notes = data.notes || 'No extra notes';
-          const meta = data.meta || 'No meta';
-
-          statusVal.textContent = status;
-          logsEl.textContent = logs;
-          lastUpdated.textContent = 'Last updated: ' + (data.updated || now);
-          modalSummary.textContent = summary;
-          modalModel.textContent = model;
-          modalNotes.textContent = notes;
-          modalMeta.textContent = meta;
-        } catch (err) {
-          fallback();
-        }
-      }
-
-      // Small optimistic action functions (simulate AJAX)
-      function simulateAction(name, successMessage) {
-        const stamp = new Date().toISOString();
-        logsEl.textContent = `[${stamp}] ${name} started...`;
-        statusVal.textContent = name + '…';
-        // Simulate work
-        setTimeout(() => {
-          const s = new Date().toISOString();
-          logsEl.textContent = `[${s}] ${successMessage}\n` + logsEl.textContent;
-          statusVal.textContent = 'Idle';
-          lastUpdated.textContent = 'Last updated: ' + s;
-        }, 1200 + Math.random() * 1200);
-      }
-
-      // UI events
-      detailsBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        // show modal and fetch details concurrently
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        modalSummary.textContent = 'Loading summary…';
-        modalModel.textContent = 'Loading model info…';
-        modalNotes.textContent = 'Loading notes…';
-        modalMeta.textContent = 'Fetching meta…';
-        fetchDetails();
-      });
-
-      modalClose.addEventListener('click', function () {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-      });
-
-      // close modal on backdrop click
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-          modal.setAttribute('aria-hidden', 'true');
-        }
-      });
-
-      retrainBtn.addEventListener('click', function () {
-        simulateAction('Retrain job', 'Retrain job completed successfully');
-      });
-
-      downloadBtn.addEventListener('click', function () {
-        simulateAction('Download weights', 'Weights downloaded to your workspace');
-      });
-
-      // initial optimistic probe: update status from a small ping endpoint if reachable
-      (function initialProbe() {
-        safeFetch('eco-ride-status.json', {timeout:3500, expect:'json'})
+      // Probing endpoints
+      function probeStatus() {
+        probeNotice.textContent = 'Probing backend...';
+        fetchWithTimeout('/api/status', {}, 3500)
           .then(data => {
-            statusVal.textContent = data.status || 'Idle';
-            lastUpdated.textContent = 'Last updated: ' + (data.updated || new Date().toISOString());
-            logsEl.textContent = (Array.isArray(data.logs) ? data.logs.join('\n') : data.logs) || 'No logs available';
+            setProbeStatus(true, data.status || 'ok');
+            log('Status probe succeeded: ' + (data.status || 'ok'));
+            if (data.recentLogs) {
+              liveLogs.textContent = (Array.isArray(data.recentLogs) ? data.recentLogs.join('\n') : data.recentLogs) + '\n' + liveLogs.textContent;
+            }
+          })
+          .catch(err => {
+            setProbeStatus(false, 'offline');
+            log('Status probe failed: ' + (err && err.message ? err.message : 'unknown'));
+          });
+      }
+
+      // Fetch available rides
+      function fetchRides() {
+        resultsList.textContent = 'Fetching rides…';
+        fetchWithTimeout('/api/rides', {}, 5000)
+          .then(data => {
+            renderRides(data);
+            log('Fetched rides successfully');
+            setProbeStatus(true, 'rides_ok');
+          })
+          .catch(err => {
+            resultsList.textContent = 'Unable to fetch rides. If you are testing locally, place a file named "eco-ride-sample.json" in the same directory and call /local/rides to use a local stub.';
+            log('Fetch rides failed: ' + (err.message || err));
+            setProbeStatus(false, 'rides_failed');
+          });
+      }
+
+      // Fetch drivers
+      function fetchDrivers() {
+        resultsList.textContent = 'Fetching active drivers…';
+        fetchWithTimeout('/api/drivers', {}, 5000)
+          .then(data => {
+            renderRides(data);
+            log('Fetched drivers successfully');
+            setProbeStatus(true, 'drivers_ok');
+          })
+          .catch(err => {
+            resultsList.textContent = 'Unable to fetch drivers.';
+            log('Fetch drivers failed: ' + (err.message || err));
+            setProbeStatus(false, 'drivers_failed');
+          });
+      }
+
+      // Publish rider request
+      function createRequest() {
+        const payload = {
+          name: document.getElementById('rider-name').value || 'Anonymous Rider',
+          pickup: document.getElementById('pick').value || '',
+          dropoff: document.getElementById('drop').value || '',
+          earliest: document.getElementById('earliest').value || '',
+          latest: document.getElementById('latest').value || '',
+          share: document.getElementById('share').value || 'yes',
+          source: 'web-page'
+        };
+        // Basic validation
+        if (!payload.pickup || !payload.dropoff) {
+          alert('Please provide both pick-up and drop-off locations.');
+          return;
+        }
+        log('Submitting request for ' + payload.name);
+        fetchWithTimeout('/api/requests', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        }, 7000)
+          .then(res => {
+            log('Request submitted: ' + (res.id || 'no-id'));
+            resultsList.textContent = 'Request submitted. Searching for matches…';
+            // Optionally fetch matches after submit
+            setTimeout(fetchRides, 1200);
+          })
+          .catch(err => {
+            log('Submit request failed: ' + (err.message || err));
+            resultsList.textContent = 'Unable to submit request. This page supports local testing only if backend is available.';
+          });
+      }
+
+      // Publish driver availability
+      function publishDriver() {
+        const payload = {
+          name: document.getElementById('driver-name').value || 'Driver',
+          route: document.getElementById('route').value || '',
+          availableFrom: new Date().toISOString(),
+          vehicle: 'private',
+          source: 'web-page'
+        };
+        if (!payload.route) {
+          alert('Please provide a short route description.');
+          return;
+        }
+        log('Publishing driver availability for ' + payload.name);
+        fetchWithTimeout('/api/drivers', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        }, 7000)
+          .then(res => {
+            log('Driver published: ' + (res.id || 'no-id'));
+            resultsList.textContent = 'Driver availability published. Matches will appear to riders shortly.';
+            setTimeout(fetchRides, 1000);
+          })
+          .catch(err => {
+            log('Publish driver failed: ' + (err.message || err));
+            resultsList.textContent = 'Unable to publish driver availability.';
+          });
+      }
+
+      // Attach button handlers
+      probeRidesBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        probeStatus();
+        fetchRides();
+      });
+
+      fetchDriversBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        fetchDrivers();
+      });
+
+      createRequestBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        createRequest();
+      });
+
+      publishDriverBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        publishDriver();
+      });
+
+      // Initial lightweight probe to set UI state
+      (function initial() {
+        // try status endpoint; silent fail is acceptable
+        fetchWithTimeout('/api/status', {}, 3500)
+          .then(data => {
+            setProbeStatus(true, data.status || 'ok');
+            log('Initial probe succeeded');
           })
           .catch(() => {
-            statusVal.textContent = 'Idle';
-            logsEl.textContent = 'Status probe failed; click Details for more info.';
-            lastUpdated.textContent = 'Last updated: —';
+            setProbeStatus(false, 'offline');
+            log('Initial probe failed; backend offline or CORS blocked');
           });
       })();
 
-      // keyboard accessibility: Esc closes modal
+      // Keyboard shortcuts for power users
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-          modal.style.display = 'none';
-          modal.setAttribute('aria-hidden', 'true');
+        if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
+          e.preventDefault();
+          fetchRides();
+        }
+        if (e.key === 'd' && (e.ctrlKey || e.metaKey)) {
+          e.preventDefault();
+          fetchDrivers();
         }
       });
     })();
