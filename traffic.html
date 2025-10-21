@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Traffic Management System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #f8f9fc;
+      color: #1c1c1c;
+      overflow-x: hidden;
+    }
+    .hero {
+      background: linear-gradient(135deg, #0d6efd, #6610f2);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      animation: fadeInDown 1s ease-out;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 20px auto 0;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    .section {
+      padding: 60px 20px;
+    }
+    .feature {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.6s ease-out;
+    }
+    .feature.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .feature-icon {
+      font-size: 36px;
+      color: #0d6efd;
+    }
+    .cta {
+      background: #0d6efd;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .cta a {
+      margin-top: 20px;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>AI-Powered Traffic Management</h1>
+    <p>Smart detection, multilingual voice navigation, and real-time insights — built for African roads and beyond.</p>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section container">
+    <div class="row g-4">
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-camera-video"></i></div>
+          <h5>Real-Time Detection</h5>
+          <p>Detect vehicles, people, and license plates live using optimized MobileNet and OCR pipelines.</p>
+        </div>
+      </div>
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-translate"></i></div>
+          <h5>Multilingual Voice UI</h5>
+          <p>Navigate the dashboard with voice commands in English, Kiswahili, and other local dialects.</p>
+        </div>
+      </div>
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-envelope-check"></i></div>
+          <h5>Automated Notifications</h5>
+          <p>Send alerts via email when specific plates or passenger counts are detected — fully customizable.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-cpu"></i></div>
+          <h5>Edge & Cloud Ready</h5>
+          <p>Benchmark lightweight models for Raspberry Pi or Jetson, and scale to cloud deployments with ease.</p>
+        </div>
+      </div>
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-palette"></i></div>
+          <h5>Modern Dashboard</h5>
+          <p>Responsive, visually appealing dashboard with modular pages and real-time charts and logs.</p>
+        </div>
+      </div>
+      <div class="col-md-4 feature">
+        <div class="text-center">
+          <div class="feature-icon mb-3"><i class="bi bi-shield-check"></i></div>
+          <h5>Inclusive & Secure</h5>
+          <p>Designed for accessibility, local relevance, and robust error handling across all components.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta">
+    <h2>Want to see it in action?</h2>
+    <p>Explore the live dashboard or request a demo tailored to your city or region.</p>
+    <a href="/contact" class="btn btn-light btn-lg"><i class="bi bi-chat-dots"></i> Contact Me</a>
+  </section>
+
+  <script>
+    // Scroll-triggered animation
+    const features = document.querySelectorAll('.feature');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+
+    features.forEach(f => observer.observe(f));
+  </script>
+</body>
+</html>
