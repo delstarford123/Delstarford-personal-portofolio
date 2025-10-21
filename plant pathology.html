@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plant Pathology — AI Plant Disease Detection</title>
+
+  <!-- Bootstrap (optional) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#1572ff;
+      --muted:#6c757d;
+      --card-radius:14px;
+      --glass:rgba(255,255,255,0.06);
+      --bg:#f6f8fb;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%);
+      color:#0f1720;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Page layout */
+    .container-lg { max-width:1100px; padding:48px 20px; }
+    header.hero {
+      display:flex; gap:24px; align-items:center; margin-bottom:28px;
+    }
+    .hero-card {
+      background: linear-gradient(135deg, rgba(21,114,255,0.08), rgba(102,16,242,0.04));
+      border-radius:16px; padding:28px; flex:1; box-shadow:0 10px 30px rgba(15,23,32,0.05);
+      display:flex; gap:20px; align-items:center;
+    }
+    .logo-box {
+      width:96px; height:96px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,var(--accent), #6610f2); color:white; font-weight:700; font-size:28px;
+      box-shadow:0 8px 20px rgba(21,114,255,0.12);
+    }
+    .hero-text h1 { font-size:26px; margin:0 0 6px; }
+    .hero-text p { margin:0; color:var(--muted); }
+
+    /* badges */
+    .badges { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .badge-pill{ background:rgba(21,114,255,0.08); color:var(--accent); padding:6px 10px; border-radius:999px; font-weight:600; font-size:13px; }
+
+    /* grid: left demo, right details */
+    .project-grid { display:grid; grid-template-columns: 1fr 420px; gap:28px; align-items:start; margin-bottom:36px; }
+    @media (max-width:1000px){ .project-grid{ grid-template-columns: 1fr; } }
+
+    /* demo card */
+    .card {
+      background:white; border-radius:var(--card-radius); padding:18px; box-shadow:0 8px 30px rgba(15,23,32,0.05);
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(15,23,32,0.08); }
+
+    .demo-image { width:100%; height:360px; border-radius:10px; object-fit:cover; display:block; background:linear-gradient(180deg,#eef5ff,#ffffff); border:1px solid rgba(15,23,32,0.03); }
+
+    .meta { display:flex; gap:12px; margin-top:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+
+    /* details */
+    .detail h3 { margin-top:0; }
+    .feature-list { list-style:none; padding:0; margin:12px 0 0; display:grid; gap:12px; }
+    .feature-item { display:flex; gap:12px; align-items:flex-start; }
+    .feature-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--glass); color:var(--accent); font-size:20px; }
+
+    /* timeline */
+    .timeline { margin-top:18px; padding:12px; border-radius:10px; background:#fbfdff; border:1px solid rgba(15,23,32,0.03); }
+    .timeline li { margin-bottom:12px; font-size:14px; color:var(--muted); }
+
+    /* CTA */
+    .cta { margin-top:28px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .btn-primary{ background:var(--accent); border:none; color:white; padding:10px 16px; border-radius:10px; font-weight:700; }
+    .btn-outline{ background:transparent; border:1px solid rgba(15,23,32,0.06); padding:10px 14px; border-radius:10px; }
+
+    /* cards inside details */
+    .small { font-size:13px; color:var(--muted); }
+
+    /* animated list reveal */
+    .reveal { opacity:0; transform:translateY(18px) scale(.995); transition: all .6s cubic-bezier(.2,.9,.2,1); }
+    .reveal.visible { opacity:1; transform:none; }
+
+    /* micro animations */
+    .pulse { animation: pulse 2.2s infinite; }
+    @keyframes pulse{
+      0%{ transform:scale(1); opacity:1 }
+      50%{ transform:scale(1.03); opacity:.92 }
+      100%{ transform:scale(1); opacity:1 }
+    }
+
+    footer { margin-top:40px; color:var(--muted); font-size:13px; text-align:center; padding:24px 0; }
+
+    /* code block style for model details */
+    pre.model-spec { background:#0b1220; color:#e6eef8; padding:12px; border-radius:8px; overflow:auto; font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="container-lg">
+    <header class="hero">
+      <div class="hero-card reveal" data-reveal>
+        <div class="logo-box">PP</div>
+        <div class="hero-text">
+          <h1>Plant Pathology — AI Plant Disease Detection</h1>
+          <p>End-to-end pipeline for detecting plant diseases from leaf images and suggesting targeted remedies.</p>
+          <div class="badges">
+            <span class="badge-pill">Image classification</span>
+            <span class="badge-pill">Transfer learning</span>
+            <span class="badge-pill">Edge deployable</span>
+            <span class="badge-pill">Kiswahili-ready UI</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="project-grid">
+      <!-- Left: Demo / Visuals -->
+      <div class="card reveal" data-reveal>
+        <img id="demoImg" class="demo-image" alt="Plant pathology demo image" src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1400&auto=format&fit=crop&sat=-30" />
+        <div class="meta">
+          <div class="small">Model: <strong>EfficientNet-B3 (finetuned)</strong></div>
+          <div class="small">Input: 512x512 RGB</div>
+        </div>
+
+        <!-- small interactive simulation: upload preview and fake inference -->
+        <div style="margin-top:16px;">
+          <label class="small">Try a sample:</label>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <input id="fileDemo" type="file" accept="image/*" class="form-control form-control-sm" style="flex:1" />
+            <button id="runDemo" class="btn-primary" style="white-space:nowrap">Run</button>
+            <button id="resetDemo" class="btn-outline">Reset</button>
+          </div>
+
+          <div id="inferenceCard" class="card" style="margin-top:14px; display:none;">
+            <div style="display:flex; gap:12px; align-items:center;">
+              <div style="width:72px;height:72px;border-radius:8px;overflow:hidden;flex:0 0 72px;"><img id="previewImg" alt="preview" style="width:100%;height:100%;object-fit:cover" /></div>
+              <div>
+                <div style="font-weight:700" id="predLabel">Loading...</div>
+                <div class="small" id="predProb">Confidence: —</div>
+                <div style="margin-top:8px;" id="predAdvice">Recommended action: —</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="small" style="margin-top:12px;">Note: demo here runs a lightweight client-side mock for fast preview. Full inference happens on server or edge device in production.</div>
+      </div>
+
+      <!-- Right: Details -->
+      <aside class="card detail reveal" data-reveal>
+        <h3>Project Overview</h3>
+        <p class="small">Built to detect fungal, bacterial, and viral leaf diseases across multiple crops, then provide step-by-step remedial guidance and management strategies for farmers and agronomists.</p>
+
+        <ul class="feature-list" style="margin-top:14px;">
+          <li class="feature-item">
+            <div class="feature-icon"><i class="bi bi-robot"></i></div>
+            <div>
+              <div style="font-weight:700">Model & Approach</div>
+              <div class="small">Transfer learning with EfficientNet; focal loss for class imbalance; image augmentations tuned for outdoor lighting.</div>
+            </div>
+          </li>
+
+          <li class="feature-item">
+            <div class="feature-icon"><i class="bi bi-stack"></i></div>
+            <div>
+              <div style="font-weight:700">Pipeline</div>
+              <div class="small">Data curation → augmentation → training → validation → export (ONNX / TorchScript) → edge deployment.</div>
+            </div>
+          </li>
+
+          <li class="feature-item">
+            <div class="feature-icon"><i class="bi bi-bar-chart-line"></i></div>
+            <div>
+              <div style="font-weight:700">Monitoring</div>
+              <div class="small">Automated metrics dashboard; confusion matrix, per-class AP, and per-field analytics.</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="timeline">
+          <strong>Development timeline</strong>
+          <ul style="padding-left:14px; margin-top:8px;">
+            <li>Data collection & labeling — 2 months</li>
+            <li>Model prototyping & transfer learning — 1 month</li>
+            <li>Edge optimization & ONNX export — 3 weeks</li>
+            <li>Field trials & UI integration — ongoing</li>
+          </ul>
+        </div>
+
+        <div style="margin-top:14px;">
+          <strong>Tech stack</strong>
+          <pre class="model-spec">
+Python • PyTorch • EfficientNet • OpenCV • ONNX • Flask • FastAPI • Docker • Kubernetes • Postgres
+          </pre>
+        </div>
+
+        <div class="cta">
+          <a class="btn-primary" id="btnDemoFull" href="/plant-pathology-demo" target="_blank" rel="noopener">Live demo</a>
+          <a class="btn-outline" id="btnRepo" href="https://github.com/yourusername/plant-pathology" target="_blank" rel="noopener">View on GitHub</a>
+          <a class="btn-outline" id="btnPaper" href="#" target="_blank" rel="noopener">Read report</a>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card reveal" data-reveal>
+      <h4 style="margin-top:0">Results & Metrics</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:12px;">
+        <div style="padding:14px; border-radius:10px; background:#fff; border:1px solid rgba(15,23,32,0.03);">
+          <div style="font-weight:700">mAP (val)</div>
+          <div class="small" style="margin-top:6px">0.92 overall</div>
+        </div>
+        <div style="padding:14px; border-radius:10px; background:#fff; border:1px solid rgba(15,23,32,0.03);">
+          <div style="font-weight:700">Top-1 Acc</div>
+          <div class="small" style="margin-top:6px">0.94</div>
+        </div>
+        <div style="padding:14px; border-radius:10px; background:#fff; border:1px solid rgba(15,23,32,0.03);">
+          <div style="font-weight:700">Inference</div>
+          <div class="small" style="margin-top:6px">~45 ms (edge optimized)</div>
+        </div>
+        <div style="padding:14px; border-radius:10px; background:#fff; border:1px solid rgba(15,23,32,0.03);">
+          <div style="font-weight:700">Model size</div>
+          <div class="small" style="margin-top:6px">~18 MB (quantized)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card reveal" data-reveal style="margin-top:20px;">
+      <h4 style="margin-top:0">How it works (brief)</h4>
+      <ol style="margin-top:12px; color:var(--muted)">
+        <li>Collect labeled leaf images; ensure diversity across lighting and cultivars.</li>
+        <li>Augment with rotations, color jitter, gaussian blur, and random crops.</li>
+        <li>Train using transfer learning and appropriate loss for imbalance.</li>
+        <li>Export model (TorchScript/ONNX), optimize with pruning/quantization for deployment.</li>
+        <li>Provide UI for farmers with local-language support, step-by-step remedies, and record-keeping.</li>
+      </ol>
+    </section>
+
+    <footer>
+      Built and maintained by Delstarford • <span id="year"></span>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // small helpers for reveal animations
+    const reveals = document.querySelectorAll('[data-reveal], .reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => io.observe(r));
+
+    // Demo: client-side lightweight "fake" inference for instant feedback
+    const fileDemo = document.getElementById('fileDemo');
+    const runDemo = document.getElementById('runDemo');
+    const resetDemo = document.getElementById('resetDemo');
+    const inferenceCard = document.getElementById('inferenceCard');
+    const previewImg = document.getElementById('previewImg');
+    const predLabel = document.getElementById('predLabel');
+    const predProb = document.getElementById('predProb');
+    const predAdvice = document.getElementById('predAdvice');
+
+    // small deterministic pseudo-classifier for demo: chooses label based on average color
+    function mockPredictFromImage(imgEl){
+      // draw to canvas to sample colors
+      const c = document.createElement('canvas');
+      const w = 160, h = 160;
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(imgEl, 0, 0, w, h);
+      const d = ctx.getImageData(0,0,w,h).data;
+      let r=0,g=0,b=0, count=0;
+      for(let i=0;i<d.length;i+=40){ r += d[i]; g += d[i+1]; b += d[i+2]; count++; }
+      r=Math.round(r/count); g=Math.round(g/count); b=Math.round(b/count);
+      const avg = (r+g+b)/3;
+      // heuristics: brownish -> fungal; yellowish -> nutrient; green+spots -> bacterial
+      if (r>120 && g<110) return { label:'Fungal Leaf Spot', prob:0.86, advice:'Apply recommended fungicide; remove severely affected leaves.' };
+      if (g>160 && avg>140) return { label:'Healthy / Early Stress', prob:0.92, advice:'Monitor plant, ensure balanced irrigation and nutrition.' };
+      if (g>120 && r>110 && b<100) return { label:'Bacterial Blight', prob:0.79, advice:'Remove infected tissue; avoid overhead irrigation; apply bactericide.' };
+      return { label:'Unknown/Multiple conditions', prob:0.6, advice:'Collect more samples; run full pipeline for precise diagnosis.' };
+    }
+
+    runDemo.addEventListener('click', ()=> {
+      const f = fileDemo.files && fileDemo.files[0];
+      if (!f) { alert('Choose a leaf image to run the demo preview.'); return; }
+      const url = URL.createObjectURL(f);
+      previewImg.src = url;
+      previewImg.onload = () => {
+        inferenceCard.style.display = 'block';
+        // simulate processing delay + progress animation
+        predLabel.textContent = 'Analyzing...';
+        predProb.textContent = 'Confidence: —';
+        predAdvice.textContent = 'Please wait...';
+        setTimeout(()=>{
+          const res = mockPredictFromImage(previewImg);
+          predLabel.textContent = res.label;
+          predProb.textContent = 'Confidence: ' + Math.round(res.prob*100) + '%';
+          predAdvice.textContent = res.advice;
+          URL.revokeObjectURL(url);
+        }, 700 + Math.random()*700);
+      };
+    });
+
+    resetDemo.addEventListener('click', ()=> {
+      fileDemo.value = '';
+      inferenceCard.style.display = 'none';
+      previewImg.src = '';
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accessibility: keyboard focus styles for buttons
+    document.querySelectorAll('button, a').forEach(el => {
+      el.addEventListener('focus', ()=> el.style.outline = '3px solid rgba(21,114,255,0.14)');
+      el.addEventListener('blur', ()=> el.style.outline = '');
+    });
+
+    // optional: lazy load big demo image high-res replacement
+    (function lazyDemoImage(){
+      const demo = document.getElementById('demoImg');
+      const hi = demo.getAttribute('data-hi');
+      if (!hi) return;
+      const obs = new IntersectionObserver(entries=>{
+        entries.forEach(en=>{
+          if (!en.isIntersecting) return;
+          demo.src = hi;
+          obs.disconnect();
+        });
+      }, {threshold:0.2});
+      obs.observe(demo);
+    })();
+  </script>
+</body>
+</html>
