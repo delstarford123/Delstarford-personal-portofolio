@@ -4,97 +4,307 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Resume — Delstarford Isaiah</title>
+  <meta name="description" content="Resume of Delstarford Isaiah — Machine Learning Engineer, Full‑Stack Developer, Agricultural Biotechnology" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
-  <meta name="description" content="Resume of Delstarford  Isaiah — Machine Learning, Full-Stack, Agri-Biotech." />
   <style>
-    :root{--bg:#fff;--text:#071224;--accent:#0066cc;font-family:"Inter",system-ui;--container:900px}
-    body{margin:0;background:#f6f7fb;color:var(--text);font-size:15px}
-    .sheet{width:90%;max-width:var(--container);margin:2rem auto;background:#fff;padding:1.25rem;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,12,0.06)}
-    header{display:flex;justify-content:space-between;align-items:center}
-    h1{margin:.1rem 0}
-    .muted{color:#5b6b7a}
-    .two{display:flex;gap:1rem}
-    .col{flex:1}
-    .section{margin-top:1rem}
-    .print{margin-top:1rem}
-    @media print{body{background:#fff} .sheet{box-shadow:none;}}
-    a.btn{color:var(--accent);text-decoration:none}
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#071224;
+      --muted:#6b7785;
+      --accent:#0d6efd;
+      --accent-2:#6610f2;
+      --container:980px;
+      --radius:12px;
+      --glass: rgba(13,110,253,0.06);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#ffffff);color:var(--text);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    .wrap{width:94%;max-width:var(--container);margin:32px auto;padding:22px;background:var(--card);border-radius:var(--radius);box-shadow:0 12px 40px rgba(12,24,40,0.06);overflow:hidden}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid rgba(10,20,40,0.04);padding-bottom:18px}
+    .identity{display:flex;gap:18px;align-items:center}
+    .avatar{width:86px;height:86px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;font-weight:800;font-size:24px;box-shadow:0 8px 24px rgba(13,110,253,0.12)}
+    .name h1{margin:0;font-size:24px;letter-spacing:0.2px}
+    .name .title{color:var(--muted);font-weight:600;margin-top:6px}
+    .contact{text-align:right;font-size:14px;color:var(--muted)}
+    .contact a{color:var(--accent);text-decoration:none;font-weight:600}
+
+    .main{display:grid;grid-template-columns: 1fr 320px;gap:28px;margin-top:22px}
+    @media (max-width:980px){ .main{grid-template-columns: 1fr; } .contact{text-align:left} }
+
+    .card{background:transparent;border-radius:10px}
+    .section{background:linear-gradient(180deg,rgba(255,255,255,0.9), #fff);padding:18px;border-radius:10px;margin-bottom:14px;box-shadow:0 6px 20px rgba(12,20,40,0.03)}
+    .section h3{margin:0 0 10px;font-size:16px}
+    p.lead{color:var(--muted);margin:0;line-height:1.45}
+
+    .item{margin-bottom:12px}
+    .item .meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .item .role{font-weight:700}
+    .item .org{color:var(--muted);font-size:14px}
+
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 10px;border-radius:999px;background:var(--glass);color:var(--accent);font-weight:600;font-size:13px}
+
+    .projects ul{padding-left:18px;margin:0;color:var(--muted)}
+    .projects li{margin:8px 0}
+
+    aside .side-card{position:sticky;top:28px}
+    .side-card .box{padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 20px rgba(12,20,40,0.03);margin-bottom:14px}
+    .side-card h4{margin:0 0 8px}
+    .stat{font-size:20px;font-weight:800;color:var(--accent);margin-top:8px}
+
+    .actions{display:flex;gap:12px;margin-top:8px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:white;font-weight:700;text-decoration:none;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(13,110,253,0.12)}
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center;padding-top:10px;border-top:1px solid rgba(10,20,40,0.03)}
+
+    @media (max-width:520px){ .avatar{width:64px;height:64px;font-size:20px} .contact{font-size:13px} }
+
+    .fade-in{opacity:0;transform:translateY(10px);animation:fadeIn .6s forwards}
+    @keyframes fadeIn{to{opacity:1;transform:none}}
+
+    a:focus{outline:3px solid rgba(13,110,253,0.14);outline-offset:3px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* small utility for download banner */
+    .download-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(13,110,253,0.06),rgba(102,16,242,0.03));margin-bottom:14px}
+    .download-bar p{margin:0;color:var(--muted);}
+    .download-bar .note{font-size:13px;color:var(--muted)}
   </style>
+
+  <!-- html2pdf.js (client-side PDF generation) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-  <main class="sheet" role="main">
-    <header>
-      <div>
-        <h1>Delstarford</h1>
-        <div class="muted">Machine Learning Engineer · Full‑Stack Developer · Agricultural Biotechnology</div>
+  <main class="wrap" role="main" aria-labelledby="resume-heading">
+    <header class="fade-in" id="resume-heading">
+      <div class="identity" aria-hidden="false">
+        <div class="avatar" aria-hidden="true">DI</div>
+        <div class="name">
+          <h1>Delstarford Isaiah</h1>
+          <div class="title">Machine Learning Engineer · Full‑Stack Developer · Agricultural Biotechnology</div>
+        </div>
       </div>
-      <div style="text-align:right">
+
+      <div class="contact">
         <div><strong>Kakamega, Kenya</strong></div>
-        <div><a href="mailto:delstarford@example.com" class="btn">delstarfordisaiah@gmail.com</a></div>
-        <div><a href="https://github.com/delstarford" target="_blank" rel="noopener" class="btn">https://github.com/delstarford123</a></div>
+        <div style="margin-top:8px"><a href="mailto:delstarfordisaiah@gmail.com">delstarfordisaiah@gmail.com</a></div>
+        <div style="margin-top:6px"><a href="https://github.com/delstarford" target="_blank" rel="noopener">github.com/delstarford</a></div>
+        <div style="margin-top:6px"><a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">linkedin.com/in/yourprofile</a></div>
       </div>
     </header>
 
-    <section class="section">
-      <h3>Profile</h3>
-      <p class="muted">Architect of reproducible biometric and ML pipelines; experienced in deploying user-friendly dashboards and agricultural data systems. Focused on maintainability, testing, and accessible interfaces.</p>
-    </section>
-
-    <div class="two">
-      <div class="col">
-        <section class="section">
-          <h3>Experience</h3>
-          <div>
-            <strong>Lead ML Engineer</strong> — Community Solutions (2023–Present)
-            <div class="muted">Designed biometric enrollment pipelines, deployment workflows, and audit logging.</div>
-          </div>
-          <div style="margin-top:.6rem">
-            <strong>Full-Stack Developer</strong> — Local Innovate (2023–2024)
-            <div class="muted">Built Flask dashboards, APIs with Flask, and scheduled reporting workflows.</div>
-          </div>
-        </section>
-
-        <section class="section">
-          <h3>Education</h3>
-          <div><strong>BSc Agriculture and Biotechnology</strong> --[Masinde Muliro University Of Science And Technology], 2023-2027</div>
-          <div class="muted">Relevant coursework: Bioinformatics, PCR, Crop Rotation</div>
-           <div>Maseno School<strong>--2019-2022</strong></div>
-              <div class="muted">Kenya Certificate of Secondary Education (KCSE):</div>
-        </section>
+    <!-- Download bar (offers PDF download via client-side generation + fallback link) -->
+    <div class="download-bar" id="downloadBar">
+      <div>
+        <p><strong>Download resume</strong></p>
+        <div class="note">Download a printer-ready PDF or use the button to generate a PDF instantly in your browser.</div>
       </div>
-
-      <div class="col">
-        <section class="section">
-          <h3>Skills</h3>
-          <p><strong>Languages</strong>: Python, JavaScript, HTML, CSS</p>
-          <p><strong>Frameworks</strong>: Flask</p>
-          <p><strong>ML</strong>: TensorFlow, PyTorch, ONNX, scikit-learn, Torch, reportLab</p>
-        </section>
-
-        <section class="section">
-          <h3>Selected Projects</h3>
-          <ul class="muted">
-            <li>USHERBOT- AI-Attendance recording</li>
-            <li>ASK SARAH -AI-Agricultural Advisor,with bulk Sms and Email sending,and a forum and system for E-Learning Professional</li>
-            <li>DIGITAL ASSIST-AI -Care givers support</li>
-            <li>AUTOCIN-Automatic computerised Bio incubator,with Ml models and AI powered Website.</li>
-            <li>Smart Day Planner - AI-powered productivity assistant</li>
-            <li>AI Traffic Management - AI-powered Traffic management system</li>
-            <li>AI Powered plant pathology solutions</li>
-          </ul>
-        </section>
+      <div style="display:flex;gap:10px;align-items:center">
+        <!-- client-side generation -->
+        <button class="btn" id="btnGeneratePdf" aria-label="Generate PDF">Download Resume (PDF)</button>
+        <!-- fallback direct file link — place resume.pdf in same folder for this to work -->
+        <a class="btn secondary" id="pdfFallback" href="resume.pdf" download>Download resume.pdf</a>
       </div>
     </div>
-    <section class="print">
-      <a class="btn" href="projects.html">View Projects</a> • <a class="btn" href="index.html">Home</a>
-      <div style="float:right">
-        <button onclick="window.print()">Print</button>
-        <a href="resume.pdf" download class="btn" style="margin-left:8px;">
-          Download Resume (PDF)
-        </a>
-      </div>
-    </section>
+
+    <div class="main">
+      <!-- Left column -->
+      <section class="card fade-in" style="animation-delay:.08s">
+        <div class="section" aria-label="Profile">
+          <h3>Profile</h3>
+          <p class="lead">Creative engineer building reliable ML systems that solve real-world problems in transportation and agriculture. Experienced at end-to-end ML pipelines, production deployment, OCR and computer vision, and building accessible multilingual dashboards and voice-driven interfaces. Strong focus on reproducibility, testing, and stakeholder communication.</p>
+        </div>
+
+        <div class="section fade-in" style="animation-delay:.12s" aria-label="Experience">
+          <h3>Experience</h3>
+
+          <div class="item">
+            <div class="meta">
+              <div>
+                <div class="role">Lead Machine Learning Engineer</div>
+                <div class="org">Community Solutions — 2023–Present</div>
+              </div>
+              <div class="muted">Remote</div>
+            </div>
+            <ul style="margin-top:8px;color:var(--muted)">
+              <li>Designed and maintained reproducible biometric and traffic monitoring ML pipelines using PyTorch and OpenCV.</li>
+              <li>Led deployment to edge devices and cloud, created CI/CD for model packaging (ONNX/TorchScript) and monitoring dashboards.</li>
+              <li>Implemented OCR pipelines for license plate extraction and automated notification workflows.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="meta">
+              <div>
+                <div class="role">Full‑Stack Developer</div>
+                <div class="org">Local Innovate — 2023–2024</div>
+              </div>
+              <div class="muted">Kakamega</div>
+            </div>
+            <ul style="margin-top:8px;color:var(--muted)">
+              <li>Built responsive Flask dashboards with voice navigation and multilingual support; integrated OCR and object detection services.</li>
+              <li>Automated data ETL and scheduled reporting workflows; ensured robust error handling and device selection for inference.</li>
+            </ul>
+          </div>
+
+          <div class="item">
+            <div class="meta">
+              <div>
+                <div class="role">Research Intern — Agricultural Biotechnology</div>
+                <div class="org">Masinde Muliro Univ. — 2022–2023</div>
+              </div>
+              <div class="muted">On-campus</div>
+            </div>
+            <ul style="margin-top:8px;color:var(--muted)">
+              <li>Developed pipelines for crop disease data collection and preprocessing; collaborated with agronomists to validate models in-field.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section fade-in" style="animation-delay:.16s" aria-label="Education">
+          <h3>Education</h3>
+          <div class="item">
+            <div class="role">BSc Agriculture and Biotechnology</div>
+            <div class="org">Masinde Muliro University of Science and Technology — 2023–2027</div>
+            <div class="muted" style="margin-top:6px">Relevant coursework: Bioinformatics, Molecular Biology, Data Analysis</div>
+          </div>
+
+          <div class="item" style="margin-top:8px">
+            <div class="role">Maseno School</div>
+            <div class="org">KCSE — 2019–2022</div>
+          </div>
+        </div>
+
+        <div class="section projects fade-in" style="animation-delay:.20s" aria-label="Selected projects">
+          <h3>Selected Projects</h3>
+          <ul>
+            <li><strong>USHERBOT</strong> — AI attendance recording system with secure enrollment and verification.</li>
+            <li><strong>ASK SARAH</strong> — AI agricultural advisor with bulk SMS/email notifications, forum, and e-learning modules.</li>
+            <li><strong>DIGITAL ASSIST-AI</strong> — Caregivers support platform with scheduling and intelligent reminders.</li>
+            <li><strong>AUTOCIN</strong> — Automated bio-incubator with ML control models and web interface.</li>
+            <li><strong>Smart Day Planner</strong> — AI-powered productivity assistant (mobile + backend).</li>
+            <li><strong>AI Traffic Management</strong> — Vehicle detection, OCR plate recognition, voice-driven dashboard.</li>
+            <li><strong>Plant Pathology</strong> — Plant disease detection and solution guidance with edge optimization.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <aside class="side-card">
+        <div class="box fade-in" style="animation-delay:.06s" aria-label="Skills">
+          <h4>Skills</h4>
+          <div style="margin-top:10px">
+            <div style="font-weight:700">Languages</div>
+            <div class="chips" style="margin-top:8px">
+              <span class="chip">Python</span>
+              <span class="chip">JavaScript</span>
+              <span class="chip">SQL</span>
+              <span class="chip">HTML/CSS</span>
+            </div>
+
+            <div style="margin-top:12px;font-weight:700">Frameworks & Tools</div>
+            <div class="chips" style="margin-top:8px">
+              <span class="chip">PyTorch</span>
+              <span class="chip">TensorFlow</span>
+              <span class="chip">Flask</span>
+              <span class="chip">OpenCV</span>
+              <span class="chip">Docker</span>
+            </div>
+
+            <div style="margin-top:12px;font-weight:700">ML & Data</div>
+            <div class="chips" style="margin-top:8px">
+              <span class="chip">OCR</span>
+              <span class="chip">Object Detection</span>
+              <span class="chip">ONNX</span>
+              <span class="chip">Data Pipelines</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="box fade-in" style="animation-delay:.09s" aria-label="Metrics">
+          <h4>Impact</h4>
+          <div class="stat" aria-hidden="true">200k+</div>
+          <div class="small" style="margin-top:6px;color:var(--muted)">Records processed; production pipelines and alerts</div>
+          <div style="margin-top:12px">
+            <h4>Availability</h4>
+            <div class="small">Open to full-time and contract roles. Relocation: negotiable.</div>
+          </div>
+        </div>
+
+        <div class="box fade-in" style="animation-delay:.12s" aria-label="Contact">
+          <h4>Call to action</h4>
+          <div style="margin-top:8px">Strong communicator who translates technical work into business value. Ready to lead ML projects from prototype to production.</div>
+          <div class="actions" style="margin-top:12px">
+            <a class="btn" id="mailBtn" href="mailto:delstarfordisaiah@gmail.com">Email</a>
+            <a class="btn secondary" href="projects.html">Portfolio</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="fade-in" style="animation-delay:.22s">
+      <div>© <strong>Delstarford Isaiah</strong> — <span id="year"></span>. References available on request.</div>
+    </footer>
   </main>
+
+  <script>
+    // update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Generate PDF using html2pdf
+    const btn = document.getElementById('btnGeneratePdf');
+    btn.addEventListener('click', () => {
+      // disable the button to prevent multiple clicks
+      btn.disabled = true;
+      btn.textContent = 'Preparing PDF...';
+
+      // we clone the resume node to avoid download-bar appearing in PDF
+      const resume = document.querySelector('.wrap').cloneNode(true);
+
+      // remove the download bar inside clone if present
+      const bar = resume.querySelector('#downloadBar');
+      if (bar) bar.remove();
+
+      // options for html2pdf
+      const opt = {
+        margin:       10,
+        filename:     'Delstarford_Isaiah_Resume.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
+      };
+
+      // create a temporary container and append clone
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.left = '-9999px';
+      container.appendChild(resume);
+      document.body.appendChild(container);
+
+      // generate PDF
+      html2pdf().set(opt).from(resume).save().then(() => {
+        // cleanup
+        document.body.removeChild(container);
+        btn.disabled = false;
+        btn.textContent = 'Download Resume (PDF)';
+      }).catch((err) => {
+        console.error('PDF generation error', err);
+        alert('PDF generation failed. You can download the prebuilt resume.pdf via the fallback button.');
+        document.body.removeChild(container);
+        btn.disabled = false;
+        btn.textContent = 'Download Resume (PDF)';
+      });
+    });
+
+    // Email button UX
+    document.getElementById('mailBtn').addEventListener('click', () => {
+      // small visual feedback
+      setTimeout(()=>{ alert('Email client should open.'); }, 200);
+    });
+  </script>
 </body>
 </html>
