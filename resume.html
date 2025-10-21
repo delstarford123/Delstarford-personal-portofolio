@@ -9,301 +9,340 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --text:#071224;
-      --muted:#6b7785;
-      --accent:#0d6efd;
-      --accent-2:#6610f2;
-      --container:980px;
-      --radius:12px;
-      --glass: rgba(13,110,253,0.06);
+      --paper-bg: #ffffff;      /* white page */
+      --page-edge: #eef2f6;     /* subtle outer background */
+      --text: #0b1a2b;
+      --muted: #6b7785;
+      --accent: #0d6efd;
+      --accent-2: #6610f2;
+      --container: 820px;
+      --radius: 10px;
       font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
+
+    /* Page background (edge) */
     html,body{height:100%}
-    body{margin:0;background:linear-gradient(180deg,var(--bg),#ffffff);color:var(--text);-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-    .wrap{width:94%;max-width:var(--container);margin:32px auto;padding:22px;background:var(--card);border-radius:var(--radius);box-shadow:0 12px 40px rgba(12,24,40,0.06);overflow:hidden}
+    body{
+      margin:0;
+      background: linear-gradient(180deg, var(--page-edge) 0%, #f8fafc 100%);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding: 40px 20px;
+    }
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid rgba(10,20,40,0.04);padding-bottom:18px}
-    .identity{display:flex;gap:18px;align-items:center}
-    .avatar{width:86px;height:86px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;font-weight:800;font-size:24px;box-shadow:0 8px 24px rgba(13,110,253,0.12)}
-    .name h1{margin:0;font-size:24px;letter-spacing:0.2px}
-    .name .title{color:var(--muted);font-weight:600;margin-top:6px}
-    .contact{text-align:right;font-size:14px;color:var(--muted)}
-    .contact a{color:var(--accent);text-decoration:none;font-weight:600}
+    /* Paper sheet */
+    .sheet-wrap {
+      display:flex;
+      justify-content:center;
+    }
+    .sheet {
+      width: 100%;
+      max-width: var(--container);
+      background: var(--paper-bg); /* white page to mimic PDF paper */
+      border-radius: 6px;
+      box-shadow: 0 10px 30px rgba(12,20,40,0.08);
+      padding: 28px;
+      border: 1px solid rgba(10,20,40,0.04);
+      box-sizing: border-box;
+    }
 
-    .main{display:grid;grid-template-columns: 1fr 320px;gap:28px;margin-top:22px}
-    @media (max-width:980px){ .main{grid-template-columns: 1fr; } .contact{text-align:left} }
+    /* Header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      border-bottom: 1px solid rgba(10,20,40,0.04);
+      padding-bottom:18px;
+    }
+    .identity { display:flex; gap:16px; align-items:center; }
+    .avatar {
+      width:84px; height:84px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:white; display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:24px; box-shadow: 0 8px 20px rgba(13,110,253,0.10);
+    }
+    .name h1 { margin:0; font-size:22px; letter-spacing:0.2px; }
+    .name .title { margin-top:6px; color:var(--muted); font-weight:600; font-size:14px; }
 
-    .card{background:transparent;border-radius:10px}
-    .section{background:linear-gradient(180deg,rgba(255,255,255,0.9), #fff);padding:18px;border-radius:10px;margin-bottom:14px;box-shadow:0 6px 20px rgba(12,20,40,0.03)}
-    .section h3{margin:0 0 10px;font-size:16px}
-    p.lead{color:var(--muted);margin:0;line-height:1.45}
+    .contact { text-align:right; font-size:13px; color:var(--muted); }
+    .contact a { color:var(--accent); text-decoration:none; font-weight:700; }
 
-    .item{margin-bottom:12px}
-    .item .meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .item .role{font-weight:700}
-    .item .org{color:var(--muted);font-size:14px}
+    /* Layout */
+    .main { display:grid; grid-template-columns: 1fr 300px; gap:24px; margin-top:20px; }
+    @media (max-width:980px) { .main { grid-template-columns: 1fr; } .contact { text-align:left; margin-top:12px; } }
 
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{padding:6px 10px;border-radius:999px;background:var(--glass);color:var(--accent);font-weight:600;font-size:13px}
+    /* Sections */
+    .section { padding:16px; border-radius:8px; margin-bottom:12px; background: transparent; }
+    .panel { background: rgba(250,250,252,0.8); border-radius:8px; padding:14px; box-shadow: 0 6px 18px rgba(10,20,40,0.03); }
+    .section h3 { margin:0 0 8px; font-size:15px; }
+    p.lead { margin:0; color:var(--muted); line-height:1.45; }
 
-    .projects ul{padding-left:18px;margin:0;color:var(--muted)}
-    .projects li{margin:8px 0}
+    /* Experience */
+    .item { margin-bottom:12px; }
+    .meta { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .role { font-weight:700; font-size:14px; }
+    .org { color:var(--muted); font-size:13px; margin-top:4px; }
 
-    aside .side-card{position:sticky;top:28px}
-    .side-card .box{padding:14px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 6px 20px rgba(12,20,40,0.03);margin-bottom:14px}
-    .side-card h4{margin:0 0 8px}
-    .stat{font-size:20px;font-weight:800;color:var(--accent);margin-top:8px}
+    /* Skills chips */
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .chip { padding:6px 10px; border-radius:999px; background:#f1f6ff; color:var(--accent); font-weight:700; font-size:12px; }
 
-    .actions{display:flex;gap:12px;margin-top:8px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:white;font-weight:700;text-decoration:none;cursor:pointer}
-    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(13,110,253,0.12)}
-    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center;padding-top:10px;border-top:1px solid rgba(10,20,40,0.03)}
+    /* Projects */
+    .projects ul { margin:0; padding-left:18px; color:var(--muted); }
+    .projects li { margin:8px 0; font-size:14px; color:var(--text); }
 
-    @media (max-width:520px){ .avatar{width:64px;height:64px;font-size:20px} .contact{font-size:13px} }
+    /* Right column / sticky */
+    aside { position:relative; }
+    .side-card { position:sticky; top:28px; display:flex; flex-direction:column; gap:12px; }
+    .info-box { background:#fff; border-radius:8px; padding:12px; box-shadow:0 6px 18px rgba(10,20,40,0.03); border:1px solid rgba(10,20,40,0.02); }
 
-    .fade-in{opacity:0;transform:translateY(10px);animation:fadeIn .6s forwards}
-    @keyframes fadeIn{to{opacity:1;transform:none}}
+    .stat { font-size:20px; font-weight:800; color:var(--accent); }
+    .small { color:var(--muted); font-size:13px; }
 
-    a:focus{outline:3px solid rgba(13,110,253,0.14);outline-offset:3px}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    /* Actions */
+    .actions { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; text-decoration:none; color:white; background:var(--accent); font-weight:700; font-size:13px; }
+    .btn.faint { background:transparent; color:var(--accent); border:1px solid rgba(13,110,253,0.08); }
 
-    /* small utility for download banner */
-    .download-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px;border-radius:10px;background:linear-gradient(90deg,rgba(13,110,253,0.06),rgba(102,16,242,0.03));margin-bottom:14px}
-    .download-bar p{margin:0;color:var(--muted);}
-    .download-bar .note{font-size:13px;color:var(--muted)}
+    /* Footer */
+    footer { margin-top:18px; text-align:center; color:var(--muted); font-size:13px; border-top:1px solid rgba(10,20,40,0.03); padding-top:12px; }
+
+    /* Print adjustments */
+    @media print {
+      body { background: white; padding: 0; }
+      .sheet { box-shadow: none; border: none; max-width: 100%; }
+      .actions { display:none; } /* hide interactive buttons when printing */
+    }
+
+    /* subtle reveal animation */
+    .fade-in { opacity:0; transform: translateY(10px); animation: fadeIn .5s forwards; }
+    .fade-in.delay { animation-delay: .08s; }
+    @keyframes fadeIn { to { opacity:1; transform:none; } }
+
   </style>
 
-  <!-- html2pdf.js (client-side PDF generation) -->
+  <!-- client-side PDF lib -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-  <main class="wrap" role="main" aria-labelledby="resume-heading">
-    <header class="fade-in" id="resume-heading">
-      <div class="identity" aria-hidden="false">
-        <div class="avatar" aria-hidden="true">DI</div>
-        <div class="name">
-          <h1>Delstarford Isaiah</h1>
-          <div class="title">Machine Learning Engineer · Full‑Stack Developer · Agricultural Biotechnology</div>
+  <div class="sheet-wrap">
+    <article class="sheet" role="main" aria-labelledby="resume-heading">
+      <header class="fade-in">
+        <div class="identity">
+          <div class="avatar" aria-hidden="true">DI</div>
+          <div class="name">
+            <h1 id="resume-heading">Delstarford Isaiah</h1>
+            <div class="title">Machine Learning Engineer · Full‑Stack Developer · Agricultural Biotechnology</div>
+          </div>
+        </div>
+
+        <div class="contact">
+          <div><strong>Kakamega, Kenya</strong></div>
+          <div style="margin-top:8px">Email<a href="mailto:delstarfordisaiah@gmail.com">delstarfordisaiah@gmail.com</a></div>
+          <div style="margin-top:6px">Github profile<a href="https://github.com/delstarford123" target="_blank" rel="noopener">github.com/delstarford</a></div>
+          
+        </div>
+      </header>
+
+      <!-- top download actions (visible on screen, hidden in print) -->
+      <div style="margin-top:18px; display:flex; justify-content:space-between; align-items:center; gap:12px;">
+        <div class="small"></div>
+        <div class="actions">
+          <button class="btn" id="btnGeneratePdf">Download PDF</button>
+          <a class="btn faint" href="resume.pdf" download id="pdfFallback">Download resume.pdf</a>
         </div>
       </div>
 
-      <div class="contact">
-        <div><strong>Kakamega, Kenya</strong></div>
-        <div style="margin-top:8px"><a href="mailto:delstarfordisaiah@gmail.com">delstarfordisaiah@gmail.com</a></div>
-        <div style="margin-top:6px"><a href="https://github.com/delstarford" target="_blank" rel="noopener">github.com/delstarford</a></div>
-        <div style="margin-top:6px"><a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">linkedin.com/in/yourprofile</a></div>
-      </div>
-    </header>
+      <div class="main" style="margin-top:18px;">
+        <!-- Left column -->
+        <div>
+          <section class="section panel fade-in">
+            <h3>Profile</h3>
+            <p class="lead">Creative engineer building reliable ML systems that solve real-world problems in transportation and agriculture. Experienced at end-to-end ML pipelines, production deployment, OCR and computer vision, and building accessible multilingual dashboards and voice-driven interfaces. Strong focus on reproducibility, testing, and stakeholder communication.</p>
+          </section>
 
-    <!-- Download bar (offers PDF download via client-side generation + fallback link) -->
-    <div class="download-bar" id="downloadBar">
-      <div>
-        <p><strong>Download resume</strong></p>
-        <div class="note">Download a printer-ready PDF or use the button to generate a PDF instantly in your browser.</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <!-- client-side generation -->
-        <button class="btn" id="btnGeneratePdf" aria-label="Generate PDF">Download Resume (PDF)</button>
-        <!-- fallback direct file link — place resume.pdf in same folder for this to work -->
-        <a class="btn secondary" id="pdfFallback" href="resume.pdf" download>Download resume.pdf</a>
-      </div>
-    </div>
+          <section class="section panel fade-in" style="margin-top:12px;">
+            <h3>Experience</h3>
 
-    <div class="main">
-      <!-- Left column -->
-      <section class="card fade-in" style="animation-delay:.08s">
-        <div class="section" aria-label="Profile">
-          <h3>Profile</h3>
-          <p class="lead">Creative engineer building reliable ML systems that solve real-world problems in transportation and agriculture. Experienced at end-to-end ML pipelines, production deployment, OCR and computer vision, and building accessible multilingual dashboards and voice-driven interfaces. Strong focus on reproducibility, testing, and stakeholder communication.</p>
-        </div>
-
-        <div class="section fade-in" style="animation-delay:.12s" aria-label="Experience">
-          <h3>Experience</h3>
-
-          <div class="item">
-            <div class="meta">
-              <div>
-                <div class="role">Lead Machine Learning Engineer</div>
-                <div class="org">Community Solutions — 2023–Present</div>
+            <div class="item" aria-label="Lead ML Engineer">
+              <div class="meta">
+                <div>
+                  <div class="role">Lead Machine Learning Engineer</div>
+                  <div class="org">Community Solutions — 2023–Present</div>
+                </div>
+                <div class="small">Remote</div>
               </div>
-              <div class="muted">Remote</div>
+              <ul style="margin-top:8px; color:var(--muted);">
+                <li>Designed and maintained reproducible biometric and traffic monitoring ML pipelines using PyTorch and OpenCV.</li>
+                <li>Led deployment to edge devices and cloud; built CI/CD for model packaging (ONNX/TorchScript) and monitoring dashboards.</li>
+                <li>Implemented OCR pipelines for license plate extraction and automated notification workflows that improved response times.</li>
+              </ul>
             </div>
-            <ul style="margin-top:8px;color:var(--muted)">
-              <li>Designed and maintained reproducible biometric and traffic monitoring ML pipelines using PyTorch and OpenCV.</li>
-              <li>Led deployment to edge devices and cloud, created CI/CD for model packaging (ONNX/TorchScript) and monitoring dashboards.</li>
-              <li>Implemented OCR pipelines for license plate extraction and automated notification workflows.</li>
-            </ul>
-          </div>
 
-          <div class="item">
-            <div class="meta">
-              <div>
-                <div class="role">Full‑Stack Developer</div>
-                <div class="org">Local Innovate — 2023–2024</div>
+            <div class="item" aria-label="Full-Stack Developer" style="margin-top:12px;">
+              <div class="meta">
+                <div>
+                  <div class="role">Full‑Stack Developer</div>
+                  <div class="org">Local Innovate — 2023–2024</div>
+                </div>
+                <div class="small">Kakamega</div>
               </div>
-              <div class="muted">Kakamega</div>
+              <ul style="margin-top:8px;color:var(--muted);">
+                <li>Built responsive Flask dashboards with voice navigation and multilingual support; integrated OCR and object detection services.</li>
+                <li>Automated ETL and reporting workflows; improved data reliability and reduced manual review time.</li>
+              </ul>
             </div>
-            <ul style="margin-top:8px;color:var(--muted)">
-              <li>Built responsive Flask dashboards with voice navigation and multilingual support; integrated OCR and object detection services.</li>
-              <li>Automated data ETL and scheduled reporting workflows; ensured robust error handling and device selection for inference.</li>
-            </ul>
-          </div>
 
-          <div class="item">
-            <div class="meta">
-              <div>
-                <div class="role">Research Intern — Agricultural Biotechnology</div>
-                <div class="org">Masinde Muliro Univ. — 2022–2023</div>
+            <div class="item" style="margin-top:12px;">
+              <div class="meta">
+                <div>
+                  <div class="role">Research Intern — Agricultural Biotechnology</div>
+                  <div class="org">Masinde Muliro Univ. — 2022–2023</div>
+                </div>
+                <div class="small">On-campus</div>
               </div>
-              <div class="muted">On-campus</div>
+              <ul style="margin-top:8px;color:var(--muted);">
+                <li>Developed data collection and preprocessing pipelines; collaborated with agronomists to validate model predictions in-field.</li>
+              </ul>
             </div>
-            <ul style="margin-top:8px;color:var(--muted)">
-              <li>Developed pipelines for crop disease data collection and preprocessing; collaborated with agronomists to validate models in-field.</li>
+          </section>
+
+          <section class="section panel fade-in" style="margin-top:12px;">
+            <h3>Education</h3>
+            <div class="item">
+              <div class="role">BSc Agriculture and Biotechnology</div>
+              <div class="org">Masinde Muliro University of Science and Technology — 2023–2027</div>
+              <div class="small" style="margin-top:6px">Relevant coursework: Bioinformatics, Molecular Biology, Data Analysis</div>
+            </div>
+
+            <div class="item" style="margin-top:10px;">
+              <div class="role">Maseno School</div>
+              <div class="org">KCSE — 2019–2022</div>
+            </div>
+          </section>
+
+          <section class="section panel fade-in projects" style="margin-top:12px;">
+            <h3>Selected Projects</h3>
+            <ul>
+              <li><strong>USHERBOT</strong> — AI attendance recording system with secure enrollment and verification.</li>
+              <li><strong>ASK SARAH</strong> — AI agricultural advisor with bulk SMS/email notifications, forum, and e-learning modules.</li>
+              <li><strong>DIGITAL ASSIST-AI</strong> — Caregivers support platform with scheduling and intelligent reminders.</li>
+              <li><strong>AUTOCIN</strong> — Automated bio-incubator with ML control models and web interface.</li>
+              <li><strong>Smart Day Planner</strong> — AI-powered productivity assistant (mobile + backend).</li>
+              <li><strong>AI Traffic Management</strong> — Vehicle detection, OCR plate recognition, voice-driven dashboard.</li>
+              <li><strong>Plant Pathology</strong> — Plant disease detection and solution guidance with edge optimization.</li>
             </ul>
-          </div>
+          </section>
         </div>
 
-        <div class="section fade-in" style="animation-delay:.16s" aria-label="Education">
-          <h3>Education</h3>
-          <div class="item">
-            <div class="role">BSc Agriculture and Biotechnology</div>
-            <div class="org">Masinde Muliro University of Science and Technology — 2023–2027</div>
-            <div class="muted" style="margin-top:6px">Relevant coursework: Bioinformatics, Molecular Biology, Data Analysis</div>
-          </div>
+        <!-- Right column -->
+        <aside>
+          <div class="side-card">
+            <div class="info-box fade-in">
+              <h3 style="margin:0 0 8px">Skills</h3>
+              <div style="font-weight:700; margin-bottom:8px;">Languages</div>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">JavaScript</span>
+                <span class="chip">SQL</span>
+                <span class="chip">HTML/CSS</span>
+              </div>
 
-          <div class="item" style="margin-top:8px">
-            <div class="role">Maseno School</div>
-            <div class="org">KCSE — 2019–2022</div>
-          </div>
-        </div>
+              <div style="font-weight:700; margin-top:12px;">Tools & Frameworks</div>
+              <div class="chips" style="margin-top:8px;">
+                <span class="chip">PyTorch</span>
+                <span class="chip">TensorFlow</span>
+                <span class="chip">Flask</span>
+                <span class="chip">OpenCV</span>
+                <span class="chip">Docker</span>
+              </div>
 
-        <div class="section projects fade-in" style="animation-delay:.20s" aria-label="Selected projects">
-          <h3>Selected Projects</h3>
-          <ul>
-            <li><strong>USHERBOT</strong> — AI attendance recording system with secure enrollment and verification.</li>
-            <li><strong>ASK SARAH</strong> — AI agricultural advisor with bulk SMS/email notifications, forum, and e-learning modules.</li>
-            <li><strong>DIGITAL ASSIST-AI</strong> — Caregivers support platform with scheduling and intelligent reminders.</li>
-            <li><strong>AUTOCIN</strong> — Automated bio-incubator with ML control models and web interface.</li>
-            <li><strong>Smart Day Planner</strong> — AI-powered productivity assistant (mobile + backend).</li>
-            <li><strong>AI Traffic Management</strong> — Vehicle detection, OCR plate recognition, voice-driven dashboard.</li>
-            <li><strong>Plant Pathology</strong> — Plant disease detection and solution guidance with edge optimization.</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- Right column -->
-      <aside class="side-card">
-        <div class="box fade-in" style="animation-delay:.06s" aria-label="Skills">
-          <h4>Skills</h4>
-          <div style="margin-top:10px">
-            <div style="font-weight:700">Languages</div>
-            <div class="chips" style="margin-top:8px">
-              <span class="chip">Python</span>
-              <span class="chip">JavaScript</span>
-              <span class="chip">SQL</span>
-              <span class="chip">HTML/CSS</span>
+              <div style="font-weight:700; margin-top:12px;">ML & Data</div>
+              <div class="chips" style="margin-top:8px;">
+                <span class="chip">OCR</span>
+                <span class="chip">Object Detection</span>
+                <span class="chip">ONNX</span>
+                <span class="chip">Data Pipelines</span>
+              </div>
             </div>
 
-            <div style="margin-top:12px;font-weight:700">Frameworks & Tools</div>
-            <div class="chips" style="margin-top:8px">
-              <span class="chip">PyTorch</span>
-              <span class="chip">TensorFlow</span>
-              <span class="chip">Flask</span>
-              <span class="chip">OpenCV</span>
-              <span class="chip">Docker</span>
+            <div class="info-box fade-in">
+              <h3 style="margin:0 0 8px">Impact</h3>
+              <div class="stat">200k+</div>
+              <div class="small" style="margin-top:6px">Records processed; production pipelines and alerts</div>
+              <div style="margin-top:12px;">
+                <h4 style="margin:0 0 6px">Availability</h4>
+                <div class="small">Open to full-time and contract roles. Relocation negotiable.</div>
+              </div>
             </div>
 
-            <div style="margin-top:12px;font-weight:700">ML & Data</div>
-            <div class="chips" style="margin-top:8px">
-              <span class="chip">OCR</span>
-              <span class="chip">Object Detection</span>
-              <span class="chip">ONNX</span>
-              <span class="chip">Data Pipelines</span>
+            <div class="info-box fade-in">
+              <h3 style="margin:0 0 8px">Contact</h3>
+              <div class="small">Ready to lead ML projects from prototype to production and translate technical results into business impact.</div>
+              <div class="actions" style="margin-top:12px;">
+                <a class="btn" id="mailBtn" href="mailto:delstarfordisaiah@gmail.com">Email</a>
+                <a class="btn faint" href="projects.html">Portfolio</a>
+              </div>
             </div>
           </div>
-        </div>
+        </aside>
+      </div>
 
-        <div class="box fade-in" style="animation-delay:.09s" aria-label="Metrics">
-          <h4>Impact</h4>
-          <div class="stat" aria-hidden="true">200k+</div>
-          <div class="small" style="margin-top:6px;color:var(--muted)">Records processed; production pipelines and alerts</div>
-          <div style="margin-top:12px">
-            <h4>Availability</h4>
-            <div class="small">Open to full-time and contract roles. Relocation: negotiable.</div>
-          </div>
-        </div>
-
-        <div class="box fade-in" style="animation-delay:.12s" aria-label="Contact">
-          <h4>Call to action</h4>
-          <div style="margin-top:8px">Strong communicator who translates technical work into business value. Ready to lead ML projects from prototype to production.</div>
-          <div class="actions" style="margin-top:12px">
-            <a class="btn" id="mailBtn" href="mailto:delstarfordisaiah@gmail.com">Email</a>
-            <a class="btn secondary" href="projects.html">Portfolio</a>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <footer class="fade-in" style="animation-delay:.22s">
-      <div>© <strong>Delstarford Isaiah</strong> — <span id="year"></span>. References available on request.</div>
-    </footer>
-  </main>
+      <footer>
+        <div>© <strong>Delstarford Isaiah</strong> — <span id="year"></span>. References available on request.</div>
+      </footer>
+    </article>
+  </div>
 
   <script>
-    // update year
+    // set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Generate PDF using html2pdf
+    // PDF generation using html2pdf (client-side)
     const btn = document.getElementById('btnGeneratePdf');
-    btn.addEventListener('click', () => {
-      // disable the button to prevent multiple clicks
+    btn.addEventListener('click', async () => {
       btn.disabled = true;
-      btn.textContent = 'Preparing PDF...';
+      btn.textContent = 'Generating PDF…';
 
-      // we clone the resume node to avoid download-bar appearing in PDF
-      const resume = document.querySelector('.wrap').cloneNode(true);
+      // clone sheet so interactive controls are not included
+      const sheet = document.querySelector('.sheet').cloneNode(true);
+      // remove actions area from clone (buttons inside)
+      const actions = sheet.querySelector('.actions');
+      if (actions) actions.remove();
 
-      // remove the download bar inside clone if present
-      const bar = resume.querySelector('#downloadBar');
-      if (bar) bar.remove();
+      // create a temporary container
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.left = '-9999px';
+      container.appendChild(sheet);
+      document.body.appendChild(container);
 
-      // options for html2pdf
       const opt = {
-        margin:       10,
+        margin:       [12, 10, 12, 10], // top, left, bottom, right (pt-ish)
         filename:     'Delstarford_Isaiah_Resume.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'pt', format: 'a4', orientation: 'portrait' }
       };
 
-      // create a temporary container and append clone
-      const container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.left = '-9999px';
-      container.appendChild(resume);
-      document.body.appendChild(container);
-
-      // generate PDF
-      html2pdf().set(opt).from(resume).save().then(() => {
+      try {
+        await html2pdf().set(opt).from(sheet).save();
+      } catch (err) {
+        console.error('PDF generation error', err);
+        alert('PDF generation failed. Use the resume.pdf fallback link if available.');
+      } finally {
         // cleanup
         document.body.removeChild(container);
         btn.disabled = false;
-        btn.textContent = 'Download Resume (PDF)';
-      }).catch((err) => {
-        console.error('PDF generation error', err);
-        alert('PDF generation failed. You can download the prebuilt resume.pdf via the fallback button.');
-        document.body.removeChild(container);
-        btn.disabled = false;
-        btn.textContent = 'Download Resume (PDF)';
-      });
+        btn.textContent = 'Download PDF';
+      }
     });
 
-    // Email button UX
+    // small UX for email button
     document.getElementById('mailBtn').addEventListener('click', () => {
-      // small visual feedback
-      setTimeout(()=>{ alert('Email client should open.'); }, 200);
+      setTimeout(()=>{ /* visual confirmation if needed */ }, 150);
     });
   </script>
 </body>
