@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InsectAI – Smart Sound-Based Insect Recognition</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f7fafc;
+      color: #111827;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(120deg, #2563eb, #1e40af);
+      color: white;
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    header p {
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+    main {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+    video {
+      width: 100%;
+      display: block;
+    }
+    section {
+      background: white;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 40px;
+    }
+    section h2 {
+      font-size: 1.6rem;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+    section p {
+      color: #374151;
+      font-size: 1.05rem;
+    }
+    footer {
+      text-align: center;
+      color: #6b7280;
+      padding: 40px 0;
+      font-size: 0.9rem;
+    }
+    a.button {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-top: 16px;
+      transition: 0.2s;
+    }
+    a.button:hover {
+      background: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🪲 InsectAI</h1>
+    <p>AI-powered system that listens to insect sounds and identifies species in real-time using deep learning and audio analysis.</p>
+  </header>
+
+  <main>
+
+    <div class="video-container">
+      <video controls autoplay muted loop>
+        <source src="assets/insectai.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <section>
+      <h2>What is InsectAI?</h2>
+      <p>
+        <strong>InsectAI</strong> is an intelligent system that identifies insect species from their sounds using a neural network trained on spectrograms. 
+        It combines real-time audio capture, signal preprocessing, and machine learning to assist researchers, farmers, and environmentalists in monitoring insect populations efficiently.
+      </p>
+    </section>
+
+    <section>
+      <h2>How It Works</h2>
+      <p>
+        The AI model listens to the surrounding environment through a microphone or audio file, extracts key sound frequencies, and predicts the insect type.
+        It’s built using <strong>PyTorch</strong> and trained on labeled insect sound datasets, producing accurate real-time classifications with visual and voice feedback.
+      </p>
+    </section>
+
+    <section>
+      <h2>Why It Matters</h2>
+      <p>
+        Insects are vital to ecosystems and agriculture. Detecting them early helps in <strong>pest control, biodiversity tracking, and disease vector monitoring</strong>.
+        InsectAI provides an affordable and scalable way to analyze insect activity without the need for expensive field equipment.
+      </p>
+    </section>
+
+    <section style="text-align:center;">
+      <h2>Try It Live</h2>
+      <p>Experience InsectAI in action and hear it identify insect species from real sounds.</p>
+      <a class="button" href="sound_insect_detector.html">🎧 Launch Demo</a>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2025 Delstarford Omondi — Built with Python, Flask, and AI
+  </footer>
+
+</body>
+</html>
