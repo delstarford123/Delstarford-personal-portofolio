@@ -88,8 +88,8 @@
               <p>Prefer a quick call? Tap to call from a phone, or request a callback using the form.</p>
             </div>
             <div class="actions">
-              <a id="call-btn" class="btn" href="tel:+254712345678">Call</a>
-              <button class="btn ghost" onclick="copyToClipboard('+254712345678')">Copy</button>
+              <a id="call-btn" class="btn" href="tel:+254707605751">Call</a>
+              <button class="btn ghost" onclick="copyToClipboard('+254707605751')">Copy</button>
             </div>
           </div>
 
@@ -156,12 +156,12 @@
           <input id="name" name="name" type="text" placeholder="Full name" required minlength="2" />
 
           <label for="email">Your email</label>
-          <input id="email" name="email" type="email" placeholder="youemail@gmail.com" required />
+          <input id="email" name="email" type="email" placeholder="youremail@gmail.com" required />
 
           <div class="row">
             <div class="col">
               <label for="phone">Phone (optional)</label>
-              <input id="phone" name="phone" type="text" placeholder="+254712345678" />
+              <input id="phone" name="phone" type="text" placeholder="+254707605751" />
             </div>
             <div class="col">
               <label for="pref-channel">Preferred channel</label>
@@ -237,7 +237,7 @@
       const name = encodeURIComponent(document.getElementById('name').value || '');
       const subject = encodeURIComponent(document.getElementById('subject').value || 'Files for discussion');
       const body = encodeURIComponent((document.getElementById('message').value || '') + '\n\nPlease find attachments in this email.');
-      const mailto = `mailto:delstarford@example.com?subject=${subject}&body=${body}`;
+      const mailto = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
       // open mail client
       window.location.href = mailto;
     });
@@ -327,7 +327,7 @@
       const body = encodeURIComponent(
         `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nPreferred channel: ${data.pref_channel}\n\n${data.message}`
       );
-      window.location.href = `mailto:delstarford@example.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
 
       submitBtn.disabled = false;
       submitBtn.textContent = 'Send message';
