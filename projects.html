@@ -7,26 +7,171 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <meta name="description" content="Selected projects by Delstarford — ML, Full-Stack, Agri-Biotech." />
+
   <style>
-    
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#6ee7b7;--accent-2:#60a5fa;--radius:12px;--container:1100px;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;color-scheme:dark}
-    *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#071224,#02111a);color:#e6eef6;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased} .container{width:90%;max-width:var(--container);margin:0 auto;padding:2rem 0}
-    .site-header{position:sticky;top:0;background:rgba(6,10,16,0.6);padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,0.02)}
-    .brand{font-weight:800;color:var(--accent);text-decoration:none}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-    .card{background:var(--card);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    a.btn{display:inline-block;padding:.5rem .75rem;border-radius:8px;text-decoration:none;color:var(--accent-2);border:1px solid rgba(255,255,255,0.03);font-weight:600}
-    header .nav{display:flex;align-items:center;justify-content:space-between}
-    .back{margin-bottom:1rem}
-    footer{color:var(--muted);text-align:center;padding:1.5rem 0;border-top:1px solid rgba(255,255,255,0.02)}
-    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    :root {
+      --bg:#0f1724;
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#6ee7b7;
+      --accent-2:#60a5fa;
+      --radius:12px;
+      --container:1100px;
+      font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      color-scheme:dark
+    }
+
+    * { box-sizing:border-box }
+
+    body {
+      margin:0;
+      background:linear-gradient(180deg,#071224,#02111a);
+      color:#e6eef6;
+      font-size:16px;
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+
+    .container {
+      width:90%;
+      max-width:var(--container);
+      margin:0 auto;
+      padding:2rem 0;
+    }
+
+    .site-header {
+      position:sticky;
+      top:0;
+      background:rgba(6,10,16,0.6);
+      padding:.75rem 0;
+      border-bottom:1px solid rgba(255,255,255,0.02);
+      z-index:50;
+    }
+
+    .brand {
+      font-weight:800;
+      color:var(--accent);
+      text-decoration:none;
+      font-size:1.2rem;
+    }
+
+    header .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    a.btn {
+      display:inline-block;
+      padding:.5rem .75rem;
+      border-radius:8px;
+      text-decoration:none;
+      color:var(--accent-2);
+      border:1px solid rgba(255,255,255,0.03);
+      font-weight:600;
+      transition:background 0.3s ease, color 0.3s ease;
+    }
+
+    a.btn:hover {
+      background:var(--accent-2);
+      color:#fff;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1rem;
+    }
+
+    .card {
+      background:var(--card);
+      padding:1rem;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform:translateY(-5px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .back { margin-bottom:1rem }
+
+    footer {
+      color:var(--muted);
+      text-align:center;
+      padding:1.5rem 0;
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+
+    @media (max-width:720px) {
+      .grid { grid-template-columns:1fr }
+    }
+
+    /* Floating info box */
+    .floating-info {
+      position:fixed;
+      bottom:2rem;
+      right:2rem;
+      background:rgba(15,23,36,0.7);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:var(--radius);
+      padding:1.25rem 1.5rem;
+      color:#fff;
+      box-shadow:0 8px 30px rgba(0,0,0,0.3);
+      animation:floatIn 1.5s ease forwards;
+      opacity:0;
+      max-width:300px;
+      text-align:left;
+      font-size:15px;
+      z-index:999;
+    }
+
+    .floating-info strong {
+      display:block;
+      font-size:18px;
+      color:var(--accent);
+      margin-bottom:.25rem;
+    }
+
+    .floating-info a {
+      display:inline-block;
+      margin-top:.5rem;
+      color:var(--accent-2);
+      font-weight:600;
+      text-decoration:none;
+      transition:color 0.3s ease;
+    }
+
+    .floating-info a:hover { color:var(--accent) }
+
+    @keyframes floatIn {
+      0% { transform:translateY(30px);opacity:0; }
+      100% { transform:translateY(0);opacity:1; }
+    }
+
+    @media (max-width:720px) {
+      .floating-info {
+        bottom:1rem;
+        right:1rem;
+        font-size:14px;
+        padding:1rem;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="index.html">Delstarford</a>
-      <nav><a class="btn" href="index.html">Home</a> <a class="btn" href="resume.html">Resume</a></nav>
+      <nav>
+        <a class="btn" href="index.html">Home</a>
+        <a class="btn" href="resume.html">Resume</a>
+      </nav>
     </div>
   </header>
 
@@ -34,10 +179,11 @@
     <div class="back"><a href="index.html" class="btn">← Back to Home</a></div>
 
     <h1>Projects</h1>
-    <h2>All this projects are just a frontend view of the actual thing,the explaination,please contact to see the actual project .</h2>
+    <h2>All these projects are just a frontend view of the actual work. Please contact me to see the actual implementations and detailed explanations.</h2>
     <p class="muted">A selection of projects with links to detailed pages, repositories, and demos.</p>
 
     <div class="grid" aria-live="polite">
+      <!-- All your projects remain unchanged -->
       <article class="card">
         <h3>Usherbot Embedding Biometric Pipeline</h3>
         <p>Fingerprint capture, embedding extraction, and robust matcher with audit logs and configurable thresholds.</p>
@@ -79,83 +225,98 @@
           <a class="btn" href="https://github.com/delstarford/agritech-field-trials" target="_blank" rel="noopener">GitHub</a>
         </p>
       </article>
+
       <article class="card">
         <h3>Chatbot</h3>
-        <p>AI Powered Chatbot for E-Learning ,Agricuture,Bulk Email and SMS Sending.</p>
-        <p><strong>Tech</strong>: Flask, Postgres/Firebase Realtime Database, Pandas, Plotly,Numpy,Tensorflow,reportLab etc.</p>
+        <p>AI Powered Chatbot for E-Learning, Agriculture, Bulk Email, and SMS Sending.</p>
+        <p><strong>Tech</strong>: Flask, Firebase, Pandas, Tensorflow, ReportLab</p>
         <p>
           <a class="btn" href="chatbot-ml.html">Details</a>
           <a class="btn" href="https://github.com/delstarford123/chatbot" target="_blank" rel="noopener">GitHub</a>
         </p>
       </article>
- <article class="card">
-          <h3>Eco-Ride</h3>
-          <p>Solution to climate change ,through the use of artificial Intelligence.</p>
-          <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy, Matplotlib etc.</p>
-          <p>
-            <a class="btn" href="eco-ride.html">Details</a>
-            <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://eco.ride.lohms.org/">Native App</a>
-          </p>
- </article>
-          <article class="card">
-          <h3>Smart day planner for Health management</h3>
-          <p>AI-powered planner for scheduling, reminders, and health tracking.</p>
-          <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy, Matplotlib etc.</p>
-          <p>
-            <a class="btn" href="Smart-day-planner.html">Details</a>
-            <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smart-day-planner.html/">Vercel</a>
-          </p>
-          </article>
 
-           <article class="card">
-          <h3>AI Traffic Management - AI-powered Traffic management system</h3>
-          <p>AI traffic management ,with voice assistant for navigations ,if the user dont want to touch the device..</p>
-          <p><strong>Tech</strong>: Flask,GTTS,PyTorch,Torch ,Tensorflow, Pandas, Numpy, Matplotlib ,Iot etc.</p>
-          <p>
-            <a class="btn" href="traffic.html">Details</a>
-            <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/traffic.html/">Vercel</a>
-          </p>
-          </article>
+      <article class="card">
+        <h3>Eco-Ride</h3>
+        <p>Solution to climate change through the use of artificial intelligence.</p>
+        <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy</p>
+        <p>
+          <a class="btn" href="eco-ride.html">Details</a>
+          <a class="btn" href="#">GitHub</a>
+          <a class="btn" href="https://eco.ride.lohms.org/">Native App</a>
+        </p>
+      </article>
 
-          <article class="card">
-          <h3>Plant Pathology — AI Plant Disease Detection</h3>
-          <p>AI Plant pathology Management and solution providence ,with voice assistant for navigations ,if the user dont want to touch the device..</p>
-          <p><strong>Tech</strong>: Flask,GTTS,PyTorch,Torch ,Tensorflow, Pandas, Numpy, Matplotlib ,Iot etc.</p>
-          <p>
-            <a class="btn" href="plant pathology.html">Details</a>
-            <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/plant patholgy.html/">Vercel</a>
-          </p>
-          </article>
+      <article class="card">
+        <h3>Smart Day Planner for Health Management</h3>
+        <p>AI-powered planner for scheduling, reminders, and health tracking.</p>
+        <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy</p>
+        <p>
+          <a class="btn" href="Smart-day-planner.html">Details</a>
+          <a class="btn" href="#">GitHub</a>
+          <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smart-day-planner.html/">Vercel</a>
+        </p>
+      </article>
 
-          
-          <article class="card">
-  <h3>InsectAI — Sound-Based Insect Detection</h3>
-  <p>
-    An AI-powered system for intelligent insect detection using sound analysis.
-   
-    <strong>voice assistant</strong> for hands-free navigation — perfect for field use where users
-    may not want to touch the device.
-  </p>
-  <p>
-    <strong>Tech Stack:</strong> Flask, PyTorch, TensorFlow, GTTS, Pandas, NumPy, Matplotlib, IoT, and more.
-  </p>
-  <p>
-    <a class="btn" href="insectai.html">Details</a>
-    <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-    <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/insectai.html" target="_blank" rel="noopener">Vercel</a>
-  </p>
-</article>
+      <article class="card">
+        <h3>AI Traffic Management</h3>
+        <p>AI-powered traffic management system with a voice assistant for navigation.</p>
+        <p><strong>Tech</strong>: Flask, GTTS, PyTorch, Tensorflow, IoT</p>
+        <p>
+          <a class="btn" href="traffic.html">Details</a>
+          <a class="btn" href="#">GitHub</a>
+          <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/traffic.html/">Vercel</a>
+        </p>
+      </article>
 
+      <article class="card">
+        <h3>Plant Pathology — AI Plant Disease Detection</h3>
+        <p>AI system for plant disease detection with voice navigation for field use.</p>
+        <p><strong>Tech</strong>: Flask, GTTS, PyTorch, Tensorflow, IoT</p>
+        <p>
+          <a class="btn" href="plant pathology.html">Details</a>
+          <a class="btn" href="#">GitHub</a>
+          <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/plant pathology.html/">Vercel</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>InsectAI — Sound-Based Insect Detection</h3>
+        <p>An AI-powered system for intelligent insect detection using sound analysis with voice assistant navigation.</p>
+        <p><strong>Tech Stack:</strong> Flask, PyTorch, TensorFlow, GTTS, Pandas, NumPy, IoT</p>
+        <p>
+          <a class="btn" href="insectai.html">Details</a>
+          <a class="btn" href="#">GitHub</a>
+          <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/insectai.html" target="_blank">Vercel</a>
+        </p>
+      </article>
+    </div>
   </main>
 
   <footer class="container">
     <p>© <span id="year"></span> Delstarford</p>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <!-- Floating Project Info -->
+  <div class="floating-info" id="floatingInfo">
+    <strong id="projectCount">0 Projects Completed</strong>
+    Explore the innovative AI and full-stack solutions I’ve built across industries.
+    <a href="contact.html">Let's collaborate →</a>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Auto-count projects
+    const projectCount = document.querySelectorAll('.card').length;
+    document.getElementById('projectCount').textContent = `${projectCount} Projects Completed`;
+
+    // Fade animation while scrolling
+    window.addEventListener('scroll', () => {
+      const info = document.getElementById('floatingInfo');
+      if(window.scrollY > 150) info.style.opacity = '1';
+      else info.style.opacity = '0.85';
+    });
+  </script>
 </body>
-</html> 
+</html>
