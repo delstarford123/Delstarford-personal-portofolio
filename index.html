@@ -102,10 +102,10 @@
     .profile-card{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:var(--radius);
-      padding:1.2rem;
+      padding:2.2rem;
       text-align:center;
       box-shadow: 0 6px 18px rgba(2,6,12,0.6);
-      border:1px solid rgba(255,255,255,0.03);
+      border:3px solid rgba(255,255,255,0.03);
     }
     .avatar{
       width:84px;height:84px;border-radius:14px;margin:0 auto;
@@ -439,7 +439,7 @@
     navToggle && navToggle.addEventListener('click', () => navLinks.classList.toggle('show'));
 
     function copyEmail(){
-      const email = 'delstarford@example.com';
+      const email = 'delstarfordisaiah@gmail.com';
       if(navigator.clipboard){
         navigator.clipboard.writeText(email).then(() => {
           showStatus('Email copied to clipboard');
