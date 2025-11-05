@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AniproAI — Intelligent Smart Farm Surveillance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<!-- Chart.js for lightweight analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --accent:#08b4a8;
+    --accent-2:#3ddc97;
+    --muted:#94a3b8;
+    --danger:#ff6b6b;
+    --glass: rgba(255,255,255,0.03);
+    --glass-2: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;
+    background: linear-gradient(180deg,#071026 0%, #071a2a 100%);
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:32px;
+  }
+
+  .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns: 1fr 380px;gap:20px;align-items:start;}
+  header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  h1{font-weight:700;margin:0;font-size:20px;letter-spacing:0.2px}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px;padding:14px;box-shadow:0 8px 36px rgba(2,6,23,0.6);
+    border:1px solid rgba(255,255,255,0.03);
+  }
+
+  /* Left: live view */
+  .viewer{
+    min-height:520px; display:flex;flex-direction:column;gap:12px;
+  }
+  .stage{
+    position:relative;border-radius:12px;overflow:hidden;background:var(--glass);height:420px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    transition: transform .15s ease;
+  }
+  .stage:hover{ transform: translateY(-6px); }
+
+  video#cam{
+    width:100%;height:100%;object-fit:cover;background:#061020;
+    display:block;
+  }
+  .overlay-canvas{ position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none; }
+
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button, label.upload{
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#03201a;padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer;
+    box-shadow:0 10px 30px rgba(8,180,168,0.08);transition:transform .14s ease,opacity .12s;
+  }
+  button.secondary{ background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:600;padding:8px 10px }
+  button:active{ transform:translateY(2px) }
+  input[type=file]{ display:none }
+
+  .status-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .badge{background:rgba(0,0,0,0.22);padding:8px 12px;border-radius:999px;font-weight:700;font-size:13px;color:var(--muted)}
+  .badge.alert{background:linear-gradient(90deg,var(--danger),#ff8f8f);color:#2b0505;box-shadow:0 8px 26px rgba(255,107,107,0.08)}
+  .live-dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 6px 18px rgba(8,180,168,0.18);animation: pulse 1.8s infinite;}
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+  /* Right column: analytics */
+  .sidebar{display:flex;flex-direction:column;gap:12px}
+  .small{font-size:12px;color:var(--muted)}
+  .timeline{max-height:320px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+  .event{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .ev-time{font-size:12px;color:var(--muted);min-width:68px}
+  .ev-body{font-size:13px}
+
+  /* detection label style */
+  .label-pill{background:rgba(0,0,0,0.45);padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px;color:#fff}
+
+  footer{grid-column:1/-1;margin-top:16px;color:var(--muted);font-size:13px;text-align:center}
+  .canvas-fake{width:100%;height:100%}
+
+  /* responsive */
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr; padding:20px}
+    .sidebar{order:3}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>AniproAI — Smart Farm Surveillance</h1>
+        <div class="sub">Intelligent monitoring for fields, livestock, and farmyard logistics — prototype for portfolio</div>
+      </div>
+      <div class="status-row">
+        <div class="badge">Delstarford · AniproAI</div>
+        <div class="badge"><span class="live-dot" aria-hidden="true"></span> Live</div>
+      </div>
+    </header>
+
+    <!-- Left: live camera + controls -->
+    <section class="card viewer" aria-label="Live monitoring">
+      <div class="stage" id="stage">
+        <video id="cam" autoplay muted playsinline></video>
+        <!-- overlay canvas for bounding boxes -->
+        <canvas id="overlay" class="overlay-canvas" aria-hidden="true"></canvas>
+      </div>
+
+      <div class="controls" role="toolbar" aria-label="Controls">
+        <button id="startBtn">Start Camera</button>
+        <button id="stopBtn" class="secondary">Stop</button>
+
+        <label class="upload" title="Upload video or image">
+          Upload
+          <input id="fileInput" type="file" accept="image/*,video/*" />
+        </label>
+
+        <button id="snapshotBtn" class="secondary">Snapshot</button>
+        <button id="simulateBtn">Run Demo Inference</button>
+        <div style="flex:1"></div>
+        <div class="badge" id="modelStatus">Model: <strong style="color:#fff">Mock</strong></div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+        <div class="small">Detections: <span id="detCount">0</span></div>
+        <div class="small">Last alert: <span id="lastAlert">—</span></div>
+        <div style="width:10px"></div>
+      </div>
+    </section>
+
+    <!-- Right: analytics + timeline -->
+    <aside class="card sidebar" aria-label="Analytics and timeline">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:end">
+          <div>
+            <div style="font-weight:700">Activity Overview</div>
+            <div class="small">Events & risk score over last hour</div>
+          </div>
+          <div style="text-align:right">
+            <div class="small">Risk</div>
+            <div id="riskScore" style="font-weight:800;font-size:20px;color:var(--accent)">12%</div>
+          </div>
+        </div>
+
+        <canvas id="chart" style="width:100%;height:160px;margin-top:12px"></canvas>
+      </div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:8px">Activity Timeline</div>
+        <div class="timeline" id="timeline" role="log" aria-live="polite"></div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+        <div>
+          <div class="small">Audio alert</div>
+          <div class="small" id="audioState">Muted</div>
+        </div>
+        <div>
+          <button id="toggleAudio" class="secondary">Toggle Alert Sound</button>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="card" style="margin-top:6px;font-size:13px">
+      AniproAI — prototype surveillance UI • Replace mock inference with your model endpoint or WebSocket stream
+    </footer>
+  </div>
+
+<script>
+/*
+  AniproAI prototype logic
+  - Live camera preview via getUserMedia
+  - Simulated inference that draws bounding boxes & produces alerts
+  - Analytics chart (Chart.js) updated with mock events
+  - Speech and audio alerts (loud by default)
+  - Clear hooks for integrating real model: call analyzeFrame(blob) or open a WebSocket that sends detections
+*/
+
+/* ---------- UI elements ---------- */
+const video = document.getElementById('cam');
+const overlay = document.getElementById('overlay');
+const overlayCtx = overlay.getContext('2d');
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+const fileInput = document.getElementById('fileInput');
+const snapshotBtn = document.getElementById('snapshotBtn');
+const simulateBtn = document.getElementById('simulateBtn');
+const detCount = document.getElementById('detCount');
+const lastAlert = document.getElementById('lastAlert');
+const timeline = document.getElementById('timeline');
+const audioToggle = document.getElementById('toggleAudio');
+const audioState = document.getElementById('audioState');
+const riskScoreEl = document.getElementById('riskScore');
+const modelStatus = document.getElementById('modelStatus');
+
+let stream = null;
+let analyzing = false;
+let alertSoundEnabled = true;
+let detectionHistory = [];
+let chart = null;
+
+/* ---------- audio / speech for alerts ---------- */
+const alertAudio = new Audio(); // will be used for urgent beep
+// small generated beep using WebAudio for loudness control
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playBeep(duration = 0.25, freq = 880, vol = 1.0){
+  if (!alertSoundEnabled) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sine';
+  o.frequency.value = freq;
+  g.gain.value = vol;
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start();
+  setTimeout(()=>{ o.stop(); }, duration*1000);
+}
+
+/* Speech synthesis for descriptive alerts */
+function speak(text){
+  try {
+    const s = window.speechSynthesis;
+    if (!s) return;
+    s.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.95; u.pitch = 1; u.volume = 1.0;
+    s.speak(u);
+  } catch(e){ console.warn('speech failed', e); }
+}
+
+/* ---------- Canvas helpers ---------- */
+function resizeOverlay(){
+  overlay.width = overlay.clientWidth;
+  overlay.height = overlay.clientHeight;
+}
+window.addEventListener('resize', resizeOverlay);
+
+/* ---------- Start / stop camera ---------- */
+startBtn.onclick = async () => {
+  if (stream) return;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 }, audio: false });
+    video.srcObject = stream;
+    await video.play();
+    resizeOverlay();
+    analyzing = true;
+    startAnalysisLoop();
+    modelStatus.innerHTML = 'Model: <strong style="color:#fff">Mock</strong>';
+  } catch (err){
+    alert('Camera start failed: ' + err.message);
+  }
+};
+
+stopBtn.onclick = () => {
+  if (stream){
+    stream.getTracks().forEach(t => t.stop());
+    stream = null;
+    analyzing = false;
+    overlayCtx.clearRect(0,0,overlay.width,overlay.height);
+  }
+};
+
+/* ---------- File input: image or video ---------- */
+fileInput.onchange = async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (f.type.startsWith('image/')){
+    // show image in video element
+    const url = URL.createObjectURL(f);
+    video.srcObject = null;
+    video.pause();
+    video.removeAttribute('src');
+    video.src = url;
+    video.play();
+    resizeOverlay();
+    // one-shot analysis for the static image
+    setTimeout(()=> simulateInferenceImage(url), 400);
+  } else if (f.type.startsWith('video/')){
+    const url = URL.createObjectURL(f);
+    video.srcObject = null;
+    video.pause();
+    video.removeAttribute('src');
+    video.src = url;
+    video.loop = false;
+    video.play();
+    resizeOverlay();
+    // analyze frames periodically while playing
+    analyzing = true;
+    startAnalysisLoop(true);
+  }
+};
+
+/* ---------- Snapshot ---------- */
+snapshotBtn.onclick = () => {
+  resizeOverlay();
+  // draw current overlay to new image
+  const tmp = document.createElement('canvas');
+  tmp.width = overlay.width; tmp.height = overlay.height;
+  const ctx = tmp.getContext('2d');
+  // draw video frame
+  try {
+    ctx.drawImage(video, 0,0, tmp.width, tmp.height);
+    ctx.drawImage(overlay, 0,0, tmp.width, tmp.height);
+  } catch(e){
+    console.warn('snapshot failed', e);
+  }
+  const data = tmp.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = data; a.download = 'anipro_snapshot.png';
+  a.click();
+};
+
+/* ---------- Simulated inference ---------- */
+/* Replace simulateDetection() with a real model call:
+   - Capture resized frame: drawImage(video) then toBlob()
+   - POST to /infer or send via WebSocket
+   - Expect detections array: [{x,y,w,h,label,score}, ...]
+*/
+
+function randomBetween(a,b){ return a + Math.random()*(b-a); }
+
+/* Produce mock detections for demo */
+function simulateDetection(width, height){
+  const classes = [
+    {label:'Human', color:'#ffb86b'},
+    {label:'Livestock (cow)', color:'#7ee7a6'},
+    {label:'Vehicle', color:'#7fb3ff'},
+    {label:'Intruder', color:'#ff6b6b'},
+    {label:'Pest swarm', color:'#ffd166'}
+  ];
+  const num = Math.random() < 0.6 ? Math.floor(Math.random()*3) : Math.floor(Math.random()*1.5);
+  const dets = [];
+  for (let i=0;i<num;i++){
+    const c = classes[Math.floor(Math.random()*classes.length)];
+    const w = randomBetween(0.08, 0.35) * width;
+    const h = randomBetween(0.08, 0.35) * height;
+    const x = randomBetween(0.02, width - w - 2);
+    const y = randomBetween(0.02, height - h - 2);
+    const score = Math.round(randomBetween(60,98));
+    dets.push({x,y,w,h,label:c.label,score,color:c.color});
+  }
+  return dets;
+}
+
+/* Draw detections as bounding boxes on overlay */
+function drawDetections(dets){
+  overlayCtx.clearRect(0,0,overlay.width,overlay.height);
+  overlayCtx.lineWidth = Math.max(2, overlay.width/300);
+  dets.forEach(d => {
+    overlayCtx.strokeStyle = d.color;
+    overlayCtx.fillStyle = d.color;
+    overlayCtx.globalAlpha = 0.95;
+    // box
+    overlayCtx.strokeRect(d.x, d.y, d.w, d.h);
+    // label background
+    const label = `${d.label} ${d.score}%`;
+    overlayCtx.font = `${12 + Math.round(overlay.width/420)}px Poppins, sans-serif`;
+    const textW = overlayCtx.measureText(label).width + 12;
+    overlayCtx.fillRect(d.x, d.y - 22, textW, 20);
+    // text
+    overlayCtx.fillStyle = '#081219';
+    overlayCtx.fillText(label, d.x + 6, d.y - 8);
+    overlayCtx.globalAlpha = 1;
+  });
+}
+
+/* Update timeline UI with event */
+function pushEvent(title, meta){
+  const el = document.createElement('div'); el.className = 'event';
+  const time = new Date().toLocaleTimeString();
+  el.innerHTML = `<div class="ev-time">${time}</div><div class="ev-body"><div style="font-weight:700">${title}</div><div style="color:var(--muted);font-size:13px">${meta}</div></div>`;
+  timeline.prepend(el);
+  // keep history array for charting
+  detectionHistory.unshift({t:Date.now(), title, meta});
+  // keep timeline limited
+  if (timeline.children.length > 40) timeline.removeChild(timeline.lastChild);
+}
+
+/* handle detection result: update UI, alert if needed */
+function handleDetections(dets){
+  detCount.innerText = dets.length;
+  drawDetections(dets);
+
+  // compute simple risk score
+  let risk = Math.min(99, Math.round((dets.length * 23) + Math.random()*10));
+  riskScoreEl.innerText = risk + '%';
+
+  // if suspicious (intruder or >2 objects) -> alert
+  const intruder = dets.find(d => /Intruder|Pest|Vehicle/i.test(d.label));
+  if (intruder || dets.length >= 2){
+    const desc = intruder ? `${intruder.label} detected (${intruder.score}%)` : `${dets.length} objects detected`;
+    lastAlert.innerText = desc;
+    pushEvent('Alert: ' + desc, 'Auto-detected by AniproAI');
+    // audible alert
+    playBeep(0.25, 880 + Math.random()*200, 1.0); // loud beep
+    speak(desc + '. Check live feed.');
+    // visual emphasis
+    flashStage();
+  } else if (dets.length > 0){
+    lastAlert.innerText = `${dets.length} object(s)`;
+    pushEvent('Info: Detection', dets.map(d=>d.label+' '+d.score+'%').join(', '));
+  }
+}
+
+/* small flash animation of stage when alert happens */
+function flashStage(){
+  const s = document.getElementById('stage');
+  s.animate([
+    { boxShadow: '0 8px 36px rgba(250,120,120,0.06)', transform:'scale(1)' },
+    { boxShadow: '0 16px 46px rgba(250,120,120,0.12)', transform:'scale(1.01)' },
+    { boxShadow: '0 8px 36px rgba(250,120,120,0.06)', transform:'scale(1)' }
+  ], { duration: 600, easing: 'ease-out' });
+}
+
+/* ---------- Analysis loop (mock) ---------- */
+let analysisInterval = null;
+function startAnalysisLoop(playOnce=false){
+  if (!video || video.readyState < 2) {
+    // try again shortly
+    setTimeout(()=> startAnalysisLoop(playOnce), 250);
+    return;
+  }
+  clearInterval(analysisInterval);
+  analysisInterval = setInterval(()=> {
+    try {
+      // determine overlay drawing scale
+      const w = overlay.width = overlay.clientWidth;
+      const h = overlay.height = overlay.clientHeight;
+      // For real inference, capture frame and send to server:
+      // const capture = document.createElement('canvas'); capture.width=320; capture.height=180;
+      // capture.getContext('2d').drawImage(video,0,0,320,180);
+      // capture.toBlob(blob=> send to server ...)
+      // --- MOCK: simulate detection
+      const dets = simulateDetection(w, h);
+      handleDetections(dets);
+      if (playOnce && video.ended) { clearInterval(analysisInterval); analyzing=false; }
+    } catch(e){
+      console.warn('analysis loop', e);
+    }
+  }, 1400); // run inference every ~1.4s (simulated)
+}
+
+/* Simulate inference for a single uploaded image */
+function simulateInferenceImage(url){
+  // draw the image into video element already; just run detection once
+  const w = overlay.clientWidth, h = overlay.clientHeight;
+  overlay.width = w; overlay.height = h;
+  const dets = simulateDetection(w, h);
+  handleDetections(dets);
+}
+
+/* Simulate button triggers a burst of events */
+simulateBtn.onclick = () => {
+  // quick demo: generate 3 rounds of detections with small delay
+  let i=0;
+  const id = setInterval(()=> {
+    const dets = simulateDetection(overlay.clientWidth, overlay.clientHeight);
+    handleDetections(dets);
+    i++; if (i>3) clearInterval(id);
+  }, 700);
+};
+
+/* ---------- Chart setup (analytics) ---------- */
+function initChart(){
+  const ctx = document.getElementById('chart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length:12}, (_,i)=>`${i}m`),
+      datasets: [
+        { label:'Events', data:Array.from({length:12}, ()=>Math.floor(Math.random()*6)), borderColor:'#7ee7a6', backgroundColor:'rgba(126,231,166,0.08)', fill:true, tension:0.35 },
+        { label:'Risk', data:Array.from({length:12}, ()=>Math.floor(Math.random()*18)+2), borderColor:'#08b4a8', backgroundColor:'rgba(8,180,168,0.06)', fill:true, tension:0.35 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{ x:{ display:false }, y:{ display:false } }
+    }
+  });
+}
+
+/* update chart periodically with new random data for demo */
+function updateChartDemo(){
+  if (!chart) return;
+  chart.data.datasets.forEach(ds => {
+    ds.data.push(Math.max(0, Math.round((ds.data[ds.data.length-1]||4) + (Math.random()*6-2))));
+    if (ds.data.length>20) ds.data.shift();
+  });
+  chart.data.labels.push(new Date().toLocaleTimeString().split(':').slice(-2).join(':'));
+  if (chart.data.labels.length>20) chart.data.labels.shift();
+  chart.update();
+  // schedule next
+  setTimeout(updateChartDemo, 3500 + Math.random()*2500);
+}
+
+/* ---------- Toggle audio alerts ---------- */
+audioToggle.onclick = () => {
+  alertSoundEnabled = !alertSoundEnabled;
+  audioState.textContent = alertSoundEnabled ? 'Enabled' : 'Muted';
+  audioToggle.textContent = alertSoundEnabled ? 'Disable Alert Sound' : 'Enable Alert Sound';
+  if (!alertSoundEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
+};
+
+/* ---------- Init ---------- */
+initChart();
+updateChartDemo();
+audioState.textContent = alertSoundEnabled ? 'Enabled' : 'Muted';
+
+/* Make overlay responsive to video size when camera starts */
+video.addEventListener('loadedmetadata', resizeOverlay);
+
+/* Accessibility: keyboard shortcuts */
+window.addEventListener('keydown', (e)=>{
+  if (e.key === 's') startBtn.click();
+  if (e.key === 'p') stopBtn.click();
+  if (e.key === 'd') simulateBtn.click();
+});
+
+/* Clean up on unload */
+window.addEventListener('beforeunload', ()=>{
+  try { if (stream) stream.getTracks().forEach(t => t.stop()); } catch(e){}
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+});
+</script>
+</body>
+</html>
