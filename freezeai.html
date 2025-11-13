@@ -4,8 +4,164 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FREEZE AI — Smart Refrigerator Monitoring</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ======== GLOBAL ======== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e8faff, #f6fdff);
+      color: #1c1c1c;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ======== HEADER ======== */
+    header {
+      background: linear-gradient(90deg, #0077b6, #00b4d8, #90e0ef);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      border-bottom: 5px solid #caf0f8;
+      box-shadow: 0 4px 15px rgba(0, 100, 150, 0.3);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    header p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
+
+    /* ======== MAIN ======== */
+    main {
+      flex: 1;
+      padding: 2rem 10%;
+    }
+
+    section {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 6px solid #00b4d8;
+    }
+
+    section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #0077b6;
+      margin-bottom: 1rem;
+      padding-left: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ======== LISTS ======== */
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      background: #f0fbff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    ul li::before {
+      content: "❄️";
+      margin-right: 0.7rem;
+    }
+
+    ul li:hover {
+      background: #e0f7ff;
+    }
+
+    /* ======== BUTTONS ======== */
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #0077b6, #00b4d8);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0, 150, 200, 0.2);
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #005f8f, #009ec0);
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(0, 150, 200, 0.3);
+    }
+
+    /* ======== FOOTER ======== */
+    footer {
+      text-align: center;
+      background: #003049;
+      color: white;
+      padding: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* ======== RESPONSIVE ======== */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.9rem;
+      }
+
+      main {
+        padding: 1.5rem 5%;
+      }
+
+      section {
+        padding: 1.5rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <header>
     <h1>FREEZE AI — Intelligent Refrigerator Maintenance</h1>
@@ -21,11 +177,11 @@
     <section>
       <h2>Key Features</h2>
       <ul>
-        <li> Real-time temperature and humidity tracking</li>
-        <li> Predictive spoilage detection using AI models</li>
+        <li>Real-time temperature and humidity tracking</li>
+        <li>Predictive spoilage detection using AI models</li>
         <li>Voice and visual alerts for maintenance and freshness</li>
-        <li> Analytics dashboard for inventory and shelf-life insights</li>
-        <li> Mobile notifications and remote monitoring</li>
+        <li>Analytics dashboard for inventory and shelf-life insights</li>
+        <li>Mobile notifications and remote monitoring</li>
       </ul>
     </section>
 

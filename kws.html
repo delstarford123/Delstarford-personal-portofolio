@@ -4,7 +4,159 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KWS AI — Wildlife Surveillance System</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5fff8, #eafaf0);
+      color: #1b1b1b;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ========== HEADER ========== */
+    header {
+      background: linear-gradient(90deg, #004d00, #008000);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      border-bottom: 5px solid #a1ff7a;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    main {
+      flex: 1;
+      padding: 2rem 10%;
+    }
+
+    section {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #006400;
+      margin-bottom: 1rem;
+      border-left: 6px solid #a1ff7a;
+      padding-left: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========== LIST STYLES ========== */
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      background: #f0fff4;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    ul li::before {
+      content: "🌿";
+      margin-right: 0.7rem;
+    }
+
+    ul li:hover {
+      background: #e1ffe9;
+    }
+
+    /* ========== BUTTONS ========== */
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #007a33, #00b84d);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #005d26, #00a740);
+      transform: scale(1.05);
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      text-align: center;
+      background: #003300;
+      color: white;
+      padding: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* ========== RESPONSIVE DESIGN ========== */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      main {
+        padding: 1.5rem 5%;
+      }
+
+      section {
+        padding: 1.5rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -21,11 +173,11 @@
     <section>
       <h2>Key Features</h2>
       <ul>
-        <li>🦁 Real-time animal movement tracking and anomaly detection</li>
-        <li>🌍 Environmental condition monitoring (temperature, humidity, pollution)</li>
-        <li>🔔 Alerts for poaching activity and unauthorized access</li>
-        <li>📊 Predictive analytics for migration and health trends</li>
-        <li>🎙️ Voice-assisted navigation for field operatives</li>
+        <li>Real-time animal movement tracking and anomaly detection</li>
+        <li>Environmental condition monitoring (temperature, humidity, pollution)</li>
+        <li>Alerts for poaching activity and unauthorized access</li>
+        <li>Predictive analytics for migration and health trends</li>
+        <li>Voice-assisted navigation for field operatives</li>
       </ul>
     </section>
 

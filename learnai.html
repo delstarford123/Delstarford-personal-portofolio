@@ -4,7 +4,148 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LEARN AI — Online College for Artificial Intelligence</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f9ff, #eef7ff);
+      color: #222;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(90deg, #004aad, #0077ff);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      border-bottom: 5px solid #00e0ff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem 10%;
+    }
+
+    section {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #004aad;
+      margin-bottom: 1rem;
+      border-left: 6px solid #00b4ff;
+      padding-left: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      background: #f0f8ff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    ul li::before {
+      content: "💡";
+      margin-right: 0.7rem;
+    }
+
+    ul li:hover {
+      background: #e6f2ff;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #0077ff, #00cfff);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #005fd1, #00a8e8);
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      background: #002c5a;
+      color: white;
+      padding: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      main {
+        padding: 1.5rem 5%;
+      }
+
+      section {
+        padding: 1.5rem;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -22,10 +163,10 @@
       <h2>Key Features</h2>
       <ul>
         <li>Structured AI curriculum with beginner to advanced tracks</li>
-        <li> Interactive coding labs and real-world projects</li>
-        <li> Resource library with tutorials, datasets, and research papers</li>
+        <li>Interactive coding labs and real-world projects</li>
+        <li>Resource library with tutorials, datasets, and research papers</li>
         <li>Live mentorship and discussion forums</li>
-        <li> Progress tracking and certification upon completion</li>
+        <li>Progress tracking and certification upon completion</li>
       </ul>
     </section>
 
