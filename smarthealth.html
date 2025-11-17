@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SMART HEALTH AI — Malaria Surveillance</title>
+  <meta name="description" content="SMART HEALTH AI - Predict malaria-prone regions from mosquito species, connect community health personnel and doctors.">
+  <style>
+    :root{--accent:#1e88e5;--muted:#6b7280;--bg:#f7fafc;--card:#ffffff}
+    *{box-sizing:border-box}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#111}
+    header{background:linear-gradient(90deg,var(--accent),#0ea5a4); color:white; padding:2rem 1rem}
+    .container{max-width:1100px;margin:0 auto;padding:1rem}
+    .site-brand{display:flex;gap:1rem;align-items:center}
+    .logo{width:56px;height:56px;border-radius:10px;background:#fff1;display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    h1{font-size:1.5rem;margin:0}
+    p.lead{margin:.5rem 0 0;color:rgba(255,255,255,.9)}
+
+    main{padding:2rem 1rem}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+    .card{background:var(--card);border-radius:12px;padding:1.25rem;box-shadow:0 6px 18px rgba(16,24,40,.06)}
+    .col-4{grid-column:span 4}
+    .col-8{grid-column:span 8}
+    @media (max-width:900px){.col-4,.col-8{grid-column:span 12}}
+
+    .card h3{margin:0 0 .5rem}
+    .btn{display:inline-block;padding:.5rem .75rem;border-radius:8px;background:var(--accent);color:white;text-decoration:none;margin-right:.5rem}
+    .muted{color:var(--muted)}
+
+    /* form */
+    form .row{display:flex;gap:.75rem}
+    form input, form select, form textarea{width:100%;padding:.6rem;border:1px solid #e6e9ef;border-radius:8px}
+    label{font-size:.9rem;color:var(--muted);display:block;margin-bottom:.35rem}
+
+    footer{padding:2rem 1rem;background:#0f1724;color:#cbd5e1;margin-top:2rem}
+    .small{font-size:.9rem;color:rgba(255,255,255,.8)}
+
+    /* small map placeholder */\    .map-placeholder{height:260px;border-radius:8px;background:linear-gradient(180deg,#e6f4ff,#fff);display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px dashed #cfe8ff}
+
+    .stats{display:flex;gap:1rem;flex-wrap:wrap}
+    .stat{flex:1 1 120px;background:#fbfdff;padding:.8rem;border-radius:8px}
+
+    code{background:#0f1724;color:#fff;padding:.15rem .35rem;border-radius:4px;font-size:.9rem}
+
+  </style>
+</head>
+<body>
+  <header aria-label="SMART HEALTH AI header">
+    <div class="container">
+      <div class="site-brand">
+        <div class="logo" aria-hidden>SH</div>
+        <div>
+          <h1>SMART HEALTH AI</h1>
+          <p class="lead">Early malaria-prone region prediction and community-health connection platform</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <div class="grid" style="align-items:start">
+      <section class="card col-4" aria-labelledby="about-title">
+        <h3 id="about-title">About SMART HEALTH AI</h3>
+        <p>SMART HEALTH AI is a system to help predict malaria-prone regions as early as possible based on the <strong>mosquito species and genus</strong> found in an area, environmental features, and reported clinical cases. It connects community health personnel and doctors for faster response and targeted interventions.</p>
+        <p><strong>Tech</strong>: Flask, TensorFlow, Pandas, NumPy, PyTorch, Scikit-learn</p>
+        <p>
+          <a class="btn" href="smarthealth.html">Details</a>
+          <a class="btn" href="#" onclick="openGit()">GitHub</a>
+          <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smarthealth.html/">Vercel</a>
+        </p>
+      </section>
+
+      <section class="card col-8" aria-labelledby="dashboard-title">
+        <h3 id="dashboard-title">Malaria Surveillance Dashboard</h3>
+        <p class="muted">Upload trap counts, report mosquito species, or simulate predictions. This front-end is a static prototype — integrate with a Flask API for real predictions.</p>
+
+        <div style="margin-top:1rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <div style="flex:1 1 220px">
+            <label for="species">Mosquito species</label>
+            <select id="species" aria-label="Select mosquito species">
+              <option value="anopheles_gambiae">Anopheles gambiae</option>
+              <option value="anopheles_funestus">Anopheles funestus</option>
+              <option value="aedes_aegypti">Aedes aegypti</option>
+              <option value="culex">Culex spp.</option>
+            </select>
+          </div>
+          <div style="flex:1 1 160px">
+            <label for="count">Trap count (last 7 days)</label>
+            <input id="count" type="number" min="0" value="12" />
+          </div>
+          <div style="flex:0 0 auto;align-self:end">
+            <button class="btn" onclick="runPrediction()">Run prediction</button>
+          </div>
+        </div>
+
+        <div id="predictionResult" style="margin-top:1rem"></div>
+
+        <hr style="margin:1rem 0;border:none;border-top:1px solid #eef2f7">
+
+        <div class="stats">
+          <div class="stat">
+            <div class="muted">Regions monitored</div>
+            <div style="font-weight:700;font-size:1.25rem">128</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Active alerts (7d)</div>
+            <div style="font-weight:700;font-size:1.25rem">18</div>
+          </div>
+          <div class="stat">
+            <div class="muted">Community reporters</div>
+            <div style="font-weight:700;font-size:1.25rem">432</div>
+          </div>
+        </div>
+
+        <h4 style="margin-top:1rem">Map (placeholder)</h4>
+        <div class="map-placeholder" role="img" aria-label="Map placeholder">Interactive map goes here — embed Leaflet or Mapbox</div>
+
+      </section>
+
+      <section class="card col-4" aria-labelledby="report-title">
+        <h3 id="report-title">Report mosquito sighting</h3>
+        <form id="reportForm" onsubmit="submitReport(event)">
+          <label for="location">Location (village / GPS)</label>
+          <input id="location" required placeholder="e.g. Makueni, -1.234, 37.123" />
+
+          <label for="speciesInput">Species (or genus)</label>
+          <input id="speciesInput" placeholder="e.g. Anopheles gambiae" />
+
+          <label for="notes">Notes</label>
+          <textarea id="notes" rows="3" placeholder="Breeding site, watery pools, recent rainfall..."></textarea>
+
+          <div style="margin-top:.75rem">
+            <button type="submit" class="btn">Submit report</button>
+            <button type="button" class="btn" style="background:#6b7280" onclick="clearReport()">Clear</button>
+          </div>
+        </form>
+        <div id="reportResult" style="margin-top:.6rem" class="muted"></div>
+      </section>
+
+      <section class="card col-8" aria-labelledby="dataset-title">
+        <h3 id="dataset-title">Upload dataset (CSV)</h3>
+        <p class="muted">Upload trap summaries or recent case counts to analyze trends. CSV should contain columns like <code>date,location,species,count,cases</code>.</p>
+        <input id="csvfile" type="file" accept="text/csv" />
+        <div style="margin-top:.6rem">
+          <button class="btn" onclick="readCSV()">Preview CSV</button>
+        </div>
+        <pre id="csvPreview" style="margin-top:.8rem;white-space:pre-wrap;background:#fff;padding:1rem;border-radius:8px;max-height:220px;overflow:auto"></pre>
+      </section>
+
+      <section class="card col-12" aria-labelledby="how-title">
+        <h3 id="how-title">How it works</h3>
+        <ol>
+          <li>Collect mosquito trap data and identify species/genus using field kits or image models.</li>
+          <li>Combine entomological data with environmental and clinical case reports.</li>
+          <li>Use machine learning models (ensemble of TensorFlow / PyTorch models) to score malaria risk per region.</li>
+          <li>Send alerts and connect community health workers and clinicians for targeted interventions.</li>
+        </ol>
+        <p class="muted"></p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
+        <div>
+          <div style="font-weight:700">SMART HEALTH AI</div>
+          <div class="small">Connects community health personnel, entomology, and clinicians for earlier malaria action.</div>
+        </div>
+        <div class="small">Built with ❤️ • <a href="#" style="color:inherit;text-decoration:underline" onclick="openGit()">Source</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function openGit(){
+      window.open('https://github.com/delstarford/smarthealth','_blank')
+    }
+
+    function runPrediction(){
+      const species = document.getElementById('species').value
+      const count = Number(document.getElementById('count').value || 0)
+
+      // Simple heuristic demo: Anopheles species + high counts -> high risk
+      let score = 10
+      if(species.startsWith('anopheles')) score += 30
+      score += Math.min(count * 2, 40)
+
+      let label = 'Low'
+      if(score>50) label='High'
+      else if(score>30) label='Medium'
+
+      const out = document.getElementById('predictionResult')
+      out.innerHTML = `<div class="card" style="margin-top:.5rem"><strong>Predicted risk:</strong> ${label} <br><small class=\"muted\">Score: ${score} (0-100)</small></div>`
+    }
+
+    function submitReport(e){
+      e.preventDefault()
+      const loc = document.getElementById('location').value.trim()
+      const species = document.getElementById('speciesInput').value.trim() || 'unknown'
+      const notes = document.getElementById('notes').value.trim()
+
+      if(!loc){
+        document.getElementById('reportResult').textContent = 'Please provide a location.'
+        return
+      }
+
+      // This demo only shows the report locally. Replace with fetch('/report', {method:'POST', body: JSON.stringify(...)})
+      const now = new Date().toISOString()
+      const txt = `Report received: ${now}\nLocation: ${loc}\nSpecies: ${species}\nNotes: ${notes}`
+      document.getElementById('reportResult').textContent = txt
+      document.getElementById('reportForm').reset()
+    }
+
+    function clearReport(){
+      document.getElementById('reportForm').reset()
+      document.getElementById('reportResult').textContent = ''
+    }
+
+    function readCSV(){
+      const f = document.getElementById('csvfile').files[0]
+      const preview = document.getElementById('csvPreview')
+      if(!f){ preview.textContent = 'No file selected.'; return }
+      const reader = new FileReader()
+      reader.onload = e => {
+        const text = e.target.result
+        const lines = text.split(/\r?\n/).slice(0,30).join('\n')
+        preview.textContent = lines
+      }
+      reader.readAsText(f)
+    }
+
+  </script>
+</body>
+</html>
