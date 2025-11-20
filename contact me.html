@@ -6,7 +6,7 @@
   <title>Contact — Delstarford</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
-  <meta name="description" content="Contact Delstarford — choose WhatsApp, LinkedIn, X, phone, or send a direct message. Professional AJAX contact handling with validation." />
+  <meta name="description" content="Contact Delstarford — WhatsApp, LinkedIn, Email. Includes an interactive AI FAQ bot." />
   <style>
     :root{
       --bg:#071224;
@@ -21,6 +21,33 @@
     }
     *{box-sizing:border-box}
     body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071224,#02111a);color:#eef5fb;font-size:16px;line-height:1.45}
+    
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(7, 18, 36, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+    .welcome-content p { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem auto; font-style: italic; }
+    .start-btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #071224; border: none; padding: 16px 32px;
+      font-size: 1.1rem; font-weight: 800; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 0 25px rgba(96, 165, 250, 0.3);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); }
+
+    /* --- MAIN LAYOUT --- */
     .wrap{width:92%;max-width:var(--container);margin:3.5rem auto;padding:1.25rem}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
     a.brand{font-weight:800;color:var(--accent);text-decoration:none;font-size:1.1rem}
@@ -28,6 +55,8 @@
     .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
     h1{margin:0 0 0.25rem 0}
     p.muted{color:var(--muted);margin-top:0}
+    
+    /* Channels */
     .channels{display:flex;flex-direction:column;gap:0.6rem;margin-top:0.6rem}
     .channel{display:flex;align-items:center;gap:0.75rem;padding:0.6rem;border-radius:10px;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.02)}
     .channel .meta{flex:1}
@@ -37,6 +66,8 @@
     .btn{display:inline-block;padding:0.45rem 0.75rem;border-radius:10px;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,0.03);cursor:pointer;background:transparent;color:var(--accent-2)}
     .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#031025;border:1px solid transparent}
     .btn.ghost{background:transparent}
+    
+    /* Form */
     form.contact{display:flex;flex-direction:column;gap:0.6rem}
     label{font-size:0.9rem;color:var(--muted)}
     input[type="text"], input[type="email"], textarea, select{
@@ -47,10 +78,40 @@
     .form-actions{display:flex;gap:0.6rem;align-items:center;margin-top:0.4rem}
     .status{color:var(--accent-2);min-height:1.4rem}
     footer{margin-top:1.5rem;color:var(--muted);font-size:0.95rem;text-align:center}
+
+    /* --- AI CHATBOT WIDGET STYLES --- */
+    .ai-bot {
+        margin-top: 1.5rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 1rem;
+    }
+    .chat-window {
+        height: 150px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 8px;
+        padding: 10px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255,255,255,0.02);
+    }
+    .bot-msg { color: var(--accent); margin-bottom: 6px; }
+    .user-msg { color: var(--accent-2); text-align: right; margin-bottom: 6px; }
+    .bot-input-group { display: flex; gap: 5px; }
+
     @media (max-width:920px){ .grid{grid-template-columns:1fr} .row{flex-direction:column} }
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Contact Delstarford</h1>
+      <p>"Science knows no country, because knowledge belongs to humanity, and is the torch which illuminates the world."</p>
+      <button class="start-btn" onclick="enterSite()">Connect for Success</button>
+    </div>
+  </div>
+
   <div class="wrap" role="main">
     <header>
       <a class="brand" href="index.html">Delstarford</a>
@@ -62,94 +123,50 @@
     </header>
 
     <section class="grid" aria-labelledby="contact-title">
-      <!-- Left column: channels -->
       <aside class="card" aria-label="Contact channels">
         <h1 id="contact-title">Contact me</h1>
-        <p class="muted">Choose your preferred platform. Click a channel to open it, or use the form to request a preferred contact time.</p>
+        <p class="muted">Choose your preferred platform or ask my AI assistant about me. </p>
 
         <div class="channels" role="list">
-          <!-- WhatsApp -->
           <div class="channel" role="listitem" aria-label="WhatsApp">
             <div class="meta">
               <h4>WhatsApp</h4>
               <p>Quick messages and voice notes. Typical response time: a few hours.</p>
             </div>
-            <div class="actions" aria-hidden="false">
-              <!-- replace phone number with your international number (no plus sign in wa link) -->
+            <div class="actions">
               <a id="wa-btn" class="btn" href="https://wa.me/254707605751?text=Hi%20Delstarford%2C%20I%27d%20like%20to%20talk%20about..." target="_blank" rel="noopener">Open WhatsApp</a>
               <button class="btn ghost" onclick="copyToClipboard('+254707605751')">Copy</button>
             </div>
           </div>
 
-          <!-- Phone call -->
           <div class="channel" role="listitem" aria-label="Phone call">
             <div class="meta">
               <h4>Call</h4>
-              <p>Prefer a quick call? Tap to call from a phone, or request a callback using the form.</p>
+              <p>Prefer a quick call? Tap to call from a phone.</p>
             </div>
             <div class="actions">
               <a id="call-btn" class="btn" href="tel:+254707605751">Call</a>
               <button class="btn ghost" onclick="copyToClipboard('+254707605751')">Copy</button>
             </div>
           </div>
-
-          <!-- LinkedIn -->
-          <div class="channel" role="listitem" aria-label="LinkedIn">
-            <div class="meta">
-              <h4>LinkedIn</h4>
-              <p>Professional messages, endorsements, and networking.</p>
-            </div>
-            <div class="actions">
-              <a class="btn" href="https://www.linkedin.com/in/delstarford-isaiah-968400354" target="_blank" rel="noopener">linkedin.com/in/delstarford-isaiah-968400354</a>
-              <button class="btn ghost" onclick="copyToClipboard('https://www.linkedin.com/in/delstarford')">Copy</button>
-            </div>
-          </div>
-
-          <!-- X (Twitter) -->
-          <div class="channel" role="listitem" aria-label="X">
-            <div class="meta">
-              <h4>X (Twitter)</h4>
-              <p>Short updates and public conversation starter.</p>
-            </div>
-            <div class="actions">
-              <a class="btn" href="https://twitter.com/Delstarford/status/1689701805356195841" target="_blank" rel="noopener">Open</a>
-              <button class="btn ghost" onclick="copyToClipboard('https://twitter.com/Delstarford/status/1689701805356195841')">Copy</button>
-            </div>
-          </div>
-
-          <!-- Email -->
-          <div class="channel" role="listitem" aria-label="Email">
-            <div class="meta">
-              <h4>Email</h4>
-              <p>For detailed proposals, attachments, and formal requests.</p>
-            </div>
-            <div class="actions">
-              <a class="btn" href="mailto:delstarfordisaiah@gmail.com">Email</a>
-              <button class="btn ghost" onclick="copyToClipboard('delstarfordisaiah@gmail.com')">Copy</button>
-            </div>
-          </div>
-
-          <!-- Other platforms placeholder -->
-          <div class="channel" role="listitem" aria-label="Other platforms">
-            <div class="meta">
-              <h4>Other</h4>
-              <p>Open to connecting on additional platforms. Use the form to specify a preferred channel.</p>
-            </div>
-            <div class="actions">
-              <button class="btn" onclick="document.getElementById('pref-channel').focus()">Choose</button>
-            </div>
-          </div>
         </div>
 
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:0.9rem 0">
-
-        <p style="margin:0;font-size:0.9rem;color:var(--muted)">Pro tip: if you prefer synchronous conversation, include a few time slots in your message and your time zone.</p>
+        <div class="ai-bot">
+            <h4>Ask Delstarford AI</h4>
+            <p class="muted" style="font-size:0.85rem">Ask anything about my skills, location, or vision.</p>
+            <div class="chat-window" id="chatWindow">
+                <div class="bot-msg">Bot: Hello! Ask me anything about Delstarford.</div>
+            </div>
+            <div class="bot-input-group">
+                <input type="text" id="botInput" placeholder="Type a question..." onkeypress="handleBotKey(event)">
+                <button class="btn primary" onclick="askBot()">Ask</button>
+            </div>
+        </div>
       </aside>
 
-      <!-- Right column: contact form -->
       <main class="card" aria-label="Contact form">
         <h2 style="margin-top:0">Send a message</h2>
-        <p class="muted">I read every message. And always ready to work with you .Use the form to request a callback, attach a brief project summary, or ask for a quote.</p>
+        <p class="muted">I read every message. Success in science comes from collaboration. Use the form to request a callback.</p>
 
         <form id="contact-form" class="contact" novalidate>
           <label for="name">Your name</label>
@@ -170,7 +187,6 @@
                 <option value="call">Call</option>
                 <option value="email" selected>Email</option>
                 <option value="linkedin">LinkedIn</option>
-                <option value="x">X</option>
                 <option value="other">Other</option>
               </select>
             </div>
@@ -180,44 +196,93 @@
           <input id="subject" name="subject" type="text" placeholder="Short subject" required minlength="3" />
 
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Briefly describe your project, timeline, and budget (if any)" required minlength="10"></textarea>
-
-          <div style="display:flex;gap:0.6rem;align-items:center;margin-top:0.25rem">
-            <input id="consent" type="checkbox" checked />
-            <label for="consent" style="margin:0;color:var(--muted);font-size:0.95rem">I agree to be contacted on my preferred channel</label>
-          </div>
+          <textarea id="message" name="message" rows="6" placeholder="Briefly describe your project or inquiry..." required minlength="10"></textarea>
 
           <div class="form-actions">
             <button id="submit-btn" class="btn primary" type="submit">Send message</button>
             <button id="clear-btn" class="btn" type="button">Clear</button>
-            <button id="attach-btn" class="btn" type="button" title="Add attachments via email">Attach files</button>
           </div>
 
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.4rem">
             <div id="form-status" class="status" aria-live="polite"></div>
-            <div style="color:var(--muted);font-size:0.9rem">Secure and private handling</div>
           </div>
         </form>
-
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:1rem 0">
-
-        <p class="muted" style="margin:0">If you prefer email attachments, click <strong>Attach files</strong> — this will open your mail client with a prefilled message (you can then attach files)</p>
       </main>
     </section>
 
     <footer>
-      <p>© <span id="year"></span> Delstarford — Prefered contact: WhatsApp / Email / Call</p>
+      <p>© <span id="year"></span> Delstarford — Preferred contact: WhatsApp / Email / Call</p>
     </footer>
   </div>
 
   <script>
-    // small helpers
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // --- WELCOME SPEECH LOGIC ---
+    function enterSite() {
+        const overlay = document.getElementById('welcomeOverlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 500);
+        playWelcomeSpeech();
+    }
+
+    function playWelcomeSpeech() {
+        const synth = window.speechSynthesis;
+        // Success quote included
+        const text = "Welcome to the Contact Hub. Louis Pasteur once said, 'Science knows no country, because knowledge belongs to humanity, and is the torch which illuminates the world.' Delstarford is dedicated to this vision of success through technology and agriculture. Please, use the contact form to collaborate, or ask the automatic A I assistant any questions you have about Delstarford right now.";
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        synth.speak(utterance);
+    }
+
+    // --- AI BOT LOGIC ---
+    function handleBotKey(e) { if(e.key === 'Enter') askBot(); }
+
+    function askBot() {
+        const input = document.getElementById('botInput');
+        const chat = document.getElementById('chatWindow');
+        const question = input.value.toLowerCase().trim();
+        if(!question) return;
+
+        // 1. Add User Message
+        chat.innerHTML += `<div class="user-msg">You: ${input.value}</div>`;
+        input.value = '';
+
+        // 2. Determine Answer (Simple Keyword Matching)
+        let answer = "I didn't quite catch that. Please ask about skills, location, or projects.";
+        
+        if(question.includes('who') || question.includes('delstarford')) {
+            answer = "Delstarford is an Agri-Tech and AI developer specializing in Machine Learning and Full-Stack solutions.";
+        } else if(question.includes('location') || question.includes('where')) {
+            answer = "Delstarford is based in Kakamega, Kenya.";
+        } else if(question.includes('skill') || question.includes('tech') || question.includes('stack')) {
+            answer = "Core skills include Python, Flask, React, TensorFlow, IoT integration, and Data Analysis.";
+        } else if(question.includes('project') || question.includes('work')) {
+            answer = "Major projects include AniproAI (Livestock), B-KING (Banking), and Plant Pathology AI.";
+        } else if(question.includes('contact') || question.includes('email') || question.includes('number')) {
+            answer = "You can contact me via the form on the right, or call/WhatsApp +254707605751.";
+        } else if(question.includes('success') || question.includes('vision')) {
+            answer = "My vision is to leverage AI to solve real-world problems in Agriculture and Health for a better future.";
+        }
+
+        // 3. Simulate Typing Delay & Add Bot Message
+        setTimeout(() => {
+            chat.innerHTML += `<div class="bot-msg">Bot: ${answer}</div>`;
+            chat.scrollTop = chat.scrollHeight; // Auto scroll to bottom
+            
+            // Speak the answer automatically
+            const u = new SpeechSynthesisUtterance(answer);
+            window.speechSynthesis.speak(u);
+        }, 600);
+    }
+
+    // --- FORM & UTILS ---
     function copyToClipboard(text){
       if(navigator.clipboard){
         navigator.clipboard.writeText(text).then(()=> showStatus('Copied to clipboard'));
       } else {
+        // Fallback
         const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy'); showStatus('Copied to clipboard'); } catch(e){ showStatus('Copy failed'); }
         document.body.removeChild(ta);
@@ -228,118 +293,25 @@
       const el = document.getElementById('form-status');
       el.textContent = msg;
       el.style.color = isError ? '#ffb4b4' : '';
-      clearTimeout(window._statusTimer);
-      window._statusTimer = setTimeout(()=> el.textContent = '', 6000);
+      setTimeout(()=> el.textContent = '', 6000);
     }
 
-    // Attach button opens mail client with prefilled subject/body for attachments
-    document.getElementById('attach-btn').addEventListener('click', () => {
-      const name = encodeURIComponent(document.getElementById('name').value || '');
-      const subject = encodeURIComponent(document.getElementById('subject').value || 'Files for discussion');
-      const body = encodeURIComponent((document.getElementById('message').value || '') + '\n\nPlease find attachments in this email.');
-      const mailto = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
-      // open mail client
-      window.location.href = mailto;
-    });
-
-    // Clear form
     document.getElementById('clear-btn').addEventListener('click', () => {
       document.getElementById('contact-form').reset();
-      showStatus('Form cleared');
     });
 
-    // Form validation helper
-    function validateForm(data){
-      const errors = [];
-      if(!data.name || data.name.length < 2) errors.push('Name is too short');
-      if(!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.push('Invalid email');
-      if(!data.subject || data.subject.length < 3) errors.push('Subject is too short');
-      if(!data.message || data.message.length < 10) errors.push('Message is too short');
-      return errors;
-    }
-
-    // AJAX submit to backend /api/contact with professional handling
-    document.getElementById('contact-form').addEventListener('submit', async function(ev){
+    // Simple Mailto Submission
+    document.getElementById('contact-form').addEventListener('submit', function(ev){
       ev.preventDefault();
-      const submitBtn = document.getElementById('submit-btn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-
-      const data = {
-        name: document.getElementById('name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        pref_channel: document.getElementById('pref-channel').value,
-        subject: document.getElementById('subject').value.trim(),
-        message: document.getElementById('message').value.trim(),
-        consent: !!document.getElementById('consent').checked
-      };
-
-      const errors = validateForm(data);
-      if(errors.length){
-        showStatus(errors[0], true);
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send message';
-        return;
-      }
-
-      // Primary: POST to /api/contact (expects JSON); fallback: open mail client
-      try {
-        const resp = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            message: `Preferred channel: ${data.pref_channel}\nPhone: ${data.phone}\n\n${data.message}`,
-            subject: data.subject
-          }),
-          credentials: 'same-origin' // include cookies if any
-        });
-
-        if(resp.ok){
-          const json = await resp.json();
-          if(json && json.ok){
-            showStatus('Message sent. I will contact you on your preferred channel shortly.');
-            document.getElementById('contact-form').reset();
-            submitBtn.textContent = 'Sent';
-            setTimeout(()=> { submitBtn.textContent = 'Send message'; submitBtn.disabled = false; }, 1800);
-            return;
-          }
-          // server returned structured error
-          const err = json && json.errors ? Object.values(json.errors)[0] : 'Server error';
-          showStatus(err, true);
-        } else if(resp.status === 400){
-          const json = await resp.json();
-          const err = json && json.errors ? Object.values(json.errors)[0] : 'Validation failed';
-          showStatus(err, true);
-        } else {
-          // non-JSON or unexpected status - fallback
-          showStatus('Server error, opening mail client as fallback', true);
-        }
-      } catch (err){
-        // network failure or no backend
-        showStatus('No server available. Opening mail client as fallback');
-      }
-
-      // Fallback mailto with prefilled message (will open user's mail client)
-      const subject = encodeURIComponent(data.subject || 'Contact from portfolio');
-      const body = encodeURIComponent(
-        `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nPreferred channel: ${data.pref_channel}\n\n${data.message}`
-      );
-      window.location.href = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send message';
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      const subject = document.getElementById('subject').value;
+      
+      const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      window.location.href = `mailto:delstarfordisaiah@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      showStatus('Opening your email client...');
     });
-
-    // Optional: detect mobile and present "Call" more prominently
-    (function enhanceForMobile(){
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-      if(isMobile){
-        document.getElementById('call-btn').classList.add('primary');
-      }
-    })();
   </script>
 </body>
 </html>

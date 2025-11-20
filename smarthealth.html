@@ -9,6 +9,34 @@
     :root{--accent:#1e88e5;--muted:#6b7280;--bg:#f7fafc;--card:#ffffff}
     *{box-sizing:border-box}
     body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#111}
+    
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Medical Gradient (Teal to Blue) */
+      background: linear-gradient(135deg, #0ea5a4 0%, #1e88e5 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #e0f2fe; }
+    .start-btn {
+      background: #ffffff;
+      color: #1e88e5; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+
+    /* Existing Styles */
     header{background:linear-gradient(90deg,var(--accent),#0ea5a4); color:white; padding:2rem 1rem}
     .container{max-width:1100px;margin:0 auto;padding:1rem}
     .site-brand{display:flex;gap:1rem;align-items:center}
@@ -35,7 +63,7 @@
     footer{padding:2rem 1rem;background:#0f1724;color:#cbd5e1;margin-top:2rem}
     .small{font-size:.9rem;color:rgba(255,255,255,.8)}
 
-    /* small map placeholder */\    .map-placeholder{height:260px;border-radius:8px;background:linear-gradient(180deg,#e6f4ff,#fff);display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px dashed #cfe8ff}
+    .map-placeholder{height:260px;border-radius:8px;background:linear-gradient(180deg,#e6f4ff,#fff);display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px dashed #cfe8ff}
 
     .stats{display:flex;gap:1rem;flex-wrap:wrap}
     .stat{flex:1 1 120px;background:#fbfdff;padding:.8rem;border-radius:8px}
@@ -45,6 +73,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Welcome to SMART HEALTH AI</h1>
+      <p>Predicting outbreaks. Connecting communities. Saving lives through Data Science.</p>
+      <button class="start-btn" onclick="enterSite()">Initialize Surveillance & Listen</button>
+    </div>
+  </div>
+
   <header aria-label="SMART HEALTH AI header">
     <div class="container">
       <div class="site-brand">
@@ -61,7 +98,10 @@
     <div class="grid" style="align-items:start">
       <section class="card col-4" aria-labelledby="about-title">
         <h3 id="about-title">About SMART HEALTH AI</h3>
-        <p>SMART HEALTH AI is a system to help predict malaria-prone regions as early as possible based on the <strong>mosquito species and genus</strong> found in an area, environmental features, and reported clinical cases. It connects community health personnel and doctors for faster response and targeted interventions.</p>
+        <p>SMART HEALTH AI is a system to help predict malaria-prone regions as early as possible based on the <strong>mosquito species and genus</strong> found in an area. 
+
+[Image of malaria transmission cycle]
+ It analyzes environmental features and reported clinical cases to connect community health personnel and doctors for faster response.</p>
         <p><strong>Tech</strong>: Flask, TensorFlow, Pandas, NumPy, PyTorch, Scikit-learn</p>
         <p>
           <a class="btn" href="smarthealth.html">Details</a>
@@ -150,12 +190,11 @@
       <section class="card col-12" aria-labelledby="how-title">
         <h3 id="how-title">How it works</h3>
         <ol>
-          <li>Collect mosquito trap data and identify species/genus using field kits or image models.</li>
+          <li>Collect mosquito trap data and identify species/genus using field kits or image models. </li>
           <li>Combine entomological data with environmental and clinical case reports.</li>
           <li>Use machine learning models (ensemble of TensorFlow / PyTorch models) to score malaria risk per region.</li>
           <li>Send alerts and connect community health workers and clinicians for targeted interventions.</li>
         </ol>
-        <p class="muted"></p>
       </section>
 
     </div>
@@ -174,6 +213,26 @@
   </footer>
 
   <script>
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playHealthSpeech();
+    }
+
+    function playHealthSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to Smart Health A I. Malaria is preventable, yet it remains a deadly threat. " +
+                   "Developed by Delstarford, this system uses Artificial Intelligence to predict outbreaks before they happen. " +
+                   "By analyzing mosquito species and environmental data, we identify high-risk zones and connect community health workers directly with doctors. " +
+                   "Data saves lives. Support Delstarford to deploy this predictive system and build a malaria-free future.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+
     function openGit(){
       window.open('https://github.com/delstarford/smarthealth','_blank')
     }
@@ -230,7 +289,6 @@
       }
       reader.readAsText(f)
     }
-
   </script>
 </body>
 </html>

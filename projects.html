@@ -62,7 +62,7 @@
       justify-content:space-between;
     }
 
-    a.btn {
+    a.btn, button.btn {
       display:inline-block;
       padding:.5rem .75rem;
       border-radius:8px;
@@ -70,12 +70,30 @@
       color:var(--accent-2);
       border:1px solid rgba(255,255,255,0.03);
       font-weight:600;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px; /* Match link font size */
+      font-family: inherit;
       transition:background 0.3s ease, color 0.3s ease;
     }
 
-    a.btn:hover {
+    a.btn:hover, button.btn:hover {
       background:var(--accent-2);
       color:#fff;
+    }
+
+    /* Special style for the speech button */
+    .voice-btn {
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+    .voice-btn:hover {
+        background: var(--accent);
+        color: #000;
     }
 
     .grid {
@@ -179,11 +197,16 @@
     <div class="back"><a href="index.html" class="btn">← Back to Home</a></div>
 
     <h1>Projects</h1>
+    
+    <button onclick="toggleAudio()" id="audioControl" class="btn voice-btn">
+       🔊 Listen to Project Overview
+    </button>
+
     <h2>All these projects are just a frontend view of the actual work. Please contact me to see the actual implementations and detailed explanations.</h2>
     <p class="muted">A selection of projects with links to detailed pages, repositories, and demos.</p>
 
     <div class="grid" aria-live="polite">
-      <!-- All your projects remain unchanged -->
+      
       <article class="card">
         <h3>Usherbot Embedding Biometric Pipeline</h3>
         <p>Fingerprint capture, embedding extraction, and robust matcher with audit logs and configurable thresholds.</p>
@@ -291,13 +314,12 @@
         </p>
       </article>
       
-
-       <article class="card">
+      <article class="card">
         <h3>Poli AI</h3>
-        <p>AI-Intelligent poultry management survselance system.</p>
+        <p>AI-Intelligent poultry management surveillance system.</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
         <p>
-          <a class="btn" href="poliai.html".html">Details</a>
+          <a class="btn" href="poliai.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/poliai.html/">Vercel</a>
         </p>
@@ -306,17 +328,16 @@
 
       <article class="card">
         <h3>ANIPRO AI</h3>
-        <p>AI-Intelligent banking service connecting the small scale farmers and business men to the insurance companies for derisking purposes,and provision of early emergency creadits and loans by the financial institutions.</p>
+        <p>AI-Intelligent banking service connecting the small scale farmers and business men to the insurance companies for derisking purposes,and provision of early emergency credits and loans by the financial institutions.</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
         <p>
-          <a class="btn" href="aniproai.html".html">Details</a>
+          <a class="btn" href="aniproai.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/aniproai.html/">Vercel</a>
         </p>
       </article>
 
-
-      <article class="card"></article>
+      <article class="card">
         <h3>BKING</h3>
         <p>AI-Intelligent Banking system for Insurers and credit facilities.</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
@@ -332,39 +353,40 @@
         <p>AI-Intelligent refrigirator maintanence for ealry detection and prediction of stale and exact time for the produce to go bad..</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
         <p>
-          <a class="btn" href="freezeai.html".html">Details</a>
+          <a class="btn" href="freezeai.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/freezeai.html/">Vercel</a>
         </p>
       </article>
+
       <article class="card">
         <h3>KWS AI</h3>
         <p>AI- Intelligence wildlife park and reserve Surveillance,for early detection of abnormal livestock conditions,porchery and abnormal environmental conditions.</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
         <p>
-          <a class="btn" href="kws.html".html">Details</a>
+          <a class="btn" href="kws.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/kws.html/">Vercel</a>
         </p>
       </article>
 
-
       <article class="card">
-       <h3>LEARN AI</h3>
+        <h3>LEARN AI</h3>
         <p>LEARNING ONLINE COLLEGE FOR ARTIFICIAL INTELLIGENCE ,connecting the students to the teachers digitally..</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
         <p>
-          <a class="btn" href="Learnai.html".html">Details</a>
+          <a class="btn" href="Learnai.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://let-the-farmer-learn-ai.vercel.app/">Vercel</a>
         </p>
       </article>
+
       <article class="card">
-       <h3>SMART HEALTH AI</h3>
+        <h3>SMART HEALTH AI</h3>
         <p>SMART HEALTH AI a system to help predict malaria prone regions as ealry as possible based on the mosquito specie and genus in the region,and connecting the Community health personel and doctors</p>
         <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch,Scikit-learn</p>
         <p>
-          <a class="btn" href="smarthealthhtml".html">Details</a>
+          <a class="btn" href="smarthealth.html">Details</a>
           <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smarthealth.html/">Vercel</a>
         </p>
@@ -376,7 +398,6 @@
     <p>© <span id="year"></span> Delstarford</p>
   </footer>
 
-  <!-- Floating Project Info -->
   <div class="floating-info" id="floatingInfo">
     <strong id="projectCount">0 Projects Completed</strong>
     Explore the innovative AI and full-stack solutions I’ve built across industries.
@@ -396,6 +417,63 @@
       if(window.scrollY > 150) info.style.opacity = '1';
       else info.style.opacity = '0.85';
     });
+
+    // --- SPEECH FUNCTIONALITY ---
+    let isSpeaking = false;
+    const synth = window.speechSynthesis;
+
+    function toggleAudio() {
+        const btn = document.getElementById('audioControl');
+
+        if (synth.speaking) {
+            // Stop speaking
+            synth.cancel();
+            isSpeaking = false;
+            btn.innerHTML = "🔊 Listen to Project Overview";
+        } else {
+            // Start speaking
+            isSpeaking = true;
+            btn.innerHTML = "🔇 Stop Listening";
+            speakProjects();
+        }
+    }
+
+    function speakProjects() {
+        const btn = document.getElementById('audioControl');
+        
+        // 1. Intro Message
+        let textToRead = "Welcome to Delstarford's Portfolio. I specialize in Machine Learning, Agriculture Tech, and Health Solutions. Here are the projects I have developed, along with their importance. ";
+
+        // 2. Loop through all cards and extract text
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card) => {
+            const title = card.querySelector('h3')?.innerText;
+            // We get the first paragraph which contains the description/importance
+            const description = card.querySelector('p')?.innerText;
+
+            if(title && description) {
+                textToRead += `Project Name: ${title}. Importance: ${description}. Next project. `;
+            }
+        });
+
+        textToRead += "Those were my projects. Please contact me for detailed implementations.";
+
+        // 3. Create the Speech Utterance
+        const utterance = new SpeechSynthesisUtterance(textToRead);
+        
+        // Optional: Adjust speed (rate) and pitch
+        utterance.rate = 1; 
+        utterance.pitch = 1;
+
+        // 4. Reset button when finished
+        utterance.onend = function() {
+            isSpeaking = false;
+            btn.innerHTML = "🔊 Listen to Project Overview";
+        };
+
+        // 5. Speak
+        synth.speak(utterance);
+    }
   </script>
 </body>
 </html>

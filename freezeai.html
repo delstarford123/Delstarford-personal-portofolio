@@ -23,6 +23,32 @@
       min-height: 100vh;
     }
 
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Frosty Blue Gradient */
+      background: linear-gradient(135deg, #003049 0%, #0077b6 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #caf0f8; }
+    .start-btn {
+      background: #caf0f8;
+      color: #0077b6; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(202, 240, 248, 0.6); }
+
     /* ======== HEADER ======== */
     header {
       background: linear-gradient(90deg, #0077b6, #00b4d8, #90e0ef);
@@ -74,6 +100,9 @@
       margin-bottom: 1rem;
       padding-left: 10px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     p {
@@ -145,15 +174,12 @@
       header h1 {
         font-size: 1.9rem;
       }
-
       main {
         padding: 1.5rem 5%;
       }
-
       section {
         padding: 1.5rem;
       }
-
       .btn {
         width: 100%;
         text-align: center;
@@ -163,6 +189,15 @@
 </head>
 
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Welcome to FREEZE AI</h1>
+      <p>Intelligent food preservation and appliance health monitoring using Artificial Intelligence.</p>
+      <button class="start-btn" onclick="enterSite()">Initialize System & Listen</button>
+    </div>
+  </div>
+
   <header>
     <h1>FREEZE AI — Intelligent Refrigerator Maintenance</h1>
     <p>AI-powered system for early detection of spoilage and predictive alerts for food freshness and equipment health.</p>
@@ -171,15 +206,19 @@
   <main>
     <section>
       <h2>Overview</h2>
-      <p>FREEZE AI is designed to revolutionize cold storage management by using artificial intelligence to monitor temperature patterns, detect anomalies, and predict spoilage timelines. It helps reduce food waste, optimize energy usage, and ensure safety in refrigeration systems across homes, restaurants, and supply chains.</p>
+      <p>FREEZE AI is designed to revolutionize cold storage management by using artificial intelligence to monitor temperature patterns, detect anomalies, and predict spoilage timelines. 
+
+[Image of smart refrigerator IoT sensor architecture diagram]
+</p>
+      <p>It helps reduce food waste, optimize energy usage, and ensure safety in refrigeration systems across homes, restaurants, and supply chains.</p>
     </section>
 
     <section>
       <h2>Key Features</h2>
       <ul>
-        <li>Real-time temperature and humidity tracking</li>
-        <li>Predictive spoilage detection using AI models</li>
-        <li>Voice and visual alerts for maintenance and freshness</li>
+        <li>Real-time temperature and humidity tracking via IoT sensors</li>
+        <li>Predictive spoilage detection using AI models trained on fruit decay imagery </li>
+        <li>Voice and visual alerts for maintenance (e.g., "Door left open" or "Filter change needed")</li>
         <li>Analytics dashboard for inventory and shelf-life insights</li>
         <li>Mobile notifications and remote monitoring</li>
       </ul>
@@ -188,6 +227,7 @@
     <section>
       <h2>Technology Stack</h2>
       <p><strong>Frameworks & Libraries:</strong> Flask, TensorFlow, PyTorch, Pandas, NumPy</p>
+      <p><strong>Hardware Integration:</strong> Raspberry Pi / ESP32 for sensor data ingestion</p>
       <p><strong>Deployment:</strong> Vercel</p>
     </section>
 
@@ -201,7 +241,31 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Delstarford. All rights reserved.</p>
+    <p>&copy; <span id="year"></span> Delstarford. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Auto-set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playFreezeSpeech();
+    }
+
+    function playFreezeSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to Freeze A I. This intelligent system, developed by Delstarford, prevents food waste by predicting spoilage before it happens. " +
+                   "Using advanced I o T sensors and machine learning, it monitors your refrigerator's health and the freshness of your produce. " +
+                   "This technology saves energy and money. Please support Delstarford to scale this sustainable solution.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+  </script>
 </body>
 </html>

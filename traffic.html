@@ -13,6 +13,34 @@
       color: #1c1c1c;
       overflow-x: hidden;
     }
+
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Urban Traffic Gradient (Deep Blue/Purple) */
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+      color: white;
+    }
+    .welcome-content h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 0 20px rgba(13, 110, 253, 0.5); }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #e0e7ff; }
+    .start-btn {
+      background: #0d6efd;
+      color: white; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(13, 110, 253, 0.6); }
+
+    /* Existing Styles */
     .hero {
       background: linear-gradient(135deg, #0d6efd, #6610f2);
       color: white;
@@ -60,6 +88,18 @@
     }
     .cta a {
       margin-top: 20px;
+      background: white;
+      color: #0d6efd;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .cta a:hover {
+      background: #f1f1f1;
     }
 
     @keyframes fadeInDown {
@@ -74,20 +114,26 @@
 </head>
 <body>
 
-  <!-- Hero Section -->
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>AI Traffic Manager</h1>
+      <p>Solving urban congestion with Computer Vision and Smart Alerts.</p>
+      <button class="start-btn" onclick="enterSite()">Enter & Listen</button>
+    </div>
+  </div>
+
   <section class="hero">
     <h1>AI-Powered Traffic Management</h1>
-    <p>Smart detection, multilingual voice navigation, and real-time insights — built for African roads and beyond.</p>
+    <p>Smart detection, multilingual voice navigation, and real-time insights — built for African roads and beyond. </p>
   </section>
 
-  <!-- Features Section -->
   <section class="section container">
     <div class="row g-4">
       <div class="col-md-4 feature">
         <div class="text-center">
           <div class="feature-icon mb-3"><i class="bi bi-camera-video"></i></div>
           <h5>Real-Time Detection</h5>
-          <p>Detect vehicles, people, and license plates live using optimized MobileNet and OCR pipelines.</p>
+          <p>Detect vehicles, people, and license plates live using optimized MobileNet and OCR pipelines. </p>
         </div>
       </div>
       <div class="col-md-4 feature">
@@ -111,7 +157,10 @@
         <div class="text-center">
           <div class="feature-icon mb-3"><i class="bi bi-cpu"></i></div>
           <h5>Edge & Cloud Ready</h5>
-          <p>Benchmark lightweight models for Raspberry Pi or Jetson, and scale to cloud deployments with ease.</p>
+          <p>Benchmark lightweight models for Raspberry Pi or Jetson, and scale to cloud deployments with ease. 
+
+[Image of edge computing traffic camera architecture]
+</p>
         </div>
       </div>
       <div class="col-md-4 feature">
@@ -131,14 +180,33 @@
     </div>
   </section>
 
-  <!-- Call to Action -->
   <section class="cta">
     <h2>Want to see it in action?</h2>
     <p>Explore the live dashboard or request a demo tailored to your city or region.</p>
-    <a class="btn" href="contact me.html"><i class="bi bi-chat-dots"></i> Contact Me</a>
+    <a href="contact me.html"><i class="bi bi-chat-dots"></i> Contact Me</a>
   </section>
 
   <script>
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playTrafficSpeech();
+    }
+
+    function playTrafficSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to the A I Traffic Management System. Traffic congestion is a major hurdle for economic growth in Africa. " +
+                   "Developed by Delstarford, this system uses Computer Vision to detect vehicles, read license plates, and optimize traffic flow in real-time. " +
+                   "It supports multilingual voice commands, making it accessible for everyone. " +
+                   "Let's solve urban mobility challenges together. Support Delstarford to deploy this smart solution.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+
     // Scroll-triggered animation
     const features = document.querySelectorAll('.feature');
     const observer = new IntersectionObserver(entries => {

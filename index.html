@@ -31,6 +31,33 @@
       line-height:1.45;
       font-size:16px;
     }
+
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(7, 18, 36, 0.98);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+    .welcome-content p { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem auto; font-style: italic; }
+    .start-btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #071224; border: none; padding: 16px 32px;
+      font-size: 1.1rem; font-weight: 800; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 0 25px rgba(96, 165, 250, 0.3);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); }
+
+    /* Existing Styles */
     .container{
       width:90%;
       max-width:var(--container);
@@ -154,6 +181,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Delstarford Portfolio</h1>
+      <p>"Innovation is the specific instrument of entrepreneurship... the act that endows resources with a new capacity to create wealth."</p>
+      <button class="start-btn" onclick="enterSite()">Enter & Listen to Profile</button>
+    </div>
+  </div>
+
   <header class="site-header">
     <nav class="nav container" aria-label="Main navigation">
       <a class="brand" href="index.html">Delstarford</a>
@@ -168,87 +204,7 @@
       </ul>
     </nav>
   </header>
-<!-- Profile avatar (place where you want it in index.html) -->
-<picture class="profile-picture" aria-hidden="false">
-  <!-- Prefer modern WebP -->
-  <source type="image/webp"
-          srcset="
-            /124.jpg,
-            /assets/7.jpg,
-            /assets/123.jpg,
-            /assets/721.jpg"
-          sizes="(max-width:480px) 84px, (max-width:980px) 200px, 260px">
-  <!-- Fallback PNG/JPEG -->
-  <source type="image/png"
-          srcset="
-            /assets/124.jpg 400w,
-            /assets/7.jpg 800w,
-            /assets/721.jpg 1200w"
-          sizes="(max-width:480px) 84px, (max-width:980px) 120px, 160px">
-  <!-- Lazy-loaded image with SVG placeholder (small inline data URI) -->
-  <img
-    class="avatar-img lazy"
-    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><rect width='100%' height='100%' fill='%23061a26'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial,sans-serif' font-size='56' fill='%236ee7b7'>DS</text></svg>"
-    data-src="/assets/avatar-800.webp"
-    data-srcset="/assets/avatar-400.webp 400w, /assets/avatar-800.webp 800w, /assets/avatar-1200.webp 1200w"
-    data-sizes="(max-width:480px) 84px, (max-width:980px) 120px, 160px"
-    alt="Delstarford — Machine Learning Engineer, Full‑Stack Developer, Agricultural Biotechnology"
-    width="160" height="260"
-    loading="lazy"
-    decoding="async">
-</picture>
 
-<!-- Optional: small caption for accessibility or semantic profile -->
-<figcaption class="sr-only">Profile image of Delstarford</figcaption>
-
-<!-- CSS (add to your styles.css or inside a <style> block) -->
-<style>
-  .profile-picture { display:inline-block; line-height:0; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.03); box-shadow:0 6px 18px rgba(2,6,12,0.45); background:linear-gradient(135deg,#06202a,#03111a); }
-  .avatar-img { display:block; width:100%; height:auto; object-fit:cover; aspect-ratio:1/1; transition:filter .36s ease, opacity .36s ease; filter: blur(8px) saturate(.9); opacity:0.95; }
-  .avatar-img.loaded { filter: none; opacity:1; }
-  /* Size variants (adjust to match your layout) */
-  @media (min-width:0px) { .profile-picture { width:84px; height:84px; border-radius:12px; } }
-  @media (min-width:980px) { .profile-picture { width:160px; height:160px; border-radius:14px; } }
-  /* screen-reader only helper (if needed) */
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-</style>
-
-<!-- JavaScript lazy loader (add to script.js or at page bottom) -->
-<script>
-  (function(){
-    if('loading' in HTMLImageElement.prototype){
-      // Native lazy loading supported: swap data-src into src for any remaining polyfill necessary
-      document.querySelectorAll('img.lazy').forEach(img => {
-        if(img.dataset.src){ img.src = img.dataset.src; }
-        if(img.dataset.srcset){ img.srcset = img.dataset.srcset; img.sizes = img.dataset.sizes || img.sizes; }
-        img.addEventListener('load', ()=> img.classList.add('loaded'));
-      });
-      return;
-    }
-
-    // Fallback: IntersectionObserver
-    const io = ('IntersectionObserver' in window) ? new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if(!entry.isIntersecting) return;
-        const img = entry.target;
-        if(img.dataset.src) img.src = img.dataset.src;
-        if(img.dataset.srcset) { img.srcset = img.dataset.srcset; img.sizes = img.dataset.sizes || img.sizes; }
-        img.addEventListener('load', ()=> img.classList.add('loaded'));
-        obs.unobserve(img);
-      });
-    }, { rootMargin: '200px 0px' }) : null;
-
-    document.querySelectorAll('img.lazy').forEach(img => {
-      if(io) io.observe(img);
-      else {
-        // no IO: load immediately
-        if(img.dataset.src) img.src = img.dataset.src;
-        if(img.dataset.srcset) { img.srcset = img.dataset.srcset; img.sizes = img.dataset.sizes || img.sizes; }
-        img.addEventListener('load', ()=> img.classList.add('loaded'));
-      }
-    });
-  })();
-</script>
   <main>
     <section id="hero" class="hero container" aria-labelledby="hero-title">
       <div class="hero-left">
@@ -286,7 +242,10 @@
 
     <section id="about" class="container section">
       <h2>About</h2>
-      <p>I design and ship production-ready systems that connect machine learning, biometrics, and web applications with agricultural biotechnology workflows. I emphasize maintainability, clear diagnostics, and accessible interfaces for real users and maintainers.</p>
+      <p>I design and ship production-ready systems that connect machine learning, biometrics, and web applications with agricultural biotechnology workflows. 
+
+[Image of machine learning pipeline architecture]
+ I emphasize maintainability, clear diagnostics, and accessible interfaces for real users and maintainers.</p>
       <div class="two-col">
         <div>
           <h4>Approach</h4>
@@ -308,15 +267,15 @@
         </div>
         <div class="skill">
           <h5>Full‑Stack</h5>
-          <p>HTML,JS AND CSS frontends; Flask backends; SQL/NoSQL; Docker; WSGI deployment,AI/ML/DL</p>
+          <p>HTML, JS, CSS frontends; Flask backends; SQL/NoSQL; Docker; WSGI deployment; AI/ML/DL integration.</p>
         </div>
         <div class="skill">
           <h5>Biometrics & Systems</h5>
-          <p>Fingerprint integration; matching pipelines; enrollment workflows; edge device integration with WebView and BiometricPrompt.</p>
+          <p>Fingerprint integration; matching pipelines; enrollment workflows; edge device integration with WebView and BiometricPrompt. </p>
         </div>
         <div class="skill">
           <h5>Agricultural Biotechnology</h5>
-          <p>Data-driven crop trials, lab-to-field data flows, crop disease early detection, reproducible experiment tracking, and analytics dashboards for agronomists.</p>
+          <p>Data-driven crop trials, lab-to-field data flows, crop disease early detection, reproducible experiment tracking, and analytics dashboards for agronomists. </p>
         </div>
       </div>
     </section>
@@ -330,7 +289,7 @@
           <p>Fingerprint capture, embedding extraction, and robust matcher with configurable thresholds and audit logging.</p>
           <div class="card-meta">
             <a class="btn" href="project-embedding.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
           </div>
         </article>
 
@@ -339,20 +298,21 @@
           <p>Web dashboard with registration logs, attendance summaries, fallback messages, and automated monthly reporting.</p>
           <div class="card-meta">
            <a class="btn" href="project-attendance.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn" href="https://usherbot.vercel.app/">Vercel</a>
+           <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
+           <a class="btn" href="https://usherbot.vercel.app/">Vercel</a>
           </div>
         </article>
         
         <article class="card">
           <h3>Eco-Ride</h3>
-          <p>Solution to climate change ,through the use of artificial Intelligence.</p>
+          <p>Solution to climate change, through the use of artificial Intelligence.</p>
           <div class="card-meta">
            <a class="btn" href="project-attendance.html">Details</a>
-          <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn" href="https://eco.ride.lohms.org/">Native App</a>
+           <a class="btn" href="#" target="_blank" rel="noopener">GitHub</a>
+           <a class="btn" href="https://eco.ride.lohms.org/">Native App</a>
           </div>
         </article>
+        
         <article class="card">
         <h3>Digital Assistant</h3>
         <p>AI-powered assistant for scheduling, reminders, and task management.</p>
@@ -400,9 +360,9 @@
           <h3>Get in touch</h3>
           <p>I respond promptly to collaboration, consulting, and open-source contributions. Include a clear subject and brief context.</p>
           <ul>
-            <li><strong>Email</strong>: <a href="mailto:delstarfordisaiah@gmail.com">Email Me</a></li>
+            <li><strong>Email</strong>: <a href="mailto:delstarfordisaiah@gmail.com">delstarfordisaiah@gmail.com</a></li>
             <li><strong>Location</strong>: Kakamega, Kenya</li>
-            <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/delstarford-isaiah-968400354" target="_blank" rel="noopener">linkedin Account</a></li>
+            <li><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/delstarford-isaiah-968400354" target="_blank" rel="noopener">LinkedIn Account</a></li>
           </ul>
         </div>
 
@@ -428,12 +388,30 @@
   </main>
 
   <footer class="site-footer container">
-    <p>© <span id="year"></span> Delstarford — Machine Learning, Full‑Stack, Agricultural Biotechnology | <a href="contact-thanks.html" style="color:var(--muted);text-decoration:underline">Contact confirmation</a></p>
+    <p>© <span id="year"></span> Delstarford — Machine Learning, Full‑Stack, Agricultural Biotechnology</p>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // --- SPEECH & WELCOME LOGIC ---
+    function enterSite() {
+        const overlay = document.getElementById('welcomeOverlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 500);
+        playPortfolioSpeech();
+    }
+
+    function playPortfolioSpeech() {
+        const synth = window.speechSynthesis;
+        const text = "Welcome to the portfolio of Delstarford Isaiah. I am a Machine Learning Engineer and Full-Stack Developer, specializing in Agricultural Biotechnology. From Kakamega, Kenya, I build reproducible biometric pipelines and real-world solutions for agriculture. Please explore my projects, skills, and innovations. I am open for collaboration, so feel free to contact me.";
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        synth.speak(utterance);
+    }
+
+    // --- NAVIGATION & FORM LOGIC ---
     const navToggle = document.getElementById('nav-toggle');
     const navLinks = document.getElementById('nav-links');
     navToggle && navToggle.addEventListener('click', () => navLinks.classList.toggle('show'));
@@ -478,42 +456,11 @@
       }
 
       const payload = { name, email, message, subject: 'Website contact' };
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if(res.ok){
-          const json = await res.json();
-          if(json && json.ok){
-            showStatus('Message sent, thank you');
-            nameEl.value = ''; emailEl.value = ''; messageEl.value = '';
-            // optionally redirect to thank you page
-            // window.location.href = 'contact-thanks.html';
-            return false;
-          }
-          if(json && json.errors){
-            const first = Object.values(json.errors)[0];
-            showStatus(String(first));
-            return false;
-          }
-        } else if(res.status === 400){
-          const json = await res.json();
-          const first = json && json.errors ? Object.values(json.errors)[0] : 'Validation failed';
-          showStatus(first);
-          return false;
-        } else {
-          showStatus('Server error, opening mail client as fallback');
-        }
-      } catch (err){
-        showStatus('No server detected, opening mail client');
-      }
-
+      // Fallback to mailto since backend is illustrative
       const subject = encodeURIComponent(`Portfolio contact from ${name}`);
       const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      window.location.href = `mailto:delstarford@example.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
+      showStatus('Opening email client...');
       return false;
     }
 

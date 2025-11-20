@@ -13,6 +13,34 @@
       color: #111827;
       line-height: 1.6;
     }
+
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Nature/Tech Gradient */
+      background: linear-gradient(135deg, #064e3b 0%, #10b981 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 2.8rem; margin-bottom: 1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #d1fae5; }
+    .start-btn {
+      background: #ffffff;
+      color: #047857; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+
+    /* Existing Styles */
     header {
       background: linear-gradient(120deg, #2563eb, #1e40af);
       color: white;
@@ -43,6 +71,7 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+      background: #000; /* Placeholder background */
     }
     video {
       width: 100%;
@@ -63,6 +92,7 @@
     section p {
       color: #374151;
       font-size: 1.05rem;
+      margin-bottom: 16px;
     }
     footer {
       text-align: center;
@@ -79,28 +109,39 @@
       text-decoration: none;
       margin-top: 16px;
       transition: 0.2s;
+      font-weight: 600;
     }
     a.button:hover {
       background: #1d4ed8;
+    }
+    .delstarford-pitch {
+      background: #eff6ff; /* Light blue highlight */
+      border-left: 5px solid #2563eb;
     }
   </style>
 </head>
 <body>
 
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Welcome to InsectAI</h1>
+      <p>Revolutionizing agriculture and biodiversity through Acoustic AI. Listen to the sounds of the future.</p>
+      <button class="start-btn" onclick="enterSite()">Enter & Listen to the Vision</button>
+    </div>
+  </div>
+
   <header>
-    <h1> InsectAI</h1>
+    <h1>InsectAI</h1>
     <p>AI-powered system that listens to insect sounds and identifies species in real-time using deep learning and audio analysis.</p>
   </header>
 
   <main>
 
     <div class="video-container">
-      <video controls autoplay assets muted loop>
-        <source src="/assets/insectai.mp4
-        " type="video/mp4">
+      <video controls autoplay muted loop>
+        <source src="/assets/insectai.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
-      
     </div>
 
     <section>
@@ -108,8 +149,11 @@
       <p>
         <strong>InsectAI</strong> is an intelligent system that identifies insect species from their sounds using a neural network trained on spectrograms. 
         It combines real-time audio capture, signal preprocessing, and machine learning to assist researchers, farmers, and environmentalists in monitoring insect populations efficiently.
-        Insect ai  gives the insect image when offered the audio and give the insect audio sound when offered the image,automatic image generation from sound.
       </p>
+      <p>
+        Insect AI creates a bridge between senses: it provides the insect image when offered the audio, and generates the insect's sound when offered an image.
+      </p>
+      
     </section>
 
     <section>
@@ -124,8 +168,25 @@
       <h2>Why It Matters</h2>
       <p>
         Insects are vital to ecosystems and agriculture. Detecting them early helps in <strong>pest control, biodiversity tracking, and disease vector monitoring</strong>.
-        InsectAI provides an affordable and scalable way to analyze insect activity without the need for expensive field equipment.
+        Farmers lose billions annually to pests that could have been detected by sound before they were visible to the eye.
       </p>
+      <p>
+        InsectAI provides an affordable and scalable way to analyze insect activity without the need for expensive field equipment, ensuring food security and environmental balance.
+      </p>
+      
+    </section>
+
+    <section class="delstarford-pitch">
+      <h2>Partner with Delstarford</h2>
+      <p>
+        Building complex systems like InsectAI requires more than just coding skills; it requires vision. Delstarford is an <strong>Artificial Intelligence Engineer</strong> who understands the intersection of biology, data, and software.
+      </p>
+      <p>
+        Whether you need advanced biometrics, agricultural AI, or full-stack solutions, Delstarford delivers innovation that works. Don't just build software; build the future.
+      </p>
+      <div style="text-align: center; margin-top: 20px;">
+          <a class="button" href="contact me.html">Hire Delstarford</a>
+      </div>
     </section>
 
     <section style="text-align:center;">
@@ -137,9 +198,37 @@
   </main>
 
   <footer>
-    © 2025 Delstarford Omondi — Built with Python, Flask, and AI
+    © <span id="year"></span> Delstarford Omondi — Built with Python, Flask, and AI
   </footer>
 
-  
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playInsectSpeech();
+    }
+
+    function playInsectSpeech() {
+      const synth = window.speechSynthesis;
+      
+      const text = "Welcome to Insect A I. This is a revolutionary project developed by Delstarford. " +
+                   "Imagine being able to identify a pest in your farm simply by the sound it makes, long before it destroys your crops. " +
+                   "Insect A I makes this possible using Deep Learning. " +
+                   "This technology is crucial for food security and ecosystem preservation. " +
+                   "Projects like this prove that Delstarford is not just a developer, but a visionary Artificial Intelligence Engineer. " +
+                   "If you want to build impactful, high-level technology, you need to work with Delstarford today.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      synth.speak(utterance);
+    }
+  </script>
+
 </body>
 </html>

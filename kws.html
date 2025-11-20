@@ -23,6 +23,32 @@
       min-height: 100vh;
     }
 
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Deep Forest Gradient */
+      background: linear-gradient(135deg, #052e16 0%, #14532d 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5); color: #a1ff7a; }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #dcfce7; }
+    .start-btn {
+      background: #a1ff7a;
+      color: #004d00; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(161, 255, 122, 0.6); }
+
     /* ========== HEADER ========== */
     header {
       background: linear-gradient(90deg, #004d00, #008000);
@@ -142,15 +168,12 @@
       header h1 {
         font-size: 1.8rem;
       }
-
       main {
         padding: 1.5rem 5%;
       }
-
       section {
         padding: 1.5rem;
       }
-
       .btn {
         width: 100%;
         text-align: center;
@@ -159,6 +182,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Welcome to KWS AI</h1>
+      <p>Protecting wildlife through intelligent surveillance and predictive analytics.</p>
+      <button class="start-btn" onclick="enterSite()">Initialize Surveillance & Listen</button>
+    </div>
+  </div>
+
   <header>
     <h1>KWS AI — Intelligent Wildlife Monitoring</h1>
     <p>AI-powered surveillance for wildlife parks and reserves, enabling early detection of poaching, environmental threats, and abnormal animal behavior.</p>
@@ -167,13 +199,14 @@
   <main>
     <section>
       <h2>Overview</h2>
-      <p>KWS AI is designed to enhance conservation efforts through intelligent monitoring of wildlife habitats. By integrating sensors, cameras, and AI models, the system provides real-time alerts and predictive insights to park rangers and conservationists, helping protect endangered species and maintain ecological balance.</p>
+      <p>KWS AI is designed to enhance conservation efforts through intelligent monitoring of wildlife habitats. </p>
+      <p>By integrating sensors, cameras, and AI models, the system provides real-time alerts and predictive insights to park rangers and conservationists, helping protect endangered species and maintain ecological balance.</p>
     </section>
 
     <section>
       <h2>Key Features</h2>
       <ul>
-        <li>Real-time animal movement tracking and anomaly detection</li>
+        <li>Real-time animal movement tracking and anomaly detection </li>
         <li>Environmental condition monitoring (temperature, humidity, pollution)</li>
         <li>Alerts for poaching activity and unauthorized access</li>
         <li>Predictive analytics for migration and health trends</li>
@@ -198,7 +231,31 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Delstarford. All rights reserved.</p>
+    <p>&copy; <span id="year"></span> Delstarford. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Auto-set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playKwsSpeech();
+    }
+
+    function playKwsSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to K W S A I. This intelligent system is dedicated to preserving our natural heritage. " +
+                   "Developed by Delstarford, K W S A I uses Artificial Intelligence and I o T sensors to detect poaching, monitor animal health, and track environmental changes in real-time. " +
+                   "Conservation is a race against time. Support Delstarford to deploy this technology and protect our wildlife for future generations.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+  </script>
 </body>
 </html>

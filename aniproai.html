@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>AniproAI — Intelligent Smart Farm Surveillance</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<!-- Chart.js for lightweight analytics -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root{
@@ -29,6 +28,31 @@
     padding:32px;
   }
 
+  /* WELCOME OVERLAY STYLES */
+  #welcomeOverlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(7, 16, 38, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: opacity 0.5s ease;
+  }
+  .welcome-content h1 { font-size: 3rem; color: var(--accent); margin-bottom: 1rem; }
+  .welcome-content p { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem auto; }
+  .start-btn {
+    background: linear-gradient(90deg,var(--accent),var(--accent-2));
+    border: none; color: #03201a; padding: 15px 40px;
+    font-size: 1.2rem; font-weight: 700; border-radius: 50px;
+    cursor: pointer; box-shadow: 0 0 30px rgba(8,180,168,0.4);
+    transition: transform 0.2s;
+  }
+  .start-btn:hover { transform: scale(1.05); }
+
+  /* EXISTING STYLES */
   .wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns: 1fr 380px;gap:20px;align-items:start;}
   header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   h1{font-weight:700;margin:0;font-size:20px;letter-spacing:0.2px}
@@ -40,10 +64,7 @@
     border:1px solid rgba(255,255,255,0.03);
   }
 
-  /* Left: live view */
-  .viewer{
-    min-height:520px; display:flex;flex-direction:column;gap:12px;
-  }
+  .viewer{ min-height:520px; display:flex;flex-direction:column;gap:12px; }
   .stage{
     position:relative;border-radius:12px;overflow:hidden;background:var(--glass);height:420px;
     display:flex;align-items:center;justify-content:center;
@@ -52,10 +73,7 @@
   }
   .stage:hover{ transform: translateY(-6px); }
 
-  video#cam{
-    width:100%;height:100%;object-fit:cover;background:#061020;
-    display:block;
-  }
+  video#cam{ width:100%;height:100%;object-fit:cover;background:#061020; display:block; }
   .overlay-canvas{ position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none; }
 
   .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -73,21 +91,17 @@
   .live-dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 6px 18px rgba(8,180,168,0.18);animation: pulse 1.8s infinite;}
   @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 
-  /* Right column: analytics */
   .sidebar{display:flex;flex-direction:column;gap:12px}
   .small{font-size:12px;color:var(--muted)}
   .timeline{max-height:320px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
   .event{display:flex;gap:10px;align-items:flex-start;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
   .ev-time{font-size:12px;color:var(--muted);min-width:68px}
   .ev-body{font-size:13px}
-
-  /* detection label style */
   .label-pill{background:rgba(0,0,0,0.45);padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px;color:#fff}
 
   footer{grid-column:1/-1;margin-top:16px;color:var(--muted);font-size:13px;text-align:center}
   .canvas-fake{width:100%;height:100%}
 
-  /* responsive */
   @media (max-width:980px){
     .wrap{grid-template-columns:1fr; padding:20px}
     .sidebar{order:3}
@@ -95,6 +109,15 @@
 </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>AniproAI</h1>
+      <p>Intelligent Farm Surveillance System by Delstarford.</p>
+      <button class="start-btn" onclick="enterSite()">Enter Dashboard & Listen</button>
+    </div>
+  </div>
+
   <div class="wrap">
     <header>
       <div>
@@ -107,11 +130,9 @@
       </div>
     </header>
 
-    <!-- Left: live camera + controls -->
     <section class="card viewer" aria-label="Live monitoring">
       <div class="stage" id="stage">
         <video id="cam" autoplay muted playsinline></video>
-        <!-- overlay canvas for bounding boxes -->
         <canvas id="overlay" class="overlay-canvas" aria-hidden="true"></canvas>
       </div>
 
@@ -137,7 +158,6 @@
       </div>
     </section>
 
-    <!-- Right: analytics + timeline -->
     <aside class="card sidebar" aria-label="Analytics and timeline">
       <div>
         <div style="display:flex;justify-content:space-between;align-items:end">
@@ -150,7 +170,6 @@
             <div id="riskScore" style="font-weight:800;font-size:20px;color:var(--accent)">12%</div>
           </div>
         </div>
-
         <canvas id="chart" style="width:100%;height:160px;margin-top:12px"></canvas>
       </div>
 
@@ -176,16 +195,35 @@
   </div>
 
 <script>
-/*
-  AniproAI prototype logic
-  - Live camera preview via getUserMedia
-  - Simulated inference that draws bounding boxes & produces alerts
-  - Analytics chart (Chart.js) updated with mock events
-  - Speech and audio alerts (loud by default)
-  - Clear hooks for integrating real model: call analyzeFrame(blob) or open a WebSocket that sends detections
-*/
+/* ---------- NEW SPEECH LOGIC ---------- */
 
-/* ---------- UI elements ---------- */
+function enterSite() {
+    // 1. Hide the overlay
+    const overlay = document.getElementById('welcomeOverlay');
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 500);
+
+    // 2. Start the automatic speech
+    playIntroSpeech();
+
+    // 3. Simulate activity so the page looks alive
+    startAnalysisLoop(); 
+    document.getElementById('simulateBtn').click();
+}
+
+function playIntroSpeech() {
+    const synth = window.speechSynthesis;
+    const text = "Welcome to Anipro AI. This is an intelligent Smart Farm Surveillance system developed by Delstarford. This project uses advanced computer vision to monitor fields, track livestock health, and detect intruders in real time. It provides live analytics and risk assessments to secure your farm. Please, if you find this technology valuable, kindly support Delstarford to continue this innovation.";
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    
+    synth.speak(utterance);
+}
+
+/* ---------- EXISTING LOGIC ---------- */
 const video = document.getElementById('cam');
 const overlay = document.getElementById('overlay');
 const overlayCtx = overlay.getContext('2d');
@@ -208,9 +246,7 @@ let alertSoundEnabled = true;
 let detectionHistory = [];
 let chart = null;
 
-/* ---------- audio / speech for alerts ---------- */
-const alertAudio = new Audio(); // will be used for urgent beep
-// small generated beep using WebAudio for loudness control
+const alertAudio = new Audio();
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playBeep(duration = 0.25, freq = 880, vol = 1.0){
   if (!alertSoundEnabled) return;
@@ -224,26 +260,25 @@ function playBeep(duration = 0.25, freq = 880, vol = 1.0){
   setTimeout(()=>{ o.stop(); }, duration*1000);
 }
 
-/* Speech synthesis for descriptive alerts */
 function speak(text){
   try {
     const s = window.speechSynthesis;
     if (!s) return;
-    s.cancel();
+    // We don't want alerts to interrupt the intro speech
+    if (s.speaking && text.includes("Alert")) return; 
+    
     const u = new SpeechSynthesisUtterance(text);
     u.rate = 0.95; u.pitch = 1; u.volume = 1.0;
     s.speak(u);
   } catch(e){ console.warn('speech failed', e); }
 }
 
-/* ---------- Canvas helpers ---------- */
 function resizeOverlay(){
   overlay.width = overlay.clientWidth;
   overlay.height = overlay.clientHeight;
 }
 window.addEventListener('resize', resizeOverlay);
 
-/* ---------- Start / stop camera ---------- */
 startBtn.onclick = async () => {
   if (stream) return;
   try {
@@ -268,12 +303,10 @@ stopBtn.onclick = () => {
   }
 };
 
-/* ---------- File input: image or video ---------- */
 fileInput.onchange = async (e) => {
   const f = e.target.files[0];
   if (!f) return;
   if (f.type.startsWith('image/')){
-    // show image in video element
     const url = URL.createObjectURL(f);
     video.srcObject = null;
     video.pause();
@@ -281,7 +314,6 @@ fileInput.onchange = async (e) => {
     video.src = url;
     video.play();
     resizeOverlay();
-    // one-shot analysis for the static image
     setTimeout(()=> simulateInferenceImage(url), 400);
   } else if (f.type.startsWith('video/')){
     const url = URL.createObjectURL(f);
@@ -292,20 +324,16 @@ fileInput.onchange = async (e) => {
     video.loop = false;
     video.play();
     resizeOverlay();
-    // analyze frames periodically while playing
     analyzing = true;
     startAnalysisLoop(true);
   }
 };
 
-/* ---------- Snapshot ---------- */
 snapshotBtn.onclick = () => {
   resizeOverlay();
-  // draw current overlay to new image
   const tmp = document.createElement('canvas');
   tmp.width = overlay.width; tmp.height = overlay.height;
   const ctx = tmp.getContext('2d');
-  // draw video frame
   try {
     ctx.drawImage(video, 0,0, tmp.width, tmp.height);
     ctx.drawImage(overlay, 0,0, tmp.width, tmp.height);
@@ -318,16 +346,8 @@ snapshotBtn.onclick = () => {
   a.click();
 };
 
-/* ---------- Simulated inference ---------- */
-/* Replace simulateDetection() with a real model call:
-   - Capture resized frame: drawImage(video) then toBlob()
-   - POST to /infer or send via WebSocket
-   - Expect detections array: [{x,y,w,h,label,score}, ...]
-*/
-
 function randomBetween(a,b){ return a + Math.random()*(b-a); }
 
-/* Produce mock detections for demo */
 function simulateDetection(width, height){
   const classes = [
     {label:'Human', color:'#ffb86b'},
@@ -350,7 +370,6 @@ function simulateDetection(width, height){
   return dets;
 }
 
-/* Draw detections as bounding boxes on overlay */
 function drawDetections(dets){
   overlayCtx.clearRect(0,0,overlay.width,overlay.height);
   overlayCtx.lineWidth = Math.max(2, overlay.width/300);
@@ -358,51 +377,39 @@ function drawDetections(dets){
     overlayCtx.strokeStyle = d.color;
     overlayCtx.fillStyle = d.color;
     overlayCtx.globalAlpha = 0.95;
-    // box
     overlayCtx.strokeRect(d.x, d.y, d.w, d.h);
-    // label background
     const label = `${d.label} ${d.score}%`;
     overlayCtx.font = `${12 + Math.round(overlay.width/420)}px Poppins, sans-serif`;
     const textW = overlayCtx.measureText(label).width + 12;
     overlayCtx.fillRect(d.x, d.y - 22, textW, 20);
-    // text
     overlayCtx.fillStyle = '#081219';
     overlayCtx.fillText(label, d.x + 6, d.y - 8);
     overlayCtx.globalAlpha = 1;
   });
 }
 
-/* Update timeline UI with event */
 function pushEvent(title, meta){
   const el = document.createElement('div'); el.className = 'event';
   const time = new Date().toLocaleTimeString();
   el.innerHTML = `<div class="ev-time">${time}</div><div class="ev-body"><div style="font-weight:700">${title}</div><div style="color:var(--muted);font-size:13px">${meta}</div></div>`;
   timeline.prepend(el);
-  // keep history array for charting
   detectionHistory.unshift({t:Date.now(), title, meta});
-  // keep timeline limited
   if (timeline.children.length > 40) timeline.removeChild(timeline.lastChild);
 }
 
-/* handle detection result: update UI, alert if needed */
 function handleDetections(dets){
   detCount.innerText = dets.length;
   drawDetections(dets);
 
-  // compute simple risk score
   let risk = Math.min(99, Math.round((dets.length * 23) + Math.random()*10));
   riskScoreEl.innerText = risk + '%';
 
-  // if suspicious (intruder or >2 objects) -> alert
   const intruder = dets.find(d => /Intruder|Pest|Vehicle/i.test(d.label));
   if (intruder || dets.length >= 2){
     const desc = intruder ? `${intruder.label} detected (${intruder.score}%)` : `${dets.length} objects detected`;
     lastAlert.innerText = desc;
     pushEvent('Alert: ' + desc, 'Auto-detected by AniproAI');
-    // audible alert
-    playBeep(0.25, 880 + Math.random()*200, 1.0); // loud beep
-    speak(desc + '. Check live feed.');
-    // visual emphasis
+    playBeep(0.25, 880 + Math.random()*200, 1.0);
     flashStage();
   } else if (dets.length > 0){
     lastAlert.innerText = `${dets.length} object(s)`;
@@ -410,7 +417,6 @@ function handleDetections(dets){
   }
 }
 
-/* small flash animation of stage when alert happens */
 function flashStage(){
   const s = document.getElementById('stage');
   s.animate([
@@ -420,46 +426,34 @@ function flashStage(){
   ], { duration: 600, easing: 'ease-out' });
 }
 
-/* ---------- Analysis loop (mock) ---------- */
 let analysisInterval = null;
 function startAnalysisLoop(playOnce=false){
   if (!video || video.readyState < 2) {
-    // try again shortly
     setTimeout(()=> startAnalysisLoop(playOnce), 250);
     return;
   }
   clearInterval(analysisInterval);
   analysisInterval = setInterval(()=> {
     try {
-      // determine overlay drawing scale
       const w = overlay.width = overlay.clientWidth;
       const h = overlay.height = overlay.clientHeight;
-      // For real inference, capture frame and send to server:
-      // const capture = document.createElement('canvas'); capture.width=320; capture.height=180;
-      // capture.getContext('2d').drawImage(video,0,0,320,180);
-      // capture.toBlob(blob=> send to server ...)
-      // --- MOCK: simulate detection
       const dets = simulateDetection(w, h);
       handleDetections(dets);
       if (playOnce && video.ended) { clearInterval(analysisInterval); analyzing=false; }
     } catch(e){
       console.warn('analysis loop', e);
     }
-  }, 1400); // run inference every ~1.4s (simulated)
+  }, 1400);
 }
 
-/* Simulate inference for a single uploaded image */
 function simulateInferenceImage(url){
-  // draw the image into video element already; just run detection once
   const w = overlay.clientWidth, h = overlay.clientHeight;
   overlay.width = w; overlay.height = h;
   const dets = simulateDetection(w, h);
   handleDetections(dets);
 }
 
-/* Simulate button triggers a burst of events */
 simulateBtn.onclick = () => {
-  // quick demo: generate 3 rounds of detections with small delay
   let i=0;
   const id = setInterval(()=> {
     const dets = simulateDetection(overlay.clientWidth, overlay.clientHeight);
@@ -468,7 +462,6 @@ simulateBtn.onclick = () => {
   }, 700);
 };
 
-/* ---------- Chart setup (analytics) ---------- */
 function initChart(){
   const ctx = document.getElementById('chart').getContext('2d');
   chart = new Chart(ctx, {
@@ -488,7 +481,6 @@ function initChart(){
   });
 }
 
-/* update chart periodically with new random data for demo */
 function updateChartDemo(){
   if (!chart) return;
   chart.data.datasets.forEach(ds => {
@@ -498,11 +490,9 @@ function updateChartDemo(){
   chart.data.labels.push(new Date().toLocaleTimeString().split(':').slice(-2).join(':'));
   if (chart.data.labels.length>20) chart.data.labels.shift();
   chart.update();
-  // schedule next
   setTimeout(updateChartDemo, 3500 + Math.random()*2500);
 }
 
-/* ---------- Toggle audio alerts ---------- */
 audioToggle.onclick = () => {
   alertSoundEnabled = !alertSoundEnabled;
   audioState.textContent = alertSoundEnabled ? 'Enabled' : 'Muted';
@@ -510,22 +500,18 @@ audioToggle.onclick = () => {
   if (!alertSoundEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
 };
 
-/* ---------- Init ---------- */
 initChart();
 updateChartDemo();
 audioState.textContent = alertSoundEnabled ? 'Enabled' : 'Muted';
 
-/* Make overlay responsive to video size when camera starts */
 video.addEventListener('loadedmetadata', resizeOverlay);
 
-/* Accessibility: keyboard shortcuts */
 window.addEventListener('keydown', (e)=>{
   if (e.key === 's') startBtn.click();
   if (e.key === 'p') stopBtn.click();
   if (e.key === 'd') simulateBtn.click();
 });
 
-/* Clean up on unload */
 window.addEventListener('beforeunload', ()=>{
   try { if (stream) stream.getTracks().forEach(t => t.stop()); } catch(e){}
   if (window.speechSynthesis) window.speechSynthesis.cancel();

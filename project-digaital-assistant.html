@@ -21,6 +21,33 @@
     }
     *{box-sizing:border-box}
     body{margin:0;background:linear-gradient(180deg,#041021,#071323);color:#e6eef6;font-size:16px;line-height:1.5}
+    
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Calm Blue/Teal Gradient for Healthcare/Caregiving context */
+      background: linear-gradient(135deg, #0f172a 0%, #0e7490 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 2.8rem; color: var(--accent); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(110, 231, 183, 0.3); }
+    .welcome-content p { font-size: 1.2rem; color: #cffafe; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; }
+    .start-btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #0b1220; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 800; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 0 25px rgba(96, 165, 250, 0.4);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(96, 165, 250, 0.6); }
+
+    /* Existing Styles */
     .wrap{width:92%;max-width:var(--container);margin:2.5rem auto;padding:1rem}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
     a.brand{font-weight:800;color:var(--accent);text-decoration:none;font-size:1.1rem}
@@ -41,6 +68,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Digital Caregiver Assistant</h1>
+      <p>Empowering care through Multimodal AI. Mood detection, personalized tracking, and peace of mind.</p>
+      <button class="start-btn" onclick="enterSite()">Initialize Assistant & Listen</button>
+    </div>
+  </div>
+
   <div class="wrap">
     <header>
       <div>
@@ -75,7 +111,7 @@
 
         <section class="card section" aria-labelledby="architecture-title">
           <h2 id="architecture-title">Architecture</h2>
-          <p class="muted">The system is divided into three main layers to keep responsibilities clear and enable safe deployment.</p>
+          <p class="muted">The system is divided into three main layers to keep responsibilities clear and enable safe deployment. </p>
           <ul>
             <li><strong>Device Layer</strong> — mobile/web client for capture (text, short audio, optional images), local caching, and immediate UI feedback.</li>
             <li><strong>API Layer</strong> — Flask/FastAPI server that handles form submissions, authentication, notification routing, and orchestration of ML inference.</li>
@@ -103,7 +139,7 @@
           </div>
 
           <h3>Mood Detection Model</h3>
-          <p class="muted">A multimodal pipeline that combines:</p>
+          <p class="muted">A multimodal pipeline that combines: </p>
           <ul>
             <li><strong>Audio model</strong> — extracts short-term embeddings (e.g., mel-spectrogram → CNN or small transformer) then predicts mood probabilities.</li>
             <li><strong>Text model</strong> — lightweight transformer or fine-tuned classifier for short messages.</li>
@@ -146,7 +182,7 @@ else:
 
         <section class="card section" aria-labelledby="deploy-title">
           <h2 id="deploy-title">Deployment and Integration</h2>
-          <p class="muted">Example deployment stack and integration points.</p>
+          <p class="muted">Example deployment stack and integration points. </p>
           <div class="stack" style="margin-bottom:0.6rem">
             <span class="pill">Frontend</span>
             <span class="pill">React Native / Web</span>
@@ -250,6 +286,26 @@ Content-Type: application/json
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+        const overlay = document.getElementById('welcomeOverlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 500);
+        playAssistantSpeech();
+    }
+
+    function playAssistantSpeech() {
+        const synth = window.speechSynthesis;
+        const text = "Welcome to the Digital Assistant Project. This is an A I powered companion designed to support caregivers and their loved ones. " +
+                     "Developed by Delstarford, this system uses multimodal machine learning to detect moods, recommend personalized media, and track well-being in real-time. " +
+                     "Caregiving is challenging; technology should make it easier. " +
+                     "Please explore the architecture and features below, and support Delstarford in building compassionate A I solutions.";
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        synth.speak(utterance);
+    }
   </script>
 </body>
 </html>

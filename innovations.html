@@ -22,6 +22,33 @@
     }
     *{box-sizing:border-box}
     body{margin:0;background:linear-gradient(180deg,#041022,#071225);color:#e6eef6;line-height:1.45;font-size:16px}
+    
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Innovation Purple-Blue Gradient */
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 2.8rem; color: var(--accent); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(110, 231, 183, 0.4); }
+    .welcome-content p { font-size: 1.2rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 2.5rem auto; line-height: 1.6; }
+    .start-btn {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #0f172a; border: none; padding: 16px 36px;
+      font-size: 1.1rem; font-weight: 800; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 0 30px rgba(96, 165, 250, 0.4);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(96, 165, 250, 0.6); }
+
+    /* Existing Styles */
     .container{width:92%;max-width:var(--container);margin:1.5rem auto;padding:0 0 2.5rem 0}
     header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}
     .brand{font-weight:800;color:var(--accent);font-size:1.05rem;text-decoration:none}
@@ -56,6 +83,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Delstarford Innovations</h1>
+      <p>Award-winning technology. Global recognition. Real-world impact.</p>
+      <button class="start-btn" onclick="enterSite()">Hear the Success Story</button>
+    </div>
+  </div>
+
   <div class="container">
     <header>
       <div>
@@ -72,25 +108,27 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-left">
         <h1 id="hero-title">Bring an innovations project — I'll partner with you</h1>
-        <p class="muted">I combine Machine Learning, Full‑Stack engineering, and Agricultural Biotechnology to deliver projects that are production-ready, testable, and beneficial to users. I handle architecture, model pipelines, deployable APIs, and accessible front-end experiences.</p>
+        <p class="muted">I combine Machine Learning, Full‑Stack engineering, and Agricultural Biotechnology to deliver projects that are production-ready, testable, and beneficial to users.</p>
+        
+        <div style="background: rgba(96, 165, 250, 0.1); border-left: 4px solid var(--accent-2); padding: 10px; margin: 1rem 0; border-radius: 4px;">
+            <strong style="color: #fff;">Recent Success:</strong> 
+            <span style="color: #cbd5e1;">Winner of the Tech for Agriculture Hackathon & Estonian Global Exchange Award with "Farmula 1".</span>
+            <br>
+            <a href="https://mmust.ac.ke/345643-2/" target="_blank" style="color: var(--accent); font-size: 0.9rem; text-decoration: underline;">Read the full story at MMUST</a>
+        </div>
 
         <div class="cta-row">
           <a class="btn primary" id="start-proposal" href="#proposal">Propose a project</a>
           <a class="btn ghost" href="projects.html">See past projects</a>
-        </div>
-
-        <div style="margin-top:0.8rem">
-          <strong>Quick pitch</strong>
-          <p class="muted">If you have an idea, send a short summary (1–3 sentences), target users, and desired outcomes — I’ll reply with a proposed scope, deliverables, timeline estimate, and next steps.</p>
         </div>
       </div>
 
       <aside class="hero-right card" aria-label="Why hire me">
         <h3>Why work with me</h3>
         <ul class="muted">
-          <li>Proven delivery: production ML pipelines and user-friendly dashboards.</li>
-          <li>End-to-end: data ingestion, training, validation, deployment, monitoring.</li>
-          <li>Context-aware: agricultural and biometric domain experience.</li>
+          <li><strong>Proven Excellence:</strong> Silver Medalist in Agri-Tech Innovation.</li>
+          <li><strong>Global Standard:</strong> Selected for international mentorship in Estonia.</li>
+          <li><strong>End-to-end:</strong> From ideation to deployment (e.g., Farmula 1).</li>
         </ul>
 
         <div style="margin-top:0.8rem">
@@ -109,9 +147,19 @@
           <p class="muted">Examples of projects I deliver that drive measurable value.</p>
 
           <div class="project-list" aria-live="polite">
+            <div class="project" style="border-color: var(--accent);">
+              <h3 style="color: var(--accent);">Farmula 1 (Award Winning)</h3>
+              <p class="muted">An AI-powered platform that de-risks farmers by analyzing potential yield losses, detecting pests, and providing insurance data.</p>
+              <p class="muted"><em>Winner: Tech for Agriculture Hackathon 2025.</em> </p>
+              <div class="muted">Tech: AI/ML, Predictive Analytics, Mobile</div>
+            </div>
+
             <div class="project">
               <h3>Embedding Biometric Pipeline</h3>
-              <p class="muted">Robust capture, embedding extraction, and privacy-aware matcher with audit logs and configurable thresholds.</p>
+              <p class="muted">Robust capture, embedding extraction, and privacy-aware matcher with audit logs and configurable thresholds. 
+
+[Image of biometric authentication system flow]
+</p>
               <div class="muted">Tech: Python, ONNX, Flask, Docker</div>
             </div>
 
@@ -119,12 +167,6 @@
               <h3>Agritech Field Trial Manager</h3>
               <p class="muted">Reproducible experiment tracking from lab to field, visual analytics, and QC checks for agronomists.</p>
               <div class="muted">Tech: Django/Flask, Postgres, Plotly</div>
-            </div>
-
-            <div class="project">
-              <h3>Digital Assistant for Caregivers</h3>
-              <p class="muted">Mood detection, song/movie recommendations, loved ones registry, and alerting workflows.</p>
-              <div class="muted">Tech: Audio embeddings, lightweight transformers, Twilio/SMTP</div>
             </div>
           </div>
         </article>
@@ -162,36 +204,11 @@
               </div>
             </div>
 
-            <label for="attachments">Attachments (links) — optional</label>
-            <input id="attachments" name="attachments" placeholder="GitHub repo, doc links, dataset links" />
-
             <div class="form-actions">
               <button id="submit-proposal" class="btn primary" type="submit">Submit proposal</button>
-              <button id="save-draft" class="btn ghost" type="button">Save draft (local)</button>
             </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.6rem">
-              <div id="proposal-status" class="status" aria-live="polite"></div>
-              <div class="muted" style="font-size:13px">Response time: typically within 48 hours</div>
-            </div>
+            <div id="proposal-status" class="status" aria-live="polite"></div>
           </form>
-
-          <div class="faq" aria-label="Frequently asked">
-            <details>
-              <summary><strong>What happens after I submit?</strong></summary>
-              <p class="muted">I review your submission, follow up with clarifying questions if needed, and send a short proposal with scope, deliverables, and estimate.</p>
-            </details>
-
-            <details>
-              <summary><strong>Do you sign NDAs?</strong></summary>
-              <p class="muted">Yes. For sensitive projects I use standard NDAs or can accept your agreement before further details are shared.</p>
-            </details>
-
-            <details>
-              <summary><strong>What engagement models do you offer?</strong></summary>
-              <p class="muted">Fixed-scope MVPs, hourly consulting, or phased pilots with measurable success criteria.</p>
-            </details>
-          </div>
         </article>
       </main>
 
@@ -204,15 +221,6 @@
             <li>Implementation with continuous demos and early tests.</li>
             <li>Deployment, monitoring, and handover documentation.</li>
           </ol>
-
-          <h3 style="margin-top:0.8rem">Engagement examples</h3>
-          <div class="muted">
-            <ul>
-              <li>Prototype a model for rapid validation (1–2 weeks)</li>
-              <li>Build an MVP web app + API (4–8 weeks)</li>
-              <li>Productionize model serving and logging (8–12 weeks)</li>
-            </ul>
-          </div>
         </div>
 
         <div class="card" style="margin-top:1rem">
@@ -221,7 +229,6 @@
           <div style="display:flex;flex-direction:column;gap:0.45rem;margin-top:0.6rem">
             <a class="btn ghost" href="mailto:delstarfordisaiah@gmail.com">Email</a>
             <a class="btn ghost" href="https://wa.me/254707605751?text=Innovation%20proposal" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="btn ghost" href="projects.html">View projects</a>
           </div>
         </div>
       </aside>
@@ -235,96 +242,60 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+        const overlay = document.getElementById('welcomeOverlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.style.display = 'none', 500);
+        playInnovationSpeech();
+    }
+
+    function playInnovationSpeech() {
+        const synth = window.speechSynthesis;
+        
+        // Strong, persuasive speech highlighting the specific MMUST success
+        const text = "Welcome to the Innovation Hub. Why should you work with Delstarford? Because success is a habit. " +
+                     "Recently, my team and I secured a global win at the Tech for Agriculture Hackathon with 'Farmula 1', " +
+                     "an Artificial Intelligence platform that de-risks farming for insurers and farmers alike. " +
+                     "This achievement earned us a global exchange trip to Estonia and recognition from Masinde Muliro University. " +
+                     "I combine technical expertise in Machine Learning with a drive for tangible, award-winning results. " +
+                     "Don't just hire a developer; partner with a proven innovator. Let's build the future together.";
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        synth.speak(utterance);
+    }
+
+    // --- FORM LOGIC ---
     const form = document.getElementById('proposal-form');
     const statusEl = document.getElementById('proposal-status');
     const submitBtn = document.getElementById('submit-proposal');
-    const saveBtn = document.getElementById('save-draft');
 
     function showStatus(msg, isError = false) {
       statusEl.textContent = msg;
       statusEl.style.color = isError ? '#ff4d4d' : '#0066cc';
-      clearTimeout(window._proposalTimer);
-      window._proposalTimer = setTimeout(() => {
-        if (statusEl.textContent === msg) statusEl.textContent = '';
-      }, 6000);
+      setTimeout(() => { if (statusEl.textContent === msg) statusEl.textContent = ''; }, 6000);
     }
 
-    function validate(payload) {
-      if (!payload.client_name || payload.client_name.length < 2) return 'Provide your name or organization';
-      if (!payload.client_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.client_email)) return 'Provide a valid email';
-      if (!payload.project_title || payload.project_title.length < 3) return 'Project title is too short';
-      if (!payload.project_summary || payload.project_summary.length < 20) return 'Project summary should be at least 20 characters';
-      return null;
-    }
-
-    // Save draft locally
-    saveBtn.addEventListener('click', () => {
-      const data = new FormData(form);
-      const obj = Object.fromEntries(data.entries());
-      localStorage.setItem('innovation_draft_v1', JSON.stringify(obj));
-      showStatus('Draft saved locally');
-    });
-
-    // Restore draft on load
-    (function restoreDraft() {
-      try {
-        const raw = localStorage.getItem('innovation_draft_v1');
-        if (!raw) return;
-        const obj = JSON.parse(raw);
-        for (const k in obj) {
-          const el = document.getElementById(k);
-          if (el) el.value = obj[k];
-        }
-        showStatus('Draft restored');
-      } catch (e) {}
-    })();
-
-   
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
       submitBtn.disabled = true;
       submitBtn.textContent = 'Preparing...';
 
-      const payload = {
-        client_name: document.getElementById('client-name').value.trim(),
-        client_email: document.getElementById('client-email').value.trim(),
-        project_title: document.getElementById('project-title').value.trim(),
-        project_summary: document.getElementById('project-summary').value.trim(),
-        budget: document.getElementById('budget').value.trim(),
-        timeline: document.getElementById('timeline').value,
-        attachments: document.getElementById('attachments').value.trim()
-      };
-
-      const err = validate(payload);
-      if (err) {
-        showStatus(err, true);
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit proposal';
-        return;
-      }
-
-      const subject = encodeURIComponent(`Innovation Proposal: ${payload.project_title}`);
-      const body = encodeURIComponent(
-        `Name: ${payload.client_name}\nEmail: ${payload.client_email}\nTimeline: ${payload.timeline}\nBudget: ${payload.budget}\nAttachments: ${payload.attachments}\n\nProject Summary:\n${payload.project_summary}`
-      );
-
-      const mailto = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
-      window.location.href = mailto;
+      const clientName = document.getElementById('client-name').value;
+      const projectTitle = document.getElementById('project-title').value;
+      
+      // Fallback to mailto
+      const subject = encodeURIComponent(`Innovation Proposal: ${projectTitle}`);
+      const body = encodeURIComponent(`Name: ${clientName}\n\nProject Details included in attachment.`);
+      window.location.href = `mailto:delstarfordisaiah@gmail.com?subject=${subject}&body=${body}`;
 
       showStatus('Opening your email client...');
       submitBtn.textContent = 'Submit proposal';
       submitBtn.disabled = false;
     });
-
-    // Smooth scroll to proposal form
-    const startBtn = document.getElementById('start-proposal');
-    if (startBtn) {
-      startBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.getElementById('project-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        document.getElementById('project-title').focus();
-      });
-    }
   </script>
 </body>
 </html>

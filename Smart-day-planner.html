@@ -11,10 +11,46 @@
   <title>Smart Day Planner | AI Productivity Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3039/3039123.png" />
+  
+  <style>
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Productivity Indigo Gradient */
+      background: linear-gradient(135deg, #312e81 0%, #1e40af 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      padding: 20px;
+      color: white;
+    }
+    .welcome-content h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 800; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .welcome-content p { font-size: 1.2rem; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; color: #e0e7ff; }
+    .start-btn {
+      background: #ffffff;
+      color: #312e81; border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 255, 255, 0.4); }
+  </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
-  <!-- HERO SECTION -->
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Smart Day Planner</h1>
+      <p>Optimizing your life with Weather Intelligence and Machine Learning.</p>
+      <button class="start-btn" onclick="enterSite()">Plan My Day & Listen</button>
+    </div>
+  </div>
+
   <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
     <div class="container mx-auto px-6 text-center">
       <h1 class="text-5xl font-bold mb-4 tracking-tight">Smart Day Planner</h1>
@@ -28,13 +64,12 @@
     </div>
   </section>
 
-  <!-- ABOUT SECTION -->
   <section class="py-20 container mx-auto px-6" id="about">
     <div class="grid md:grid-cols-2 gap-10 items-center">
       <div>
         <h2 class="text-3xl font-bold mb-4 text-gray-800">What is Smart Day Planner?</h2>
         <p class="text-gray-600 mb-4">
-          <strong>Smart Day Planner</strong> is a next-generation productivity platform powered by <b>machine learning and weather intelligence</b>. It helps you plan your day, stay motivated, and make better decisions through contextual advice and real-time feedback.
+          <strong>Smart Day Planner</strong> is a next-generation productivity platform powered by <b>machine learning and weather intelligence</b>. It helps you plan your day, stay motivated, and make better decisions through contextual advice and real-time feedback. 
         </p>
         <p class="text-gray-600 mb-4">
           It combines <b>AI predictions, motivational audio, and weather-aware scheduling</b> to adapt your day automatically. Whether you're studying, farming, running a business, or working remotely — it’s like having your own life coach in your pocket.
@@ -47,7 +82,6 @@
     </div>
   </section>
 
-  <!-- FEATURES -->
   <section class="bg-white py-20" id="features">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-3xl font-bold mb-10 text-gray-800">Key Features</h2>
@@ -71,27 +105,25 @@
     </div>
   </section>
 
-  <!-- TECH OVERVIEW -->
   <section class="py-20 container mx-auto px-6" id="tech">
     <h2 class="text-3xl font-bold mb-8 text-gray-800 text-center">⚙️ How It Works</h2>
     <div class="grid md:grid-cols-2 gap-10 items-center">
       <div>
         <h3 class="text-xl font-semibold mb-2">AI + ML Intelligence</h3>
         <p class="text-gray-600 mb-4">
-          The planner uses a trained RandomForestClassifier model that learns from your daily logs — predicting task success rates and personalized efficiency scores.
+          The planner uses a trained RandomForestClassifier model that learns from your daily logs — predicting task success rates and personalized efficiency scores. 
         </p>
         <h3 class="text-xl font-semibold mb-2">Feedback Learning Loop</h3>
         <p class="text-gray-600 mb-4">
           Each day’s feedback refines your model. Over time, the planner becomes smarter, recommending optimal task durations and balanced schedules.
         </p>
         <h3 class="text-xl font-semibold mb-2">API Integration</h3>
-        <p class="text-gray-600">It connects with real-time weather APIs and Google TTS for audio coaching — giving a full, immersive planning experience.</p>
+        <p class="text-gray-600">It connects with real-time weather APIs and Google TTS for audio coaching — giving a full, immersive planning experience. </p>
       </div>
       <img src="https://cdn.dribbble.com/users/2973561/screenshots/5754019/media/e5a86f2e1c7f61df41735e78f26f34de.gif" class="rounded-2xl shadow-lg" alt="ML Workflow" />
     </div>
   </section>
 
-  <!-- DEMO -->
   <section class="bg-gray-100 py-20" id="demo">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-3xl font-bold mb-6 text-gray-800">🎥 See Smart Day Planner In Action</h2>
@@ -105,7 +137,6 @@
     </div>
   </section>
 
-  <!-- BUY SECTION -->
   <section class="bg-gradient-to-r from-indigo-700 to-blue-700 text-white py-20" id="buy">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-3xl font-bold mb-4">💼 Own or License Smart Day Planner</h2>
@@ -138,9 +169,31 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="bg-gray-900 text-gray-400 py-6 text-center">
     <p>© 2025 Smart Day Planner by <b>Delstarford Isaiah</b>. All Rights Reserved.</p>
   </footer>
+
+  <script>
+    // --- SPEECH & WELCOME LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playPlannerSpeech();
+    }
+
+    function playPlannerSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to Smart Day Planner. This is an advanced A I productivity assistant developed by Delstarford. " +
+                   "It uses Machine Learning to analyze your daily habits and predicts your success rate for the day. " +
+                   "Integrated with live weather data, it helps you make smarter decisions about your schedule. " +
+                   "It also serves as a life coach, giving you personalized motivational audio. " +
+                   "Boost your productivity with Artificial Intelligence. Contact Delstarford to integrate this system today.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+  </script>
 </body>
 </html>

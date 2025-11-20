@@ -1,4 +1,4 @@
-\<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -10,6 +10,34 @@
       --radius:12px; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
     html,body{height:100%; margin:0; background:linear-gradient(180deg,var(--soft),#ffffff); color:#09323a}
+    
+    /* --- WELCOME OVERLAY STYLES --- */
+    #welcomeOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      /* Eco-themed dark gradient */
+      background: linear-gradient(135deg, #05201d 0%, #107a6b 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: opacity 0.5s ease;
+      color: white;
+      padding: 20px;
+    }
+    .welcome-content h1 { font-size: 3rem; color: #ffffff; margin-bottom: 1rem; }
+    .welcome-content p { font-size: 1.2rem; color: #e0f2f1; max-width: 650px; margin: 0 auto 2.5rem auto; line-height: 1.6; }
+    .start-btn {
+      background: #ffffff;
+      color: var(--accent); border: none; padding: 16px 40px;
+      font-size: 1.1rem; font-weight: 700; border-radius: 50px;
+      cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .start-btn:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+
+    /* Existing Styles */
     .wrap{max-width:1000px;margin:36px auto;padding:20px;}
     .card{background:var(--card); border-radius:var(--radius); padding:20px; box-shadow:0 6px 18px rgba(9,50,58,0.06); display:grid; gap:16px;}
     h1,h2,h3,h4{margin:0;color:var(--accent)}
@@ -33,6 +61,15 @@
   </style>
 </head>
 <body>
+
+  <div id="welcomeOverlay">
+    <div class="welcome-content">
+      <h1>Welcome to Eco-Ride</h1>
+      <p>A smart shared mobility platform designed to reduce carbon footprints through AI optimization. Explore the live simulation panel.</p>
+      <button class="start-btn" onclick="enterSite()">Enter Dashboard & Listen</button>
+    </div>
+  </div>
+
   <main class="wrap" id="app">
     <article class="card" aria-labelledby="eco-title">
       <h1 id="eco-title">Eco-Ride</h1>
@@ -40,10 +77,10 @@
 
       <section style="margin-top:12px">
         <h2>How Eco-Ride Works</h2>
-        <p>Eco-Ride connects people who need rides with drivers heading the same way. The system uses data from the mobile app to:</p>
+        <p>Eco-Ride connects people who need rides with drivers heading the same way. The system uses data from the mobile app to :</p>
         <ul>
           <li>Collect pick-up and drop-off requests, preferred times, and trip flexibility from users.</li>
-          <li>Compute efficient shared routes that minimize detours and emissions using AI-powered route clustering.</li>
+          <li>Compute efficient shared routes that minimize detours and emissions using AI-powered route clustering. </li>
           <li>Score and match riders to drivers based on proximity, preferences, safety checks, and real-time traffic and weather.</li>
           <li>Continuously re-optimize in-progress routes when new requests arrive or delays occur.</li>
         </ul>
@@ -64,7 +101,7 @@
       <div class="grid" style="margin-top:12px">
         <div>
           <h2>Live Interaction Panel</h2>
-          <p class="muted">This panel fetches information from the Eco-Ride app backend and lets you request a match, publish a driver availability, or query nearby rides. If you run this page on the same host as the app, the AJAX endpoints will respond. The page includes helpful fallback text for offline or local testing.</p>
+          <p class="muted">This panel fetches information from the Eco-Ride app backend and lets you request a match, publish a driver availability, or query nearby rides. If you run this page on the same host as the app, the AJAX endpoints will respond.</p>
 
           <fieldset style="margin-top:12px">
             <legend><strong>Create a Rider Request</strong></legend>
@@ -179,6 +216,26 @@ Example POST payload for /api/requests
   </main>
 
   <script>
+    // --- SPEECH & OVERLAY LOGIC ---
+    function enterSite() {
+      const overlay = document.getElementById('welcomeOverlay');
+      overlay.style.opacity = '0';
+      setTimeout(() => overlay.style.display = 'none', 500);
+      playEcoSpeech();
+    }
+
+    function playEcoSpeech() {
+      const synth = window.speechSynthesis;
+      const text = "Welcome to Eco-Ride. This is a responsible carpooling platform developed by Delstarford. " +
+                   "Eco-Ride uses Artificial Intelligence to compute efficient shared routes, minimizing emissions and saving costs for riders and drivers. " +
+                   "The panel below allows you to simulate rider requests and driver availability in real-time. " +
+                   "Please explore this sustainable mobility solution and contact Delstarford for collaboration.";
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1;
+      synth.speak(utterance);
+    }
+
     // eco-ride.html interactive script
     // Endpoints assumptions: /api/rides, /api/requests, /api/drivers, /api/status
     (function () {
