@@ -47,6 +47,7 @@
       padding:.75rem 0;
       border-bottom:1px solid rgba(255,255,255,0.02);
       z-index:50;
+      backdrop-filter: blur(10px);
     }
 
     .brand {
@@ -72,9 +73,11 @@
       font-weight:600;
       background: transparent;
       cursor: pointer;
-      font-size: 16px; /* Match link font size */
+      font-size: 14px;
       font-family: inherit;
       transition:background 0.3s ease, color 0.3s ease;
+      margin-right: 5px;
+      margin-top: 5px;
     }
 
     a.btn:hover, button.btn:hover {
@@ -90,6 +93,7 @@
         gap: 8px;
         border-color: var(--accent);
         color: var(--accent);
+        font-size: 16px;
     }
     .voice-btn:hover {
         background: var(--accent);
@@ -99,20 +103,33 @@
     .grid {
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:1rem;
+      gap:1.5rem;
     }
 
     .card {
       background:var(--card);
-      padding:1rem;
+      padding:1.5rem;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.03);
       transition:transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
+
+    .card h3 { margin-top: 0; color: #fff; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+    .card strong { color: var(--accent); }
 
     .card:hover {
       transform:translateY(-5px);
       box-shadow:0 8px 20px rgba(0,0,0,0.3);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    /* Highlight Card for DexaGen */
+    .card.highlight {
+        border: 1px solid var(--accent);
+        background: radial-gradient(circle at top right, rgba(110, 231, 183, 0.05), var(--card));
     }
 
     .back { margin-bottom:1rem }
@@ -120,8 +137,9 @@
     footer {
       color:var(--muted);
       text-align:center;
-      padding:1.5rem 0;
+      padding:3rem 0;
       border-top:1px solid rgba(255,255,255,0.02);
+      margin-top: 3rem;
     }
 
     @media (max-width:720px) {
@@ -133,9 +151,9 @@
       position:fixed;
       bottom:2rem;
       right:2rem;
-      background:rgba(15,23,36,0.7);
+      background:rgba(15,23,36,0.8);
       backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
       border-radius:var(--radius);
       padding:1.25rem 1.5rem;
       color:#fff;
@@ -202,18 +220,40 @@
        🔊 Listen to Project Overview
     </button>
 
-    <h2>All these projects are just a frontend view of the actual work. Please contact me to see the actual implementations and detailed explanations.</h2>
-    <p class="muted">A selection of projects with links to detailed pages, repositories, and demos.</p>
+    <p class="muted" style="margin-bottom: 2rem;">A selection of AI, Biotech, and Full-Stack solutions. Contact me for implementation details.</p>
 
     <div class="grid" aria-live="polite">
       
+      <!-- DEXAGEN AI (Highlighted) -->
+      <article class="card highlight">
+        <h3>⚡ DexaGen-AI</h3>
+        <p>Neuro-Symbolic Pharmacological Engine. Simulates drug interactions in 3D using DeepChem and RDKit with Generative AI analysis.</p>
+        <p><strong>Tech</strong>: Flask, DeepChem, Gemini API, WebGL (3Dmol.js)</p>
+        <p style="margin-top: auto;">
+          <a class="btn" href="dexagenai.html">View Case Study</a>
+          <a class="btn" href="https://dexagen-ai.onrender.com/" target="_blank">Live Demo</a>
+          <a class="btn" href="https://github.com/delstarford123/DEXAGEN-AI" target="_blank">GitHub</a>
+        </p>
+      </article>
+
+      <!-- SCRIPTURE AI -->
       <article class="card">
-        <h3>Usherbot Embedding Biometric Pipeline</h3>
+        <h3>📜 ScriptureAI</h3>
+        <p>Semantic search engine for theological texts using Vector Embeddings and RAG (Retrieval Augmented Generation).</p>
+        <p><strong>Tech</strong>: Python, Vector DB, NLP, React</p>
+        <p style="margin-top: auto;">
+          <a class="btn" href="scriptureai.html">View Case Study</a>
+          <a class="btn" href="#">GitHub</a>
+        </p>
+      </article>
+
+      <article class="card">
+        <h3>Usherbot Biometric Pipeline</h3>
         <p>Fingerprint capture, embedding extraction, and robust matcher with audit logs and configurable thresholds.</p>
         <p><strong>Tech</strong>: Python, Flask, ONNX, SQLite, Docker</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="project-embedding.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank">GitHub</a>
         </p>
       </article>
 
@@ -221,9 +261,8 @@
         <h3>Attendance Dashboard</h3>
         <p>Web dashboard with registration logs, attendance summaries, fallback messages, and scheduled PDF reports.</p>
         <p><strong>Tech</strong>: React, Flask, WebSockets, Redis</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="project-attendance.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/Usherbot" target="_blank" rel="noopener">GitHub</a>
           <a class="btn" href="https://usherbot.vercel.app/">Vercel</a>
         </p>
       </article>
@@ -232,9 +271,8 @@
         <h3>Digital Assistant</h3>
         <p>AI-powered assistant for scheduling, reminders, and task management.</p>
         <p><strong>Tech</strong>: React, Flask, WebSockets, Redis</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="project-digaital-assistant.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/Digitalassist" target="_blank" rel="noopener">GitHub</a>
           <a class="btn" href="https://digitalassist.vercel.app/">Vercel</a>
         </p>
       </article>
@@ -243,9 +281,9 @@
         <h3>Agritech Field Trial Manager</h3>
         <p>Reproducible lab-to-field experiment tracking, data ingestion, and analytics for agronomists.</p>
         <p><strong>Tech</strong>: Django/Flask, Postgres, Pandas, Plotly</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="project-agritech.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford/agritech-field-trials" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://github.com/delstarford/agritech-field-trials" target="_blank">GitHub</a>
         </p>
       </article>
 
@@ -253,9 +291,9 @@
         <h3>Chatbot</h3>
         <p>AI Powered Chatbot for E-Learning, Agriculture, Bulk Email, and SMS Sending.</p>
         <p><strong>Tech</strong>: Flask, Firebase, Pandas, Tensorflow, ReportLab</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="chatbot-ml.html">Details</a>
-          <a class="btn" href="https://github.com/delstarford123/chatbot" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://github.com/delstarford123/chatbot" target="_blank">GitHub</a>
         </p>
       </article>
 
@@ -263,20 +301,18 @@
         <h3>Eco-Ride</h3>
         <p>Solution to climate change through the use of artificial intelligence.</p>
         <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="eco-ride.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://eco.ride.lohms.org/">Native App</a>
         </p>
       </article>
 
       <article class="card">
-        <h3>Smart Day Planner for Health Management</h3>
+        <h3>Smart Day Planner</h3>
         <p>AI-powered planner for scheduling, reminders, and health tracking.</p>
-        <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas, Numpy</p>
-        <p>
+        <p><strong>Tech</strong>: React Native, Flask, Tensorflow, Pandas</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="Smart-day-planner.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smart-day-planner.html/">Vercel</a>
         </p>
       </article>
@@ -285,31 +321,28 @@
         <h3>AI Traffic Management</h3>
         <p>AI-powered traffic management system with a voice assistant for navigation.</p>
         <p><strong>Tech</strong>: Flask, GTTS, PyTorch, Tensorflow, IoT</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="traffic.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/traffic.html/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
-        <h3>Plant Pathology — AI Plant Disease Detection</h3>
+        <h3>Plant Pathology</h3>
         <p>AI system for plant disease detection with voice navigation for field use.</p>
         <p><strong>Tech</strong>: Flask, GTTS, PyTorch, Tensorflow, IoT</p>
-        <p>
+        <p style="margin-top: auto;">
           <a class="btn" href="plant pathology.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/plant pathology.html/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
-        <h3>InsectAI — Sound-Based Insect Detection</h3>
-        <p>An AI-powered system for intelligent insect detection using sound analysis with voice assistant navigation.</p>
-        <p><strong>Tech Stack:</strong> Flask, PyTorch, TensorFlow, GTTS, Pandas, NumPy, IoT</p>
-        <p>
+        <h3>InsectAI</h3>
+        <p>An AI-powered system for intelligent insect detection using sound analysis.</p>
+        <p><strong>Tech</strong>: Flask, PyTorch, TensorFlow, GTTS, IoT</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="insectai.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/insectai.html" target="_blank">Vercel</a>
         </p>
       </article>
@@ -317,22 +350,19 @@
       <article class="card">
         <h3>Poli AI</h3>
         <p>AI-Intelligent poultry management surveillance system.</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy, PyTorch</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="poliai.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/poliai.html/">Vercel</a>
         </p>
       </article>
 
-
       <article class="card">
         <h3>ANIPRO AI</h3>
-        <p>AI-Intelligent banking service connecting the small scale farmers and business men to the insurance companies for derisking purposes,and provision of early emergency credits and loans by the financial institutions.</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p>Banking service connecting small scale farmers to insurance for derisking.</p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy, PyTorch</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="aniproai.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/aniproai.html/">Vercel</a>
         </p>
       </article>
@@ -340,57 +370,53 @@
       <article class="card">
         <h3>BKING</h3>
         <p>AI-Intelligent Banking system for Insurers and credit facilities.</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="bking.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/bking.html/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
         <h3>FREEZE AI</h3>
-        <p>AI-Intelligent refrigirator maintanence for ealry detection and prediction of stale and exact time for the produce to go bad..</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p>AI-Intelligent refrigerator maintenance for early detection of food spoilage.</p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, IoT</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="freezeai.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/freezeai.html/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
         <h3>KWS AI</h3>
-        <p>AI- Intelligence wildlife park and reserve Surveillance,for early detection of abnormal livestock conditions,porchery and abnormal environmental conditions.</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p>Wildlife park surveillance for early detection of abnormal environmental conditions.</p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, PyTorch</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="kws.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/kws.html/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
         <h3>LEARN AI</h3>
-        <p>LEARNING ONLINE COLLEGE FOR ARTIFICIAL INTELLIGENCE ,connecting the students to the teachers digitally..</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch</p>
-        <p>
+        <p>Online college for Artificial Intelligence, connecting students to teachers digitally.</p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, PyTorch</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="Learnai.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://let-the-farmer-learn-ai.vercel.app/">Vercel</a>
         </p>
       </article>
 
       <article class="card">
         <h3>SMART HEALTH AI</h3>
-        <p>SMART HEALTH AI a system to help predict malaria prone regions as ealry as possible based on the mosquito specie and genus in the region,and connecting the Community health personel and doctors</p>
-        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Numpy,PyTorch,Scikit-learn</p>
-        <p>
+        <p>Predicts malaria prone regions based on mosquito species and connects to doctors.</p>
+        <p><strong>Tech</strong>: Flask, Tensorflow, Pandas, Scikit-learn</p>
+        <p style="margin-top: auto;">
           <a class="btn" href="smarthealth.html">Details</a>
-          <a class="btn" href="#">GitHub</a>
           <a class="btn" href="https://delstarford-personal-portofolio.vercel.app/smarthealth.html/">Vercel</a>
         </p>
       </article>
+
     </div>
   </main>
 
@@ -442,17 +468,16 @@
         const btn = document.getElementById('audioControl');
         
         // 1. Intro Message
-        let textToRead = "Welcome to Delstarford's Portfolio. I specialize in Machine Learning, Agriculture Tech, and Health Solutions. Here are the projects I have developed, along with their importance. ";
+        let textToRead = "Welcome to Delstarford's Portfolio. I specialize in Machine Learning, Agriculture Tech, and Health Solutions. Here are the projects I have developed. ";
 
         // 2. Loop through all cards and extract text
         const cards = document.querySelectorAll('.card');
         cards.forEach((card) => {
             const title = card.querySelector('h3')?.innerText;
-            // We get the first paragraph which contains the description/importance
             const description = card.querySelector('p')?.innerText;
 
             if(title && description) {
-                textToRead += `Project Name: ${title}. Importance: ${description}. Next project. `;
+                textToRead += `Project: ${title}. ${description}. Next. `;
             }
         });
 
