@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRA AI | Weather-Aware Learning</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #09090b;
+            --sidebar-bg: #18181b;
+            --accent-color: #3b82f6; /* Blue for trust/learning */
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --chat-user: #27272a;
+            --chat-ai: #1e1e24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i { color: var(--accent-color); }
+
+        .weather-widget {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .weather-header {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .weather-temp {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .weather-status {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+
+        /* Main Chat Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 2rem 15%;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .user-avatar { background: var(--text-secondary); color: #000; }
+        .ai-avatar { background: var(--accent-color); color: white; box-shadow: 0 0 15px var(--accent-glow); }
+
+        .message-content {
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+
+        .message-header {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 2rem 15%;
+            background: linear-gradient(to top, var(--bg-color) 80%, transparent);
+        }
+
+        .input-box {
+            background: var(--chat-user);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            resize: none;
+            height: 24px;
+            max-height: 200px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .send-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .chat-container, .input-area { padding: 1rem 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div>
+            <div class="logo">
+                <i class="fas fa-brain"></i> MIRA AI
+            </div>
+            
+            <div class="weather-widget">
+                <div class="weather-header">
+                    <span>CONTEXT AWARENESS</span>
+                    <i class="fas fa-satellite-dish"></i>
+                </div>
+                <div class="weather-temp">24°C</div>
+                <div class="weather-status">
+                    <i class="fas fa-cloud-sun"></i> Sunny
+                </div>
+                <p style="font-size:0.75rem; color:#666; margin-top:8px;">
+                    Environment Optimization: Active<br>
+                    Focus Mode: High
+                </p>
+            </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+            <p>&copy; 2025 Delstarford Projects</p>
+            <p style="margin-top:5px;">Deep Learning Ed-Tech</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="chat-container" id="chatContainer">
+            <div class="message">
+                <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <div class="message-header">MIRA</div>
+                    <p>Hello! I am MIRA, your weather-aware learning assistant. Based on the current sunny weather, it's a great time for high-focus tasks. What topic shall we study today?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="input-box">
+                <textarea id="userInput" placeholder="Ask MIRA a question..." onkeydown="if(event.keyCode===13 && !event.shiftKey){event.preventDefault(); sendMessage();}"></textarea>
+                <button class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <p style="text-align: center; font-size: 0.75rem; color: #555; margin-top: 10px;">
+                MIRA uses Generative Deep Learning. Responses are simulated for this demo.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            const container = document.getElementById('chatContainer');
+
+            if (!text) return;
+
+            // 1. Add User Message
+            const userHTML = `
+                <div class="message">
+                    <div class="avatar user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="message-content">
+                        <div class="message-header">You</div>
+                        <p>${text}</p>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', userHTML);
+            input.value = '';
+
+            // 2. Simulate AI Typing Delay
+            container.scrollTop = container.scrollHeight;
+            
+            setTimeout(() => {
+                const aiHTML = `
+                    <div class="message">
+                        <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
+                        <div class="message-content">
+                            <div class="message-header">MIRA</div>
+                            <p>This is a portfolio demo. In the live version, MIRA would process "${text}" using deep learning models and adjust the complexity based on the weather data (24°C/Sunny).</p>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', aiHTML);
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

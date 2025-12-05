@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reen AI | Biochemistry & Drug Visualization</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b0c15;
+            --panel-bg: #151621;
+            --accent: #6c5ce7; /* Purple for proteins/enzymes */
+            --accent-hover: #5649c0;
+            --text-main: #ffffff;
+            --text-sub: #a29bfe;
+            --border: rgba(255, 255, 255, 0.1);
+            --success: #00b894;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Navbar */
+        nav {
+            height: 60px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            background: rgba(21, 22, 33, 0.8);
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+        }
+
+        /* The Live Demo Button */
+        .live-btn {
+            background: var(--success);
+            color: #000;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            box-shadow: 0 0 10px rgba(0, 184, 148, 0.3);
+        }
+
+        .live-btn:hover {
+            transform: scale(1.05);
+            background: #00d1a7;
+        }
+
+        /* Main Layout */
+        .layout {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 60px);
+        }
+
+        /* Sidebar - Drug List */
+        .sidebar {
+            width: 250px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sidebar h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+        }
+
+        .molecule-list {
+            list-style: none;
+            overflow-y: auto;
+        }
+
+        .molecule-item {
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-sub);
+            margin-bottom: 5px;
+            border: 1px solid transparent;
+        }
+
+        .molecule-item:hover, .molecule-item.active {
+            background: rgba(108, 92, 231, 0.2);
+            color: white;
+            border: 1px solid var(--accent);
+        }
+
+        /* Center - Visualization */
+        .main-stage {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .viewport {
+            flex: 1;
+            background: #000;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        /* Simulated 3D Element */
+        .molecule-structure {
+            font-size: 8rem;
+            color: var(--accent);
+            animation: spin 15s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(108, 92, 231, 0.6));
+        }
+
+        @keyframes spin {
+            0% { transform: rotate3d(1, 1, 1, 0deg); }
+            100% { transform: rotate3d(1, 1, 1, 360deg); }
+        }
+
+        /* Right Panel - Info */
+        .info-panel {
+            width: 320px;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .drug-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .drug-title { font-size: 1.5rem; color: white; }
+        .drug-subtitle { color: var(--success); font-size: 0.9rem; font-weight: bold; }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        
+        .info-label { color: var(--text-sub); }
+
+        .ai-box {
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .ai-box h4 { color: var(--accent); margin-bottom: 5px; font-size: 0.9rem; }
+        .ai-box p { font-size: 0.85rem; line-height: 1.6; color: #ccc; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .info-panel { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">
+            <i class="fas fa-dna" style="color:var(--accent)"></i> Reen AI
+        </div>
+        
+        <a href="https://reen-k9vz.onrender.com/" target="_blank" class="live-btn">
+            <i class="fas fa-external-link-alt"></i> Launch Live App
+        </a>
+    </nav>
+
+    <div class="layout">
+        <div class="sidebar">
+            <h3>Library</h3>
+            <ul class="molecule-list">
+                <li class="molecule-item active" onclick="updateView('Paracetamol')">
+                    <i class="fas fa-tablets"></i> Paracetamol
+                </li>
+                <li class="molecule-item" onclick="updateView('Amoxicillin')">
+                    <i class="fas fa-capsules"></i> Amoxicillin
+                </li>
+                <li class="molecule-item" onclick="updateView('Insulin')">
+                    <i class="fas fa-syringe"></i> Insulin
+                </li>
+                <li class="molecule-item" onclick="updateView('Caffeine')">
+                    <i class="fas fa-coffee"></i> Caffeine
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-stage">
+            <div class="viewport">
+                <i class="fas fa-atom molecule-structure" id="structureIcon"></i>
+                <div style="position:absolute; bottom:20px; color:rgba(255,255,255,0.5); font-size:0.8rem;">
+                    Interactive 3D View (Preview Mode)
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <div class="drug-header">
+                <div class="drug-subtitle">ANALGESIC</div>
+                <h2 class="drug-title" id="dName">Paracetamol</h2>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Formula:</span>
+                <span id="dFormula">C8H9NO2</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Molar Mass:</span>
+                <span id="dMass">151.16 g/mol</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Metabolism:</span>
+                <span>Liver (CYP450)</span>
+            </div>
+
+            <div class="ai-box">
+                <h4><i class="fas fa-robot"></i> AI Analysis</h4>
+                <p id="dDesc">
+                    Paracetamol (Acetaminophen) works by inhibiting the synthesis of prostaglandins in the central nervous system and blocking pain impulse generation peripherally.
+                </p>
+            </div>
+            
+            <button onclick="window.open('https://reen-k9vz.onrender.com/')" style="width:100%; margin-top:20px; padding:12px; background:var(--accent); border:none; color:white; border-radius:8px; cursor:pointer;">
+                <i class="fas fa-play-circle"></i> Watch Mechanism Video
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            'Paracetamol': {
+                formula: 'C8H9NO2',
+                mass: '151.16 g/mol',
+                desc: 'Inhibits prostaglandin synthesis in the CNS. Used widely for pain and fever relief.',
+                icon: 'fa-atom'
+            },
+            'Amoxicillin': {
+                formula: 'C16H19N3O5S',
+                mass: '365.4 g/mol',
+                desc: 'A Beta-lactam antibiotic that inhibits bacterial cell wall synthesis by binding to PBPs.',
+                icon: 'fa-bacteria'
+            },
+            'Insulin': {
+                formula: 'C257H383N65O77S6',
+                mass: '5808 Da',
+                desc: 'Peptide hormone that regulates glucose metabolism. Essential for Type 1 Diabetes management.',
+                icon: 'fa-dna'
+            },
+            'Caffeine': {
+                formula: 'C8H10N4O2',
+                mass: '194.19 g/mol',
+                desc: 'CNS stimulant. Blocks adenosine receptors to reduce fatigue and increase alertness.',
+                icon: 'fa-coffee'
+            }
+        };
+
+        function updateView(name) {
+            // Update Text
+            document.getElementById('dName').innerText = name;
+            document.getElementById('dFormula').innerText = data[name].formula;
+            document.getElementById('dMass').innerText = data[name].mass;
+            document.getElementById('dDesc').innerText = data[name].desc;
+            
+            // Update Icon
+            const icon = document.getElementById('structureIcon');
+            icon.className = `fas ${data[name].icon} molecule-structure`;
+            
+            // Highlight Menu
+            document.querySelectorAll('.molecule-item').forEach(el => {
+                el.classList.remove('active');
+                if(el.innerText.includes(name)) el.classList.add('active');
+            });
+        }
+    </script>
+</body>
+</html>

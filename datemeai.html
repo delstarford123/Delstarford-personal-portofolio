@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Me AI | Compatibility Algorithm</title>
+    <style>
+        :root {
+            --bg-color: #0f0f13;
+            --card-bg: #1a1a24;
+            --primary: #8a2be2;
+            --secondary: #00ffff;
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138,43,226,0.1) 0%, transparent 50%),
+                        radial-gradient(circle, rgba(0,255,255,0.1) 0%, transparent 50%);
+            background-size: 50% 50%;
+            background-position: 0 0, 100% 100%;
+            animation: gradientMove 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 1rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+        }
+
+        .profile-pic-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #333, #111);
+            border: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .stats {
+            flex: 1;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--glass);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Compatibility Meter */
+        .meter-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .meter-container {
+            width: 100%;
+            height: 30px;
+            background: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .meter-fill {
+            height: 100%;
+            width: 0%; /* Animate this */
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transition: width 2s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        /* Interest Chips */
+        .chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .chip {
+            background: var(--glass);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Date Me <span style="font-weight:100">AI</span></h1>
+        <p class="tagline">99.9% Match Probability. Powered by Neural Networks & Good Vibes.</p>
+    </header>
+
+    <div class="container">
+        <div class="profile-card">
+            <div class="profile-pic-placeholder">👤</div>
+            <div class="stats">
+                <h2>The Developer <span style="font-size:0.5em; color:var(--secondary); vertical-align:middle">v2.0</span></h2>
+                <div class="chips">
+                    <span class="chip">Coding</span>
+                    <span class="chip">Coffee</span>
+                    <span class="chip">Neural Networks</span>
+                    <span class="chip">Late Night Debugging</span>
+                </div>
+                <br>
+                <div class="stat-row">
+                    <span>Humor Level:</span>
+                    <span>95% (Dark Mode Enabled)</span>
+                </div>
+                <div class="stat-row">
+                    <span>Loyalty:</span>
+                    <span>Infinite Loop</span>
+                </div>
+                <div class="stat-row">
+                    <span>Bugs:</span>
+                    <span>0 (It's a feature)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="meter-section">
+            <h2>Calculate Compatibility</h2>
+            <p style="color:var(--text-muted)">Click the button to run the matchmaking algorithm.</p>
+            
+            <div class="meter-container">
+                <div class="meter-fill" id="fill">0%</div>
+            </div>
+
+            <button class="btn" onclick="calculateMatch()">Run Algorithm</button>
+        </div>
+
+        <footer style="text-align:center; margin-top:5rem; color:var(--text-muted); font-size:0.8rem;">
+            &copy; 2024 Cool Vibes Projects. Hosted on Render.
+        </footer>
+    </div>
+
+    <script>
+        function calculateMatch() {
+            const fill = document.getElementById('fill');
+            // Random match between 85% and 100% for "Good Vibes"
+            const match = Math.floor(Math.random() * (100 - 85 + 1) + 85);
+            fill.style.width = match + '%';
+            fill.innerText = match + '% MATCH';
+        }
+    </script>
+
+</body>
+</html>
